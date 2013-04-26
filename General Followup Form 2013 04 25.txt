@@ -1,0 +1,1513 @@
+<htmlform>
+
+<!-- 
+==============================================================
+Javascript helper functions taken from the HTML Form Entry Javascript Reference at 
+https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference 
+==============================================================
+-->
+
+<script type="text/javascript">
+
+        function isBlank(listValueString,numListElements,allBlank) {
+                var numCheck = 1;
+                if (allBlank) {numCheck = numListElements};
+                var thisListValueString = listValueString;
+                if (numListElements > 1) {
+                    thisListValueString = thisListValueString + "_1";
+                };
+                var i = 1;
+                while (numCheck >= i) {
+                         if (getValue(thisListValueString) != '' ) {
+                            return false;
+                         };
+                         i++;
+                         thisListValueString = listValueString + "_" + i;
+                };
+                return true;                      
+        };
+
+        function removeBlanks(startRow,numberRows,listValueString,numListElements,allBlank) {
+                //
+                //function shuffles all non-blank rows from array item start to start+number-1 to the beginning
+                // startRow is the first row in the array 
+                // numberRows is the number of rows in this block
+                // numListElements is the number of elements in each row
+                // if numListElements is more than one allBlank TRUE means to ensure all elements are blank otherwise checks just the first
+                //
+           
+                var i = startRow;
+                var nonBlankCount = 0;
+                var lastRow = startRow +numberRows - 1;
+                var baseListValueString = listValueString;
+                if (numListElements > 1) {
+                    baseListValueString = baseListValueString + "_1";
+                };
+
+                while (lastRow >= i) {
+        	      
+                      // keep going if nonblank 
+                      if (!isBlank((i+listValueString),numListElements,allBlank)) {
+                          i++;
+                          nonBlankCount ++;
+                      } else {
+                          // found blank line, find next non-blank 
+                             var j = i + 1;
+                             while ((lastRow >= j) &amp;&amp; (isBlank((j+listValueString),numListElements,allBlank))) {
+                                   j++;
+                             };
+                             // if we have found a nonblank, move the nonblanks down
+                             var newStart = j;
+                             while (!isBlank((j+listValueString),numListElements,allBlank) &amp;&amp; (lastRow >= j)) {
+                                 //move all of the elements in this row
+                                 for (k=1; numListElements >=k; k++) {
+                                       var thisListElement = listValueString + "_" + k;
+                                       if ( (k==1) &amp;&amp; (numListElements == 1) ) {
+                                             thisListElement = listValueString;
+                                       };
+                                       var moveValuestring = getValue(j + thisListElement);
+                                       setValue(i + thisListElement, moveValuestring);
+                                       setValue(j + thisListElement,'');
+                                 };
+                                 nonBlankCount++;
+                                 i++;
+                                 j++;                               
+                             };   
+                             if (j > lastRow) {
+                                i = j;
+                             };                            
+                      };                
+                };
+                return nonBlankCount;
+        };   //end function       
+
+        function displayRows(countConcept,countConceptValue,startRow) {
+                //
+                // find the count of the number of surgeries that exist
+                //		
+		var addedCount = $j(countConcept).html(); 
+                var regex = /(&lt;([^>]+)>)/ig;
+		if (addedCount != null){
+     		    var addedInt = addedCount.replace(regex, "");
+		    addedCount = Number(addedInt);
+		};
+                //set to the first if there are none added so far
+		if (addedCount == null || addedCount == '' || addedCount== 0){
+                        // if we are in edit mode need to get count a different way
+                        addedCount = getValue(countConceptValue);
+                        if (addedCount == 0) {
+                            addedCount = 1;
+                        };
+		};
+console.log('addedCount ' + addedCount);
+                // make sure all of the ones we have display	
+		for(i=1; addedCount>=i; i++){
+                        var rowNumber = startRow + i - 1;
+			var dynString = "#" + rowNumber + "-toggleContainer";
+			$j(dynString).show();
+		};
+		
+                //
+                // click for the number of entries that exist so that they show up
+                //
+		for(i=1; addedCount>i; i++){
+	              rowNumber = startRow + i - 1;		
+                      dynString = "#" + rowNumber + "-addEntry";
+		      $j(dynString).click();				
+		};
+       }
+
+	if(jQuery){
+
+		$j(document).ready(function(){
+                                //don't need an add button on the 44 entry because they can only add 44
+				$j('#44-addEntry').remove();
+
+                              });
+
+	        $j(document).ready(function(){
+				$j('button.addEntry').live("click", function(){
+                                        var rowNumber = parseFloat(this.id);
+                                        if (rowNumber > 44) {
+                                            var listValueString = '-list.value_1';
+                                        } else {
+                                            var listValueString = '-list.value';
+                                        };
+					var valuestring = parseFloat(this.id) + listValueString;
+                                        //the second element of this or fails so if it makes it through the first 
+                                        //the form crashes - left it here in case there's a case where this is nec
+					if (getValue(valuestring) != '' ){
+					     var correctedAddButtonId = parseFloat(this.id) + 1;
+
+                                            // determine the right count to update
+                                            valuestring = 'addedDiagnosisCount.value';
+                              
+                                            //once we have the right count string, get the current count and increment if we have added
+                                            var currentCount = getValue(valuestring);
+                                            if (correctedAddButtonId>currentCount){
+                                                currentCount = correctedAddButtonId;
+                                                setValue(valuestring, currentCount);
+                                            };
+
+                                             // turn on the next button, toggle off the previous and turn on the remove button on this one 
+				     	     var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+					     $j(contentAddId).toggle(true);
+					     $j('#' + this.id).toggle(false);
+                                             $j('#' + parseFloat(this.id) + '-removeEntry').toggle(true);
+					}
+				
+                                        return false;
+				});
+
+            	$j(document).ready(function(){
+				$j('button.removeEntry').live("click", function(){
+					var correctedRemoveButtonId = parseFloat(this.id) - 1;
+					
+                                        // update the right count - 1 - 44 reportable diagnoses 45 -54 surgery
+                                        var whichBlock = 1;
+                                        setValue('addedDiagnosisCount.value', Number(getValue('addedDiagnosisCount.value')) - 1);
+                                  	var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+					$j(contentAddId).toggle(false);
+					$j( ':input:not(:button)', contentAddId).val([]);
+                                        //
+                                        // only need an addEntry button on the last diagnosis or last surgery 
+                                        //
+                                        if (((correctedRemoveButtonId == getValue('addedDiagnosisCount.value')) &amp;&amp; (whichBlock == 1) ) {
+					     $j('#' + correctedRemoveButtonId + '-addEntry').toggle(true); 
+                                        };
+                                        $j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+					return false;
+					});
+				});
+          
+         //
+        // the main point of this function is to remove blank lines on submit
+        // it also resets the number of rows to only nonblanks
+         beforeSubmit.push(function() {
+
+                setValue('addedDiagnosisCount.value', removeBlanks(1,44,"-list.value",1,false));
+                return true;
+         }); 
+     
+		$j(document).ready(function(){
+				if ( $j.browser.msie ) {
+				$j(":checkbox").click(function(){
+					$j(this).change();
+					});
+				}
+				$j(".enableDisable").each(function(){
+					var group = $j(this);
+					function disableFn(){
+					group.children("#disabled").fadeTo(250,0.33);
+					group.children("#disabled").find(":checkbox").attr("checked",false); //uncheck
+					group.children("#disabled").find("input[type$='text']").val("");
+					group.children("#disabled").find("textarea").val("");
+					group.children("#disabled").find("select").val(0);
+					group.children("#disabled").find("input").attr("disabled",true);  //disable
+					group.children("#disabled").find("textarea").attr("disabled",true);
+					group.children("#disabled").find("select").attr("disabled",true);
+					}
+					function enableFn(){
+					group.children("#disabled").fadeTo(250,1);
+					group.children("#disabled").find("input").attr("disabled",false);
+					group.children("#disabled").find("select").attr("disabled",false);
+					group.children("#disabled").find("textarea").attr("disabled",false);
+					}
+					disableFn();
+					$j(this).children("#trigger").find(":checkbox:first").change(function(){
+						var checked = $j(this).attr("checked");
+						if(checked == true){
+						enableFn();
+						}else{
+						disableFn();
+						}
+						});
+				});
+
+
+				$j(".checkboxGroup").each(function(){
+						var group = $j(this);
+						var uncheckAll = function(){
+						group.find("input[type$='checkbox']").attr("checked",false);
+						group.find("input[type$='checkbox']").change();
+						}
+						var uncheckRadioAndAll = function(){
+						group.find("#checkboxAll,#checkboxRadio").find("input[type$='checkbox']").attr("checked",false);
+						group.find("#checkboxAll,#checkboxRadio").find("input[type$='checkbox']").change();
+						}
+
+
+
+						group.find("#checkboxAll").find("input").click(
+							function(){
+							var flip;
+							var checked = $j(this).siblings(":checkbox:first").attr("checked");
+							if($j(this).attr("name") == $j(this).parents("#checkboxAll:first").find(":checkbox:first").attr("name")){
+							checked = $j(this).attr("checked");
+							flip = checked;
+							}else{
+							flip = !checked;
+							}
+							if($j(this).attr("type") == "text") if(flip == false) flip = !flip; // this is so the user doesn't go to check the checkbox, then uncheck it when they hit the input.
+							uncheckAll();
+							$j(this).parents("#checkboxAll:first").find(":checkbox").attr("checked",flip);
+							$j(this).parents("#checkboxAll:first").find(":checkbox").change();
+							}
+							);
+
+
+
+						group.find("#checkboxRadio").find("input[type$='checkbox']").click(function(){
+								uncheckAll();
+								$j(this).siblings("input[type$='checkbox']").attr("checked",false);
+								$j(this).attr("checked",true);
+								$j(this).change();
+								});
+
+						group.find("#checkboxCheckbox").click(
+								function(){
+								uncheckRadioAndAll();
+								}
+								);
+				});
+		});
+	}
+beforeSubmit.push(function() {
+		setValue('addedCountConcept.value', problemsAdded);
+		setValue('resolvedCountConcept.value', problemsResolved);
+		return true;
+		});
+
+function openImpressions(){
+var url = "/openmrs/module/impressions/impressionList.list\?nw=1\u0026patientId=" + document.getElementById('patid').innerHTML.trim();
+
+
+window.open(url );
+}
+	</script>
+
+	<!-- TRAVIS' FUNCTION -->
+	<script>
+		$j(function() {
+
+			var addedCount = document.getElementById('addedCountConcept').innerHTML;
+			var resolvedCount = document.getElementById('resolvedCountConcept').innerHTML;
+			var regex = /(&lt;([^>]+)>)/ig;
+			var addedInt = addedCount.replace(regex, "");
+			var resolvedInt = resolvedCount.replace(regex, "");
+			addedCount = Number(addedInt);
+			resolvedCount = Number(resolvedInt);
+			if (addedCount == null || addedCount == '' || addedCount== 0){
+				addedCount=1;
+			};
+			if (resolvedCount == null || resolvedCount == ''|| resolvedCount == 0){
+				resolvedCount=1;
+			};
+			var dynString = "#1-toggleContainer";
+			$j(dynString).show();
+			for(i=1; addedCount >= i; i++){
+				var dynString = "#" + i + "-addEntry";
+				if (i != addedCount){
+					$j(dynString).click();
+				}	
+			};
+			var dynString = "#44-toggleContainer";
+			$j(dynString).show();
+			for(k=44; resolvedCount + 43 >= k; k++){
+				var dynString = "#" + k + "-addEntry";
+				if (k != resolvedCount + 43){
+					$j(dynString).click();
+				}		
+			};
+
+		});
+	</script>
+
+
+
+
+	<macros>
+	paperFormId = (Fill this in)
+	headerColor =#009d8e
+	fontOnHeaderColor = white
+	</macros>
+
+	<style>
+		.section {
+			border: 1px solid $headerColor;
+			padding: 2px;
+			text-align: left;
+			margin-bottom: 1em;
+		}
+		.sectionHeader {
+			background-color: $headerColor;
+			color: $fontOnHeaderColor;
+			display: block;
+			padding: 2px;
+			font-weight: bold;
+		}
+
+		.labelCol {	
+			vertical-align: top;
+			font-weight: bold;	
+		}
+
+		.secondary {
+			padding-left: 10px;
+		}
+		.baseline-aligned td.label {
+			text-align: right;
+		}
+		.right {
+			float: right;
+		}
+		.karnofsky tr{
+			width: 100%;
+		}
+		.karnofsky td{
+			width: 50%;
+		}
+		#two-wide {
+			width: 100%;
+		}
+		#two-wide tr {
+			width: 100%;
+		}
+		#two-wide td {
+			padding-left: 5px;
+			width: 50%;
+			vertical-align: top;
+			border: 1px solid $headerColor;
+		}
+		#two-wide td.enableDisable {
+			border: none;
+			width: auto;
+			padding-right: 2px;
+		}
+		#two-wide td.nested-td {
+			border: none;
+			width: auto;
+			padding-right: 2px;
+		}
+		#two-wide td.nested-label {
+			border: none;
+			width: auto;
+			padding-right: 2px;
+			text-align: right;
+		}
+		#three-wide tr {
+			width: 100%;
+		}
+		#three-wide td {
+			width: 33%;
+			padding-left: 5px;
+			vertical-align: top;
+			border: 1px solid $headerColor;
+		}
+
+	</style>
+
+	<div style="float:right">Paper Form ID: $paperFormId</div>
+	<h2>KMRI General Follow-Up Form (v1.0)</h2>
+
+	<section headerLabel="Contents">
+	<ol>
+		<li><a href="#S1"> Encounter Details </a> </li>
+		<li><a href="#S3"> Presenting Complaint </a> </li>
+		<li><a href="#S4"> Review of Systems </a> </li>
+		<li><a href="#S10"> Physical Exam </a> </li>
+		<li><a href="#TestsRefs"> Tests and Referrals </a></li>
+		<li><a href="#S11"> Impressions </a> </li>
+	</ol>
+	</section>
+	<span id="S1">
+		<section headerLabel="Encounter Details">
+		<table class="baseline-aligned">
+			<tr>
+				<td class="label">Date:</td>
+				<td><encounterDate default="today"/></td>
+			</tr>
+			<tr>
+				<td class="label">Location:</td>
+				<td><encounterLocation default="UserProperty:defaultLocation" /></td>
+			</tr>
+			<tr>
+				<td class="label">Provider:</td>
+                                <td><encounterProvider default="currentUser"/></td>			</tr>
+		</table>
+		</section>
+	</span>
+
+	
+	<span id="S3">
+		<section headerLabel="Presenting Complaint">
+		<table>
+			<tr>
+				<td style="padding-left:5px; padding-top:10px;">
+					<obs conceptId="5219" answerConceptIds="5006,1068" answerLabels="Feeling well,Having symptoms" style="radio"/>
+					<br/>
+		                         CHIEF COMPLAINT: <obs conceptId="5219" answerClasses="Chief Complaint" style="autocomplete" />
+					<br/>
+					Comments: 
+					<div class="secondary"><obs conceptId="160602" style="textarea" rows="8" cols="75"/></div>
+				</td>
+			</tr>
+		</table>
+		</section>
+	</span>
+
+	<span id="S4">
+		<section headerLabel="Review of Systems">
+		<table id="two-wide">
+			<tr>
+				<td class="checkboxGroup" colspan="2">
+					<h4>General: </h4>
+					<table class="checkboxGroup">
+						<tr id="checkboxAll">
+							<td class="nested-td">
+								<obs conceptId="1069" answerConceptId="664" answerLabel="No complaints" style="checkbox"/>
+							</td>
+						</tr>
+						<tr id="checkboxCheckbox">
+
+							<td class="nested-td">
+								<obs conceptId="1069" answerConceptId="140238" answerLabel="Fever" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1069" answerConceptId="871" answerLabel="Chills" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1069" answerConceptId="832" answerLabel="Weight loss" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1069" answerConceptId="6029" answerLabel="Night sweats" style="checkbox"/>
+							</td>
+						</tr>
+						<tr id="checkboxCheckbox">
+							<td class="nested-td">
+								<obs conceptId="1069" answerConceptId="512" answerLabel="Rash" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1069" answerConceptId="140501" answerLabel="Fatigue" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1069" answerConceptId="122887" answerLabel="Weight gain" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1069" answerConceptId="114403" answerLabel="Pain" style="checkbox"/>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					Comments: 
+					<div class="secondary"><obs conceptId="160538" style="textarea" rows="5" cols="50"/></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="checkboxGroup">
+					<h4>Gastrointestinal: </h4>
+					<table class="checkboxGroup">
+						<tr id="checkboxAll">
+							<td class="nested-td">
+								<obs conceptId="1078" answerConceptId="664" answerLabel="No complaints" style="checkbox"/>
+							</td>
+						</tr>
+						<tr id="checkboxCheckbox">
+
+
+							<td class="nested-td">
+								<obs conceptId="1078" answerConceptId="151" answerLabel="Abdominal pain" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1078" answerConceptId="6031" answerLabel="Poor appetite" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1078" answerConceptId="5986" answerLabel="Hx of jaundice" style="checkbox"/>
+							</td>
+						</tr>
+
+						<tr id="checkboxCheckbox">
+							<obsgroup groupingConceptId="160616">
+							<td class="enableDisable">
+								<div id="trigger">	
+									<obs conceptId="1078" answerConceptId="5978" answerLabel="Nausea" style="checkbox"/>
+								</div>
+								<div id="disabled" class="secondary">
+									Duration: <obs conceptId="5979"/><obs conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+								</div>
+							</td>
+							</obsgroup>
+							<obsgroup groupingConceptId="160618">
+							<td class="enableDisable">
+								<div id="trigger">
+									<obs conceptId="1078" answerConceptId="122983" answerLabel="Vomiting" style="checkbox"/>
+								</div>
+								<div id="disabled" class="secondary">
+									Duration: <obs conceptId="5981"/><obs conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+								</div>
+							</td>
+							</obsgroup>
+						</tr>
+						<tr>
+							<obsgroup groupingConceptId="160617">
+							<td class="enableDisable">
+								<div id="trigger">
+									<obs conceptId="1078" answerConceptId="142412" answerLabel="Diarrhea" style="checkbox"/>
+								</div>
+								<div id="disabled" class="secondary">
+									Duration: <obs conceptId="5984"/><obs conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+								</div>
+							</td>
+							</obsgroup>
+							<td class="enableDisable">
+								<div id="trigger">
+									<obs conceptId="1078" answerConceptId="996" answerLabel="Constipation" style="checkbox"/>
+								</div>
+								<div id="disabled" class="secondary">
+									Duration: <obs conceptId="160613"/><obs conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+								</div>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					Comments: 
+					<div class="secondary"><obs conceptId="160541" style="textarea" rows="5" cols="50"/></div>
+				</td>
+				<td>
+					<h4>Cardiopulmonary: </h4>
+					<table class="checkboxGroup">
+						<tr id="checkboxAll">
+							<td class="nested-td">
+								<obs conceptId="1071" answerConceptId="664" answerLabel="No complaints" style="checkbox"/>
+							</td>
+						</tr>
+						<tr id="checkboxCheckbox">
+							<td class="enableDisable">
+								<div id="trigger">
+									<obs conceptId="1071" answerConceptId="143264" answerLabel="Cough" style="checkbox"/>
+								</div>
+								<div id="disabled" class="secondary">
+									Duration: <obs conceptId="5959"/><obs conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+
+									<div class="enableDisable">
+										<div id="trigger">
+											<obs conceptId="1071" answerConceptId="5957" answerLabel="Productive Cough" style="checkbox"/>
+										</div>
+										<div id="disabled" class="secondary">
+											<obs conceptId="5958" labelText="Quality: " answerConceptId="1075" answerLabel="White"/>
+											<obs conceptId="5958" answerConceptId="1076" answerLabel="Purulent"/>
+											<obs conceptId="5958" answerConceptId="1077" answerLabel="Blood"/>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td class="enableDisable">
+								<div id="trigger">
+									<obs conceptId="1071" answerConceptId="141600" answerLabel="Shortness of breath" style="checkbox"/>
+								</div>
+								<div id="disabled">
+									<div class="secondary">
+										<obs conceptId="1071" answerConceptId="5961" answerLabel="At rest" style="checkbox"/>
+										<obs conceptId="1071" answerConceptId="5963" answerLabel="On exertion" style="checkbox"/>
+									</div>
+									<div class="secondary">
+										Duration: <obs conceptId="5962"/><obs conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr id="checkboxCheckbox">
+							<td class="enableDisable" colspan="2">
+								<div id="trigger"><obs conceptId="1071" answerConceptId="136" answerLabel="Chest pain" style="checkbox"/></div>
+								<table id="disabled" class="secondary">
+									<tr>
+										<td class="nested-td">
+											<obs conceptId="1071" answerConceptId="155495" answerLabel="At rest" style="checkbox"/>
+										</td>
+										<td class="nested-td">
+											<obs conceptId="1071" answerConceptId="153514" answerLabel="On exertion" style="checkbox"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="nested-label">
+											Duration: 
+										</td>
+										<td class="nested-td">
+											<obs conceptId="5971"/><obs conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="nested-label">
+											Location: 
+										</td>
+										<td class="nested-td">	
+											<obs conceptId="5976" answerConceptId="5963" answerLabel="Substernal"/>
+										</td>
+										<td class="nested-td">			
+											<obs conceptId="5976" answerConceptId="5139" answerLabel="Left"/>
+										</td>
+										<td class="nested-td">			
+											<obs conceptId="5976" answerConceptId="5141" answerLabel="Right"/>
+										</td>
+										<td class="nested-td">	
+											<obs conceptId="5976" answerConceptId="540" answerLabel="Anterior"/>
+										</td>
+										<td class="nested-td">	
+											<obs conceptId="5976" answerConceptId="541" answerLabel="Posterior"/>
+										</td>
+									</tr>
+
+									<tr>
+										<td class="nested-label">
+											Quality: 
+										</td>
+										<td class="nested-td">	
+											<obs conceptId="909" answerConceptId="5972" answerLabel="Pleuritic"/>
+										</td>
+										<td class="nested-td">	
+											<obs conceptId="909" answerConceptId="762" answerLabel="Sharp"/>
+										</td>
+										<td class="nested-td">	
+											<obs conceptId="909" answerConceptId="705" answerLabel="Pressure"/>
+										</td>
+										<td class="nested-td">	
+											<obs conceptId="909" answerConceptId="146625" answerLabel="Burning"/>
+										</td>
+										<td class="enableDisable">
+											<div id="trigger">
+												<obs conceptId="909" answerConceptId="127949" answerLabel="Radiating"/>
+											</div>
+											<div id="disabled" class="secondary">
+												<obs conceptId="160608" answerConceptIds="160609,160610,160611" answerLabels="Down arm, To back, Up neck"/>
+											</div>	
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr id="checkboxCheckbox">
+							<td class="nested-td">
+								<obs conceptId="1071" answerConceptId="664" answerLabel="History of pneumonia (past 2 years)" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1071" labelText="Congestive Heart Failure: " answerConceptIds="159357,159358,159359,159360" answerLabels="NYHA Class I,NYHA Class II,NYHA Class III,NYHA Class IV"/>
+							</td>
+						</tr>
+					</table>
+					Comments: 
+					<div class="secondary"><obs conceptId="160540" style="textarea" rows="5" cols="50"/></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="checkboxGroup">
+					<h4>HEENT: </h4>
+					<table class="checkboxGroup">
+						<tr id="checkboxAll">
+							<td class="nested-td">
+								<obs conceptId="1070" answerConceptId="664" answerLabel="No complaints" style="checkbox"/>
+							</td>
+						</tr>
+						<tr id="checkboxCheckbox">
+							<td class="nested-td">
+								<obs conceptId="1070" answerConceptId="861" answerLabel="Hearing difficulties" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1070" answerConceptId="5953" answerLabel="Vision difficulties" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1070" answerConceptId="5954" answerLabel="Swallowing difficulties" style="checkbox"/>
+							</td>
+						</tr>
+						<tr id="checkboxCheckbox">
+							<td class="nested-td">
+								<obs conceptId="1070" answerConceptId="141584" answerLabel="Ear ache" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1070" answerConceptId="118393" answerLabel="Ocular strain" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1070" answerConceptId="158843" answerLabel="Sore throat" style="checkbox"/>
+							</td>
+						</tr>		
+					</table>
+					<br/>
+					Comments: 
+					<div class="secondary"><obs conceptId="160539" style="textarea" rows="5" cols="50"/></div>
+				</td>
+				<td>
+					<h4>Genitourinary: </h4>
+					<table class="checkboxGroup">
+						<tr id="checkboxAll">
+							<td class="nested-td">
+								<obs conceptId="1080" answerConceptId="664" answerLabel="No complaints" style="checkbox"/>
+							</td>
+						</tr>
+						<tr id="checkboxCheckbox">
+							<td class="nested-td">
+								<obs conceptId="1080" answerConceptId="128315" answerLabel="Pruritus" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1080" answerConceptId="160632" answerLabel="Burning pain" style="checkbox"/>
+							</td>
+						</tr>
+						<includeIf velocityTest="$patient.gender == 'F' ">
+
+						<tr id="checkboxCheckbox">
+							<td class="nested-td">
+								<div class="enableDisable">
+									<div id="trigger">
+										<obs conceptId="1080" answerConceptId="5993" answerLabel="Vaginal Discharge" style="checkbox"/>
+									</div>
+									<div class="secondary" id="disabled">
+										Duration: <obs conceptId="5994"/><obs conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+									</div>
+								</div>
+							</td>
+							<td class="nested-td">
+								<table>
+									<tr>
+										<td class="nested-label">
+											Menstrual Cycle: 
+										</td>
+										<td class="nested-td">
+											<table>
+												<tr>
+													<td class="nested-td">
+														<obs conceptId="160575" answerConceptId="1115" answerLabel="Regular" style="checkbox"/>
+													</td>
+													<td class="nested-td">
+														<obs conceptId="160575" answerConceptId="1116" answerLabel="Irregular" style="checkbox"/>
+													</td>
+												</tr>
+												<tr>
+													<td class="nested-td">
+														<obs conceptId="160575" answerConceptId="148989" answerLabel="Amenorrhea" style="checkbox"/>
+													</td>
+													<td class="nested-td">
+														<obs conceptId="160575" answerConceptId="113928" answerLabel="Post-menopausal" style="checkbox"/>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+						<tr id="checkboxCheckbox">
+							<td class="nested-td" colspan="2">
+							Last menstrual period:	<obs conceptId="1427"/>
+							</td>
+						</tr>
+						</includeIf>
+
+						<includeIf velocityTest="$patient.gender == 'M' ">
+						<tr id="checkboxCheckbox">
+							<td class="nested-td">
+								<div class="enableDisable">
+									<div id="trigger">
+										<obs conceptId="1080" answerConceptId="123529" answerLabel="Urethral Discharge" style="checkbox"/>
+									</div>
+									<div class="secondary" id="disabled">
+										<obs conceptId="5996" labelText="Duration: " answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months"/>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr class="checkboxCheckbox">
+							<td class="nested-td">
+								<obs conceptId="145096" labelText="Circumcised" style="checkbox"/>
+							</td>
+						</tr>
+						</includeIf>
+					</table>
+					<br/>
+					Comments: 
+					<div class="secondary"><obs conceptId="160542" style="textarea" rows="5" cols="50"/></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="checkboxGroup">
+					<h4>Musculoskeletal: </h4>
+					<table class="checkboxGroup">
+						<tr id="checkboxAll">
+							<td class="nested-td">
+								<obs conceptId="1081" answerConceptId="664" answerLabel="No complaints" style="checkbox"/>
+							</td>
+						</tr>
+						<tr id="checkboxCheckbox">
+							<td class="nested-td">
+								<obs conceptId="1081" answerConceptId="80" answerLabel="Joint pains" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1081" answerConceptId="5312" answerLabel="Swelling of joints" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1081" answerConceptId="590" answerLabel="Edema of legs" style="checkbox"/>
+							</td>
+						</tr>
+						<tr id="checkboxCheckbox">
+							<td class="nested-td">
+								<obs conceptId="1081" answerConceptId="133632" answerLabel="Muscle pain" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1081" answerConceptId="6035" answerLabel="Pain in legs / feet" style="checkbox"/>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					Comments: 
+					<div class="secondary"><obs conceptId="160543" style="textarea" rows="5" cols="50"/></div>
+				</td>
+				<td class="checkboxGroup">
+					<h4>Central Nervous System: </h4>
+					<table class="checkboxGroup">
+						<tr id="checkboxAll">
+							<td class="nested-td">
+								<obs conceptId="1082" answerConceptId="664" answerLabel="No complaints" style="checkbox"/>
+							</td>
+						</tr>
+						<tr id="checkboxCheckbox">
+							<td class="nested-td">
+								<obs conceptId="1082" answerConceptId="6004" answerLabel="Paresthesia" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1082" answerConceptId="6005" answerLabel="Focal weakness" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1082" answerConceptId="206" answerLabel="Seizures" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1082" answerConceptId="139084" answerLabel="Headache" style="checkbox"/>
+							</td>
+						</tr>
+						<tr id="checkboxCheckbox">
+							<td class="nested-td">
+								<obs conceptId="1082" answerConceptId="119537" answerLabel="Depression" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1082" answerConceptId="120345" answerLabel="Confusion" style="checkbox"/>
+							</td>
+							<td class="nested-td">
+								<obs conceptId="1082" answerConceptId="6037" answerLabel="Memory problems" style="checkbox"/>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					Comments: 
+					<div class="secondary"><obs conceptId="160544" style="textarea" rows="5" cols="50"/></div>
+				</td>
+			</tr>
+		</table>
+		</section>
+	</span>
+
+	<span id="S10">
+		<section headerLabel="Physical Exam">
+		<h4>Vitals</h4>
+		<table style="width:100%;"><tr><td style="width:50%;">
+					<table id="two-wide">
+						<tr>
+							<td class="nested-label">BP</td><td class="nested-td"><obs conceptId="5085" />/<obs conceptId="5086" /></td>
+						</tr>
+						<tr>
+							<td class="nested-label">Pulse</td><td class="nested-td"><obs conceptId="5087" />rate/min </td>
+						</tr>
+						<tr>
+							<td class="nested-label">Resp Rate</td><td class="nested-td"><obs conceptId="5242" /></td>
+						</tr>
+						<tr>
+							<td class="nested-label">Temp</td><td class="nested-td"><obs conceptId="5088" />[C&#176;]</td>
+						</tr>
+						<tr>
+							<td class="nested-label">Level of consciousness:</td><td class="nested-td"><obs answerConceptIds="1066,1067,1065" answerLabels="Alert,Unknown,Impaired" conceptId="110434" style="checkbox"></obs></td>
+						</tr>
+						<tr><td class="nested-label">Glasgow Coma Scale</td><td class="nested-td"><obs conceptId="160347"> </obs></td>
+						</tr>
+						<tr>
+							<td class="nested-label">SaO2</td><td class="nested-td"><obs conceptId="5092" />% </td>
+						</tr>
+						<tr>
+							<td class="nested-label">Wt</td><td class="nested-td"><obs conceptId="5089" />kg</td>
+						</tr>
+						<tr>
+							<td class="nested-label">Height</td><td class="nested-td"><obs conceptId="5090" />cm </td>
+						</tr>
+						<tr>
+							<td class="nested-label">Karnofsky Score</td><td class="nested-td"><obs conceptId="5283" />%</td>
+						</tr>
+					</table>					</td><td style="width:50%;">
+
+					<h4 style="text-align:top;">Karnofsky Score:</h4>
+					<table style="width:100%;">
+						<tr><td style="width:50%;"> 100% = Normal health</td><td style="width:50%;">50% = Disabled</td></tr>
+						<tr><td style="width:50%;"> 90% = Minor Symptoms</td><td style="width:50%;">40% = Requires considerable assistance, medical care</td></tr>
+						<tr><td style="width:50%;"> 80% = Normal Activity with some effort</td><td style="width:50%;">30% = Severely disabled, in hospital</td></tr>
+						<tr><td style="width:50%;"> 70% = Unable to carry on normal activity, able to care for oneself</td><td style="width:50%;">20% = Very sick, active support needed</td></tr>
+						<tr><td style="width:50%;"> 60% = Requires help with personal needs</td><td style="width:50%;">10% = Moribund (near death)</td></tr>
+					</table>
+
+
+
+
+
+
+				</td>
+		</tr></table>
+
+
+		<hr />
+		<table id="two-wide" style="width:100%;">
+			<tr><td style="width:50%;"><h4>General Exam</h4>
+					<obs answerConceptId="5201" conceptId="1119" style="checkbox" answerLabel="Temporal wasting"> </obs><br /><br />
+					Comments: <div class="secondary"><obs conceptId="160525" style="textarea" rows="5" cols="50"></obs></div>
+				</td>
+				<td class="checkboxGroup" style="width:50%;">
+					<h4>Skin</h4>
+					<span id="checkboxAll"><obs answerConceptId="1115" conceptId="1120" style="checkbox" answerLabel="Normal"> </obs></span>
+					<span id="checkboxCheckbox" class="enableDisable">
+						<span id="trigger"><obs answerConceptId="1116" conceptId="1120" style="checkbox" answerLabel="Abnormal"> </obs></span>
+						<span id="disabled">
+							<span id="checkboxCheckbox" class="enableDisable">
+								<span id="trigger"><obs answerConceptId="512" conceptId="1120" style="checkbox" answerLabel="Rash"> </obs>
+								</span>
+								<span id="disabled">
+									<obs answerConceptIds="135406,135408,130908,128407,123198,118731,123468,160639" conceptId="1120" style="checkbox" answerLabels="Maculopapular,Macule(s),Papule(s),Pustules,Vesicle,Eczema,Urticaria,Bullae"> </obs>
+								</span>
+							</span>
+							<obs answerConceptId="507" conceptId="1120" style="checkbox" answerLabel="Kaposi sarcoma"> </obs> 
+							<obs answerConceptId="136443" conceptId="1120" style="checkbox" answerLabel="Jaundice"> </obs>						
+						</span>
+					</span>
+					<br /><br />Comments: <div class="secondary"><obs conceptId="160526" style="textarea" rows="5" cols="50"></obs></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="checkboxGroup" style="width:50%;">
+					<h4>Lymph Nodes</h4>
+					<span id="checkboxAll"><obs answerConceptId="1115" conceptId="1121" style="checkbox" answerLabel="Normal"> </obs></span>
+					<span id="checkboxCheckbox" class="enableDisable">
+						<span id="trigger"><obs answerConceptId="1116" conceptId="1121" style="checkbox" answerLabel="Abnormal"> </obs></span>
+						<span id="disabled">
+							<obs answerConceptId="504" conceptId="1121" style="checkbox" answerLabel="submandibular"> </obs>
+							<obs answerConceptId="643" conceptId="1121" style="checkbox" answerLabel="cervical"> </obs>
+							<obs answerConceptId="506" conceptId="1121" style="checkbox" answerLabel="inguinal"> </obs>
+							<obs answerConceptId="505" conceptId="1121" style="checkbox" answerLabel="supraclavicular"> </obs>
+							<obs answerConceptId="5112" conceptId="1121" style="checkbox" answerLabel="axillary"> </obs>
+							<obs answerConceptId="156160" conceptId="1121" style="checkbox" answerLabel="epitrochlear"> </obs>
+						</span>
+					</span><br /><br /> 
+					Comments: <div class="secondary"><obs conceptId="160527" style="textarea" rows="5" cols="50"></obs></div>
+				</td>
+				<td class="checkboxGroup"  style="width:50%;">
+					<h4>HEENT</h4>
+					<span id="checkboxAll"><obs answerConceptId="1115" conceptId="1122" style="checkbox" answerLabel="Normal"> </obs></span>
+					<span id="checkboxCheckbox" class="enableDisable">
+						<span id="trigger"><obs answerConceptId="1116" conceptId="1122" style="checkbox" answerLabel="Abnormal"> </obs></span>
+						<span id="disabled">
+							<br />
+							<b>Eyes:</b>
+							<obs answerConceptId="5192" conceptId="1122" style="checkbox" answerLabel="Sclera icteric"> </obs>
+							<obs answerConceptId="516" conceptId="1122" style="checkbox" answerLabel="Conjunctiva pale"> </obs>
+							<obs answerConceptId="518" conceptId="1122" style="checkbox" answerLabel="Fundal abnormality"> </obs>
+							<obs answerConceptId="160627" conceptId="1122" style="checkbox" answerLabel="PERL"> </obs>
+							<br />
+							<b>Ears:</b>
+							<obs answerConceptId="530" conceptId="1122" style="checkbox" answerLabel="Cerumen impaction"> </obs>
+							<obs answerConceptId="948" conceptId="1122" style="checkbox" answerLabel="TM injected"> </obs>
+							<br />
+							<b>Neck:</b>
+							<obs answerConceptId="513" conceptId="1122" style="checkbox" answerLabel="Trachea deviated"> </obs>
+							<obs answerConceptId="5170" conceptId="1122" style="checkbox" answerLabel="Nuchal rigidity"> </obs>
+							<br />
+							<b>Oropharynx:</b>
+							<obs answerConceptId="5334" conceptId="1122" style="checkbox" answerLabel="Thrush"> </obs>
+							<obs answerConceptId="507" conceptId="1122" style="checkbox" answerLabel="Kaposi Sarcoma"> </obs>
+							<obs answerConceptId="131" conceptId="1122" style="checkbox" answerLabel="Poor dentation"> </obs><obs answerConceptId="160614" conceptId="1122" style="checkbox" answerLabel="Ulcers and rash"> </obs><br /><b>Tonsils: </b><obs answerConceptId="536" conceptId="160612" style="checkbox" answerLabel="Enlarged" /><obs answerConceptId="535" conceptId="160612" style="checkbox" answerLabel="Erythmatous" /><obs answerConceptId="537" conceptId="160612" style="checkbox" answerLabel="Exudate" />
+
+
+
+							<br />	
+						</span>
+					</span><br />
+					Comments: <div class="secondary"><obs conceptId="160528" style="textarea" rows="5" cols="50"></obs></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="checkboxGroup" style="width:50%;">
+					<h4>Chest</h4>
+					<span id="checkboxAll"><obs answerConceptId="1115" conceptId="1123" style="checkbox" answerLabel="Normal"> </obs></span>
+					<span id="checkboxCheckbox" class="enableDisable">
+						<span id="trigger"><obs answerConceptId="1116" conceptId="1123" style="checkbox" answerLabel="Abnormal"> </obs></span>
+						<span id="disabled">
+							<br />
+							<b>Percussion:</b>
+							<obs answerConceptId="5138" conceptId="1123" style="checkbox" answerLabel="Dullness"> </obs>
+							<br />
+							<b>Auscultation:</b>
+							<obs answerConceptId="5115" conceptId="1123" style="checkbox" answerLabel="Breath sounds diminished"> </obs>
+							<obs answerConceptId="5116" conceptId="1123" style="checkbox" answerLabel="Bronchial breath sounds"> </obs>
+							<obs answerConceptId="5181" conceptId="1123" style="checkbox" answerLabel="Ronchi"> </obs>
+							<obs answerConceptId="5209" conceptId="1123" style="checkbox" answerLabel="Wheezes"> </obs>
+							<obs answerConceptId="5127" conceptId="1123" style="checkbox" answerLabel="Crepitations"> </obs>
+							<br />
+						</span>
+					</span>
+					<br />
+					Comments: <div class="secondary"><obs conceptId="160529" style="textarea" rows="5" cols="50"></obs></div>
+				</td>
+				<td class="checkboxGroup" style="width:50%;">
+					<h4>Heart</h4>
+					<span id="checkboxAll"><obs answerConceptId="1115" conceptId="1124" style="checkbox" answerLabel="Normal"> </obs></span>
+					<span id="checkboxCheckbox" class="enableDisable">
+						<span id="trigger"><obs answerConceptId="1116" conceptId="1124" style="checkbox" answerLabel="Abnormal"> </obs></span>
+						<span id="disabled">
+							<br />
+							<span id="checkboxCheckbox" class="enableDisable">
+								<span id="trigger"><obs answerConceptId="5158" conceptId="1124" style="checkbox" answerLabel="Evidence for enlargement:"> </obs></span>
+								<span id="disabled">
+									<obs answerConceptId="5156" conceptId="1124" style="checkbox" answerLabel="LV lift"> </obs>
+									<obs answerConceptId="5157" conceptId="1124" style="checkbox" answerLabel="RV lift"> </obs>
+									<br />
+								</span>
+							</span>
+							<span id="checkboxCheckbox" class="enableDisable">
+								<span id="trigger"><obs answerConceptId="1117" conceptId="1124" style="checkbox" answerLabel="Abnormal Sounds:"> </obs></span>
+								<span id="disabled">
+									<obs answerConceptId="550" conceptId="1124" style="checkbox" answerLabel="S3"> </obs>
+									<obs answerConceptId="551" conceptId="1124" style="checkbox" answerLabel="S4"> </obs>
+									<obs answerConceptId="130560" conceptId="1124" style="checkbox" answerLabel="Pericardial friction rub"> </obs>
+									<br />
+								</span>
+							</span>
+							<span id="checkboxCheckbox" class="enableDisable">
+								<span id="trigger"><obs answerConceptId="139063" conceptId="1124" style="checkbox" answerLabel="Murmurs:"> </obs></span>
+								<span id="disabled">
+									<obs answerConceptId="5166" conceptId="1124" style="checkbox" answerLabel="Systolic Ejection Murmur"> </obs>
+									<obs answerConceptId="5162" conceptId="1124" style="checkbox" answerLabel="Holosystolic Murmur"> </obs>
+									<obs answerConceptId="5160" conceptId="1124" style="checkbox" answerLabel="Diastolic Decrescendo"> </obs>
+									<obs answerConceptId="5164" conceptId="1124" style="checkbox" answerLabel="Diastolic Rumble"> </obs><br />
+									<obs conceptId="160630" labelText="Murmur Grade:"> </obs>
+									<br />
+								</span>
+							</span>
+						</span>
+					</span>
+					<br />
+					Comments: <div class="secondary"><obs conceptId="160530" style="textarea" rows="5" cols="50"></obs></div>
+				</td>
+
+			</tr>
+			<tr>
+				<td class="checkboxGroup" style="width:50%;">
+					<h4>Abdomen</h4>
+					<span id="checkboxAll"><obs answerConceptId="1115" conceptId="1125" style="checkbox" answerLabel="Normal"> </obs></span>
+					<span id="checkboxCheckbox" class="enableDisable">
+						<span id="trigger"><obs answerConceptId="1116" conceptId="1125" style="checkbox" answerLabel="Abnormal"> </obs></span>
+						<span id="disabled">
+							<br />
+							<span id="checkboxCheckbox" class="enableDisable">
+								<span id="trigger"><obs answerConceptId="5105" conceptId="1125" style="checkbox" answerLabel="Tender to palpation"> </obs></span>
+								<span id="disabled">
+									(<obs answerConceptId="160380" conceptId="1125" style="checkbox" answerLabel="Left Upper Quadrant"> </obs>
+									<obs answerConceptId="5104" conceptId="1125" style="checkbox" answerLabel="Left Lower Quadrant"> </obs>
+									<obs answerConceptId="5107" conceptId="1125" style="checkbox" answerLabel="Right Upper Quadrant"> </obs>
+									<obs answerConceptId="160381" conceptId="1125" style="checkbox" answerLabel="Right Lower Quadrant"> </obs>
+									<obs answerConceptId="5099" conceptId="1125" style="checkbox" answerLabel="Epigastric"> </obs>
+									<obs answerConceptId="575" conceptId="1125" style="checkbox" answerLabel="Suprapubic"> </obs>
+									<obs answerConceptId="160515" conceptId="1125" style="checkbox" answerLabel="Left Flank"> </obs>
+									<obs answerConceptId="160516" conceptId="1125" style="checkbox" answerLabel="Right Flank"> </obs>
+									<obs answerConceptId="104307" conceptId="1125" style="checkbox" answerLabel="Periumbilical"> </obs>
+									)<br />
+								</span>
+							</span>
+							<obs answerConceptId="148346" conceptId="1125" style="checkbox" answerLabel="Ascites"> </obs>
+							<obs answerConceptId="5103" conceptId="1125" style="checkbox" answerLabel="Mass"> </obs>
+							<span id="checkboxCheckbox" class="enableDisable">
+								<span id="trigger"><obs answerConceptId="5008" conceptId="1125" style="checkbox" answerLabel="Hepatomegaly"> </obs></span>
+								<span id="disabled">
+									<obs conceptId="159447"> </obs>(cm below costal margin)
+									<br />
+								</span>
+							</span>
+							<span id="checkboxCheckbox" class="enableDisable">
+								<span id="trigger"><obs answerConceptId="5009" conceptId="1125" style="checkbox" answerLabel="Splenomegaly"> </obs></span>
+								<span id="disabled">
+									<obs conceptId="159448"> </obs>(cm below costal margin)
+									<br />
+								</span>
+							</span>
+
+						</span>
+					</span>
+					<br />Comments: <div class="secondary"><obs conceptId="160531" style="textarea" rows="5" cols="50"></obs></div>
+				</td>
+				<td class="checkboxGroup" style="width:50%;">
+					<h4>Urogenital</h4>
+					<span id="checkboxRadio"><obs answerConceptId="1115" conceptId="1127" style="checkbox" answerLabel="Normal"> </obs>
+						<obs answerConceptId="1116" conceptId="1127" style="checkbox" answerLabel="Abnormal"> </obs>
+						<obs answerConceptId="1118" conceptId="1127" style="checkbox" answerLabel="Not Done"> </obs>
+					</span>
+					<br /><br />Comments:  <div class="secondary"><obs conceptId="160532" style="textarea" rows="5" cols="50"></obs></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="checkboxGroup" style="width:50%;">
+					<h4>Extremeties</h4>
+					<span id="checkboxAll"><obs answerConceptId="1115" conceptId="1127" style="checkbox" answerLabel="Normal"> </obs></span>
+					<span id="checkboxCheckbox" class="enableDisable">
+						<span id="trigger"><obs answerConceptId="1116" conceptId="1127" style="checkbox" answerLabel="Abnormal"> </obs></span>
+						<span id="disabled">
+							<obs answerConceptId="590" conceptId="1127" style="checkbox" answerLabel="Edema"></obs>
+							<obs answerConceptId="951" conceptId="1127" style="checkbox" answerLabel="Leg Ulcers"></obs>
+							<obs answerConceptId="134" conceptId="1127" style="checkbox" answerLabel="Cellulitis"> </obs>
+							<obs answerConceptId="507" conceptId="1127" style="checkbox" answerLabel="Kaposi sarcoma"></obs>
+						</span>
+					</span>
+					<br /><br />Comments:  <div class="secondary"><obs conceptId="160533" style="textarea" rows="5" cols="50"></obs></div>
+				</td>
+				<td style="width:50%;">
+					<h4>Musculoskeletal</h4>
+					<obs answerConceptId="1115" conceptId="1128" style="checkbox" answerLabel="Normal"> </obs>
+					<obs answerConceptId="1116" conceptId="1128" style="checkbox" answerLabel="Abnormal"> </obs>
+					<br /><br />Comments:  <div class="secondary"><obs conceptId="160534" style="textarea" rows="5" cols="50"></obs></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="checkboxGroup" style="width:50%;">
+					<h4>Neurologic</h4>
+					<span id="checkboxAll"><obs answerConceptId="1115" conceptId="1129" style="checkbox" answerLabel="Normal"> </obs></span>
+					<span id="checkboxCheckbox" class="enableDisable">
+						<span id="trigger"><obs answerConceptId="1116" conceptId="1129" style="checkbox" answerLabel="Abnormal"> </obs></span>
+						<span id="disabled">
+							<obs answerConceptId="599" conceptId="1129" style="checkbox" answerLabel="Cranial nerve abnormality"></obs>
+							<obs answerConceptId="160628" conceptId="1129" style="checkbox" answerLabel="Decreased sensation lower extremeties"></obs>
+							<obs answerConceptId="160629" conceptId="1129" style="checkbox" answerLabel="Decreased sensation upper extremeties"></obs>
+							<obs answerConceptId="5108" conceptId="1129" style="checkbox" answerLabel="Abnormal gait"> </obs>
+							<obs answerConceptId="6005" conceptId="1129" style="checkbox" answerLabel="Focal weakness"> </obs>
+						</span>
+					</span><br /><br />Comments:   <div class="secondary"><obs conceptId="160535" style="textarea" rows="5" cols="50"></obs></div>
+				</td>
+				<td class="checkboxGroup" style="width:50%;">
+					<h4>Psychiatric</h4>
+					<span id="checkboxAll"><obs answerConceptId="1115" conceptId="1130" style="checkbox" answerLabel="Normal"> </obs></span>
+					<span id="checkboxCheckbox" class="enableDisable">
+						<span id="trigger"><obs answerConceptId="1116" conceptId="1130" style="checkbox" answerLabel="Abnormal"> </obs></span>
+						<span id="disabled">
+							<obs answerConceptId="119537" conceptId="1130" style="checkbox" answerLabel="Depressed"></obs>
+							<obs answerConceptId="119566" conceptId="1130" style="checkbox" answerLabel="Dementia"></obs>
+							<obs answerConceptId="120345" conceptId="1130" style="checkbox" answerLabel="Confused"> </obs>
+						</span>
+					</span>
+					<br /><br />Comments:  <div class="secondary"><obs conceptId="160536" style="textarea" rows="5" cols="50"></obs></div>
+				</td>
+			</tr>
+		</table>
+		</section>
+	</span>
+
+<span id="TestsRefs">
+<section headerLabel="Tests and Referrals">
+	<table id="two-wide">
+		<tr>
+			<td class="checkboxGroup">
+				<h4>Tests Ordered: </h4>
+				<table class="checkboxGroup">
+					<tr id="checkboxAll">
+						<td class="nested-td">
+							<obs answerConceptId="1107" conceptId="1271" style="checkbox" answerLabel="None"> </obs>
+						</td>
+					</tr>
+					<tr id="checkboxCheckbox">
+						<!--<table id="two-wide">
+							<tr>-->
+								<td class="nested-td">
+									<obs answerConceptId="1019" conceptId="1271" style="checkbox" answerLabel="Complete Blood Count"> </obs>
+								</td>
+								<td class="nested-td">
+									<obs answerConceptId="654" conceptId="1271" style="checkbox" answerLabel="ALT"> </obs>
+								</td>
+								<td class="nested-td">
+									<obs answerConceptId="653" conceptId="1271" style="checkbox" answerLabel="AST"> </obs>
+								</td>
+								<td class="nested-td">
+									<obs answerConceptId="12" conceptId="1271" style="checkbox" answerLabel="CXR"> </obs>
+								</td>
+							</tr>
+							<tr id="checkboxCheckbox">
+								<td class="enableDisable" colspan="4" cellspacing="0" cellpadding="0">
+									<div id="trigger" cellspacing="0" cellpadding="0">
+										<obs answerConceptId="160554" conceptId="1271" style="checkbox" answerLabel="Radiology Test (Specify):"> </obs>
+									</div>
+									<div id="disabled">
+										<obs answerConceptId="101" conceptId="160554" style="checkbox" answerLabel="Abdomen"> </obs>   
+										<obs answerConceptId="386" conceptId="160554" style="checkbox" answerLabel="Skull"> </obs>
+										<obs answerConceptId="390" conceptId="160554" style="checkbox" answerLabel="Spine"> </obs>
+										<obs answerConceptId="392" conceptId="160554" style="checkbox" answerLabel="Pelvis"> </obs>
+										<obs answerConceptId="394" conceptId="160554" style="checkbox" answerLabel="Shoulder"> </obs>
+										<br />
+										<obs answerConceptId="1232" conceptId="160554" style="checkbox" answerLabel="Left Arm"> </obs>
+										<obs answerConceptId="1233" conceptId="160554" style="checkbox" answerLabel="Right Arm"> </obs>
+										<obs answerConceptId="1234" conceptId="160554" style="checkbox" answerLabel="Left Leg"> </obs>
+										<obs answerConceptId="1235" conceptId="160554" style="checkbox" answerLabel="Right Leg"> </obs>
+										<obs answerConceptId="382" conceptId="160554" style="checkbox" answerLabel="Hand"> </obs>
+										<obs answerConceptId="384" conceptId="160554" style="checkbox" answerLabel="Foot"> </obs>
+
+
+										<br />Type of Radiology:<obs answerConceptIds="160604,160605,160606,160607" conceptId="160603"  answerLabels="MRI,Ultrasound,X-Ray,CT Scan"> </obs>
+									</div>
+
+								</td>
+							</tr>
+							<tr id="checkboxCheckbox">
+								<td class="nested-td">
+									<obs answerConceptId="5497" conceptId="1271" style="checkbox" answerLabel="CD4 Count Assay"> </obs>
+								</td>    
+								<td class="nested-td">
+									<obs answerConceptId="790" conceptId="1271" style="checkbox" answerLabel="Creatinine"> </obs>
+								</td> 
+								<td class="nested-td">
+									<obs answerConceptId="1042" conceptId="1271" style="checkbox" answerLabel="HIV ELISA"> </obs>
+								</td> 
+								<td class="nested-td">
+									<obs answerConceptId="307" conceptId="1271" style="checkbox" answerLabel="Sputum for AFB"> </obs>
+								</td>
+							</tr>
+							<tr id="checkboxCheckbox">
+								<td class="nested-td">
+									<obs answerConceptId="299" conceptId="1271" style="checkbox" answerLabel="Syphilis Testing"> </obs>
+								</td>
+								<td class="nested-td">
+									<obs answerConceptId="5473" conceptId="1271" style="checkbox" answerLabel="Electrolytes"> </obs>
+								</td>
+								<td class="nested-td">
+									<obs answerConceptId="1305" conceptId="1271" style="checkbox" answerLabel="HIV Viral Load"> </obs>
+								</td>
+								<td class="nested-td">
+									<obs answerConceptId="45" conceptId="1271" style="checkbox" answerLabel="Pregnancy Test"> </obs>
+								</td>
+							</tr>
+							<tr id="checkboxCheckbox" >
+								<td class="enableDisable" colspan="4">
+									<div id="trigger"><obs answerConceptId="5622" conceptId="1271" style="checkbox" answerLabel="Other (Specify):"> </obs></div>
+									<div id="disabled">
+										<obs  conceptId="160555"> </obs>
+									</div>
+								</td>
+							</tr>
+							<!-- </table> -->
+					</table>
+				</td>
+
+
+
+
+				<td class="checkboxGroup">
+					<h4>Referrals Made:</h4>
+					<table class="checkboxGroup">
+						<tr id="checkboxAll">
+							<td class="nested-td">
+								<obs answerConceptId="1107" conceptId="1272" style="checkbox" answerLabel="None"> </obs>
+							</td>
+						</tr>
+						<tr id="checkboxCheckbox">
+							<!--<td class="nested-td">
+								<table>
+									<tr>-->
+										<td class="nested-td">
+											<obs answerConceptId="5486" conceptId="1272" style="checkbox" answerLabel="Social Work Services"> </obs>
+										</td>
+										<td class="nested-td">
+											<obs answerConceptId="5490" conceptId="1272" style="checkbox" answerLabel="Psychosocial Support"> </obs>
+										</td>
+										<td class="nested-td">
+											<obs answerConceptId="1167" conceptId="1272" style="checkbox" answerLabel="Disclosure Counselling"> </obs>
+										</td>
+										<td class="nested-td">
+											<obs answerConceptId="5483" conceptId="1272" style="checkbox" answerLabel="Family Planning Services"> </obs>
+										</td>
+									</tr>
+									<tr id="checkboxCheckbox">
+										<td class="nested-td">
+											<obs answerConceptId="1851" conceptId="1272" style="checkbox" answerLabel="Reproductive Health"> </obs>
+										</td>
+										<td class="nested-td">
+											<obs answerConceptId="5487" conceptId="1272" style="checkbox" answerLabel="TB treatment/DOT program"> </obs>
+										</td>
+										<td class="nested-td">
+											<obs answerConceptId="5484" conceptId="1272" style="checkbox" answerLabel="Nutritional Support"> </obs>
+										</td>
+										<td class="nested-td">
+											<obs answerConceptId="5488" conceptId="1272" style="checkbox" answerLabel="Adherence councilling"> </obs>
+										</td>
+									</tr>
+									<tr>
+										<td class="nested-td">
+											<obs answerConceptId="1288" conceptId="1272" style="checkbox" answerLabel="Alcohol counseling/ support groups"> </obs>
+										</td>
+										<td class="nested-td">
+											<obs answerConceptId="5489" conceptId="1272" style="checkbox" answerLabel="Mental Health Services"> </obs>
+										</td>
+										<td class="nested-td" colspan="2">
+											<obs answerConceptId="1776" conceptId="1272" style="checkbox" answerLabel="MTCT"> </obs>
+										</td>
+									</tr>
+									<!--</table>-->
+								<tr>
+									<td class="nested-td" colspan="4">
+										<div id="checkboxCheckbox" class="enableDisable">
+											<div id="trigger"><obs answerConceptId="5622" conceptId="1272" style="checkbox" answerLabel="Other Referral (Specify):"> </obs></div>
+											<div id="disabled">
+												<obs  conceptId="160556"> </obs>
+											</div>
+										</div>
+										<div id="checkboxCheckbox" class="enableDisable">
+											<div id="trigger"><obs answerConceptId="5488" conceptId="1272" style="checkbox" answerLabel="Inpatient Care/Hospitalization"> </obs></div>
+											<div id="disabled">(
+												<obs answerConceptId="1274" conceptId="1273" style="checkbox" answerLabel="MTRH"> </obs>
+												<obs answerConceptId="1275" conceptId="1273" style="checkbox" answerLabel="Local Health Center/Hospital"> </obs>
+												<obs answerConceptId="5622" conceptId="1273" style="checkbox" answerLabel="Other Facility:"> </obs>
+												<obs  conceptId="160557"> </obs> )
+											</div>
+										</div>
+									</td>
+								</tr>
+
+								<!--</td>
+						</tr>-->
+					</table>
+				</td>
+			</tr>
+		</table>
+		</section>
+</span>
+<span id="S11">	
+	<section headerLabel="Impressions">
+	<!--
+	*** Commented out impressions for now
+Diagnostic Impressions:
+<input type="button" onclick="openImpressions()" value="Manage Impressions"/>
+-->
+
+<br />
+
+Reportable Diagnoses:
+	<table>
+		<obsgroup groupingConceptId="1284">
+		<tr valign="top">
+			<td>
+				<repeat>
+				<template>
+				<div id="{n}-toggleContainer" style="display:none;" class="secondary">
+					<table>
+						<tr>
+							<td>
+								<obs id="{n}-list" conceptId="6042" answerConceptIds="120295,150452,121629,117152,121605,121005,116543,892,122604,160148,78,119481,142412,111491,79,136677,152,117086,155,140832,117399,149745,116128,160152,115122,134561,134369,77,149197,160204,114120,114100,114088,5258,80,126582,112992,124957,112141,141,111633,123112,122759" answerLabels="Abortion,Accidents - Fractures/Injuries etc,Aneamia,Bilharzia,Bites - Animal/Snake/etc,Brucellosis,Burns,Chicken Pox,Cholera,Confirmed Malaria,Dental Disorders,Diabetes,Diarrhoea,Dis. of Puerperium &amp; Childbirth,Dis. of the skin (incl. wounds),Dracunculosis,Dysentery,Ear Infections,Epilepsy,Eye Infections,Hypertension,Infectious Hepatitis,Malaria,Malaria in pregnancy,Malnutrition,Measles,Meningococcal Meningitis,Mental Disorders,New AIDS Cases,Other Dis. of Repiratory System,Plague,Pneumonia,Poisoning,Poliomyelitis (AFP),Rheumatism/Joint Pains etc.,Sexual Assault,Sexually Transmitted Infections,Tetanus,Tuberculosis,Typhoid fever,Urinary Tract Infection,Viral Haemorrhagic Fever,Yellow Fever" />
+
+							</td>
+							<td><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+						</tr>
+					</table>
+				</div>
+				</template>
+				<render n="1"/>
+				<render n="2"/>
+				<render n="3"/>
+				<render n="4"/>
+				<render n="5"/>
+				<render n="6"/>
+				<render n="7"/>
+				<render n="8"/>
+				<render n="9"/>
+				<render n="10"/>
+				<render n="11"/>
+				<render n="12"/>
+				<render n="13"/>
+				<render n="14"/>
+				<render n="15"/>
+				<render n="16"/>
+				<render n="17"/>
+				<render n="18"/>
+				<render n="19"/>
+				<render n="20"/>
+				<render n="21"/>
+				<render n="22"/>
+				<render n="23"/>
+				<render n="24"/>
+				<render n="25"/>
+				<render n="26"/>
+				<render n="27"/>
+				<render n="28"/>
+				<render n="29"/>
+				<render n="30"/>
+				<render n="31"/>
+				<render n="32"/>
+				<render n="33"/>
+				<render n="34"/>
+				<render n="35"/>
+				<render n="36"/>
+				<render n="37"/>
+				<render n="38"/>
+				<render n="39"/>
+				<render n="40"/>
+				<render n="41"/>
+				<render n="42"/>
+				<render n="43"/>
+				<render n="44"/>
+
+				</repeat>
+			</td>
+</tr>
+		</obsgroup>
+	</table>
+	<div id="patid" style="display:none;"><lookup expression="patient.id"/></div>
+<br />
+	Comments:  <div class="secondary"> <obs conceptId="160537" style="textarea" rows="5" cols="50"></obs></div>		
+
+	<br />
+
+	<div>
+		Next scheduled Appointment Date?
+		<obs  conceptId="5096" allowFutureDates="true"> </obs>
+	</div>
+	</section>
+
+	</span>
+
+		<!-- Hidden concepts for add/remove sections -->
+		<span style="display:none;">
+			<obs id="addedCountConcept" conceptId="160569" />
+			<obs id="resolvedCountConcept" conceptId="160570" />
+		</span>
+
+        <script type="text/javascript">
+
+	if (jQuery){
+	   $j(document).ready(function() {
+                //
+                // find the count of the number of reported diagnoses that exist
+                //		
+                displayRows(addedDiagnosisCount,"addedDiagnosisCount.value",1);
+               
+	    });
+	}
+
+</script>
+    
+        <ifMode mode="VIEW">
+        <script type="text/javascript">
+	if(jQuery){
+
+		$j(document).ready(function(){
+             // if this is in View, don't want any addEntry or remove Entry buttons 
+                     for (i=1;44>=i;++i) {
+                          $j('#' + i + '-removeEntry').toggle(false);
+                          $j('#' + i + '-addEntry').toggle(false);
+                     };
+                 });
+        };
+        </script>
+    </ifMode>
+
+		<submit/>
+		</htmlform>
