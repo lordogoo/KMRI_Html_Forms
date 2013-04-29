@@ -1233,7 +1233,8 @@ answerLabels="Maculopapular,Macule(s),Papule(s),Pustules,Vesicle,Eczema,Urticari
 answerLabel="Kaposi sarcoma"> </obs> 
 							<obs field="SKIN_jaundice" answerConceptId="136443" conceptId="1120" 
 
-style="checkbox" answerLabel="Jaundice"> </obs>						
+style="checkbox" answerLabel="Jaundice"> </obs>
+<obs field="SKIN_ulcer" answerConceptId="112934" conceptId="1120" style="checkbox" answerLabel="Ulcer"> </obs>						
 						</span>
 					</span>
 					<br /><br />Comments: <div class="secondary"><obs field="SKIN_comments" conceptId="160526" 

@@ -1861,7 +1861,8 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							</span>
 						</span>
 						<obs field="SKIN_kap" answerConceptId="507" conceptId="1120" style="checkbox" answerLabel="Kaposi sarcoma"> </obs> 
-						<obs field="SKIN_jaundice" answerConceptId="136443" conceptId="1120" style="checkbox" answerLabel="Jaundice"> </obs>						
+						<obs field="SKIN_jaundice" answerConceptId="136443" conceptId="1120" style="checkbox" answerLabel="Jaundice"> </obs>
+<obs field="SKIN_ulcer" answerConceptId="112934" conceptId="1120" style="checkbox" answerLabel="Ulcer"> </obs>						
 					</span>
 				</span>
 				<br /><br />Comments: <div class="secondary"><obs field="SKIN_commnets" conceptId="160526" style="textarea" rows="5" cols="50"></obs></div>
