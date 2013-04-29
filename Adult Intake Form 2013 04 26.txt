@@ -1842,7 +1842,7 @@ window.open(url );
 						<obs answerConceptId="506" conceptId="1121" style="checkbox" answerLabel="inguinal"> </obs>
 						<obs answerConceptId="505" conceptId="1121" style="checkbox" answerLabel="supraclavicular"> </obs>
 						<obs answerConceptId="5112" conceptId="1121" style="checkbox" answerLabel="axillary"> </obs>
-						<obs answerConceptId="156160" conceptId="1121" style="checkbox" answerLabel="epitrochlear"> </obs>
+						<obs answerConceptId="160679" conceptId="1121" style="checkbox" answerLabel="epitrochlear"> </obs>
 					</div>
 				</span><br /><br /> 
 				Comments: <div class="secondary"><obs conceptId="160527" style="textarea" rows="5" cols="50"></obs></div>
