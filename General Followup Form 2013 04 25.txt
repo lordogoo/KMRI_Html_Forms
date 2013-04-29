@@ -1576,9 +1576,7 @@ style="checkbox" answerLabel="Abnormal"> </obs></span>
 							<obs field="EX_edema" answerConceptId="590" conceptId="1127" style="checkbox" 
 
 answerLabel="Edema"></obs>
-							<obs field="EX_legulcers" answerConceptId="951" conceptId="1127" style="checkbox" 
-
-answerLabel="Leg Ulcers"></obs>
+							<obs field="EX_legulcers" answerConceptId="111725" conceptId="1127" style="checkbox" answerLabel="Leg Ulcers"></obs>
 							<obs field="EX_cellulitis" answerConceptId="134" conceptId="1127" style="checkbox" 
 
 answerLabel="Cellulitis"> </obs>

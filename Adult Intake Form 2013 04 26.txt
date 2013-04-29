@@ -2051,7 +2051,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					<span id="trigger"><obs field="EXT_abnormal" answerConceptId="1116" conceptId="1127" style="checkbox" answerLabel="Abnormal"> </obs></span>
 					<span id="disabled">
 						<obs field="EXT_edema" answerConceptId="590" conceptId="1127" style="checkbox" answerLabel="Edema"></obs>
-						<obs field="EXT_leg" answerConceptId="951" conceptId="1127" style="checkbox" answerLabel="Leg Ulcers"></obs>
+						<obs field="EXT_leg" answerConceptId="111725" conceptId="1127" style="checkbox" answerLabel="Leg Ulcers"></obs>
 						<obs field="EXT_cell" answerConceptId="134" conceptId="1127" style="checkbox" answerLabel="Cellulitis"> </obs>
 						<obs field="EXT_kaposi" answerConceptId="507" conceptId="1127" style="checkbox" answerLabel="Kaposi sarcoma"></obs>
 					</span>
