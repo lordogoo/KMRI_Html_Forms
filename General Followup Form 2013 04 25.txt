@@ -1297,9 +1297,6 @@ answerLabel="Conjunctiva pale"> </obs>
 							<obs field="H2_fundal" answerConceptId="518" conceptId="1122" style="checkbox" 
 
 answerLabel="Fundal abnormality"> </obs>
-							<obs field="H2_perl" answerConceptId="160627" conceptId="1122" style="checkbox" 
-
-answerLabel="PERL"> </obs>
 							<br />
 							<b>Ears:</b>
 							<obs field="H2_cerumen" answerConceptId="530" conceptId="1122" style="checkbox" 
@@ -1324,9 +1321,9 @@ answerLabel="Thrush"> </obs>
 							<obs field="H2_kaposisarcoma" answerConceptId="507" conceptId="1122" 
 
 style="checkbox" answerLabel="Kaposi Sarcoma"> </obs>
-							<obs field="H2_poord" answerConceptId="131" conceptId="1122" style="checkbox" 
+							<obs field="H2_poord" answerConceptId="147999" conceptId="1122" style="checkbox" 
 
-answerLabel="Poor dentation"> </obs><obs field="H2_ulcers" answerConceptId="160614" conceptId="1122" style="checkbox" answerLabel="Ulcers 
+answerLabel="Poor dentition"> </obs><obs field="H2_ulcers" answerConceptId="160614" conceptId="1122" style="checkbox" answerLabel="Ulcers 
 
 and rash"> </obs><br />
 <b>Tonsils: </b>

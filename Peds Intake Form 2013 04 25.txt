@@ -1860,7 +1860,6 @@ window.open(url );
 						<obs answerConceptId="5192" conceptId="1122" style="checkbox" answerLabel="Sclera icteric"> </obs>
 						<obs answerConceptId="516" conceptId="1122" style="checkbox" answerLabel="Conjunctiva pale"> </obs>
 						<obs answerConceptId="518" conceptId="1122" style="checkbox" answerLabel="Fundal abnormality"> </obs>
-						<obs answerConceptId="160627" conceptId="1122" style="checkbox" answerLabel="PERL"> </obs>
 						<obs answerConceptId="874" conceptId="1122" style="checkbox" answerLabel="Eye discharge"/>
 						<br />
 						<b>Ears:</b>
