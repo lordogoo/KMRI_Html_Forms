@@ -2085,7 +2085,10 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					<span id="trigger"><obs field="PSYCH_abnormal" answerConceptId="1116" conceptId="1130" style="checkbox" answerLabel="Abnormal"> </obs></span>
 					<span id="disabled">
 						<obs field="PSYCH_depressed" answerConceptId="119537" conceptId="1130" style="checkbox" answerLabel="Depressed"></obs>
-						<obs field="PSYCH_dementia" answerConceptId="119566" conceptId="1130" style="checkbox" answerLabel="Dementia"></obs>
+						<obs field="PSYCH_psychosis" answerConceptId="113517" conceptId="1130" style="checkbox" answerLabel="Psychosis"> </obs>
+<obs field="PSYCH_anxiety" answerConceptId="121543" conceptId="1130" style="checkbox" answerLabel="Anxiety"> </obs>
+<obs field="PSYCH_manic" answerConceptId="115926" conceptId="1130" style="checkbox" answerLabel="Manic"> </obs>
+<obs field="PSYCH_suicidal" answerConceptId="158978" conceptId="1130" style="checkbox" answerLabel="Suicidal"> </obs>
 						<obs field="PSYCH_confused" answerConceptId="120345" conceptId="1130" style="checkbox" answerLabel="Confused"> </obs>
 					</span>
 				</span>
