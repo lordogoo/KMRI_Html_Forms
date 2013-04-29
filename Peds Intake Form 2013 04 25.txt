@@ -1730,7 +1730,7 @@ window.open(url );
 				
 				<table id="two-wide">
 					<tr>
-						<td class="nested-label">SaO2</td><td class="nested-td"><obs conceptId="5092"> </obs> % </td>
+						<td class="nested-label">Spo2</td><td class="nested-td"><obs conceptId="5092"> </obs> % </td>
 					</tr>
 					<tr>
 <!--						<td class="nested-label">Wt</td><td class="nested-td"><obs conceptId="5089"> </obs> kg</td>
