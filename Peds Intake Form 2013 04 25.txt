@@ -1821,7 +1821,7 @@ window.open(url );
 							<span id="trigger"><obs answerConceptId="512" conceptId="1120" style="checkbox" answerLabel="Rash"> </obs>
 							</span>
 							<span id="disabled">
-								<obs answerConceptIds="135406,135408,130908,128407,123198,118731,123468,160639,113478,141559" conceptId="1120" style="checkbox" answerLabels="Maculopapular,Macule(s),Papule(s),Pustules,Vesicle,Eczema,Urticaria,Bulla(e),Purpura,Ecchymosis"> </obs>
+								<obs answerConceptIds="522,520,521,128047,123198,118731,123468,160639,113478,141559" conceptId="1120" style="checkbox" answerLabels="Maculopapular,Macule(s),Papule(s),Pustules,Vesicle,Eczema,Urticaria,Bulla(e),Purpura,Ecchymosis"> </obs>
 							</span>
 						</span>
 						<obs answerConceptId="507" conceptId="1120" style="checkbox" answerLabel="Kaposi sarcoma"> </obs> 

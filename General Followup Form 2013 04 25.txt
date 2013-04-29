@@ -1223,7 +1223,7 @@ conceptId="1120" style="checkbox" answerLabel="Rash"> </obs>
 								<span id="disabled">
 									<obs field="SKIN_rashType" 
 
-answerConceptIds="135406,135408,130908,128407,123198,118731,123468,160639" conceptId="1120" style="checkbox" 
+answerConceptIds="522,520,521,128047,123198,118731,123468,160639" conceptId="1120" style="checkbox" 
 
 answerLabels="Maculopapular,Macule(s),Papule(s),Pustules,Vesicle,Eczema,Urticaria,Bullae"> </obs>
 								</span>
