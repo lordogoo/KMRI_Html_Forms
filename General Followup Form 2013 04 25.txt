@@ -1361,6 +1361,9 @@ style="checkbox" answerLabel="Abnormal"> </obs></span>
 
 answerLabel="Dullness"> </obs>
 							<br />
+                                                <b>Accessory Muscle Use:</b>
+					        <obs field="CHEST_amu" answerConceptId="159441" conceptId="1123" style="checkbox" answerLabel="Accessory Muscle Use"> </obs>
+						<br />
 							<b>Auscultation:</b>
 							<obs field="CHEST_dimin" answerConceptId="5115" conceptId="1123" style="checkbox" 
 
@@ -1368,9 +1371,9 @@ answerLabel="Breath sounds diminished"> </obs>
 							<obs field="CHEST_brnochial" answerConceptId="5116" conceptId="1123" 
 
 style="checkbox" answerLabel="Bronchial breath sounds"> </obs>
-							<obs field="CHEST_ronchi" answerConceptId="5181" conceptId="1123" style="checkbox" 
+							<obs field="CHEST_rhonchi" answerConceptId="5181" conceptId="1123" style="checkbox" 
 
-answerLabel="Ronchi"> </obs>
+answerLabel="Rhonchi"> </obs>
 							<obs field="CHEST_wheezes" answerConceptId="5209" conceptId="1123" 
 
 style="checkbox" answerLabel="Wheezes"> </obs>
