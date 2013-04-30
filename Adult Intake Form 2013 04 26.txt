@@ -2085,10 +2085,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				<span id="checkboxAll"><obs field="PSYCH_normal" answerConceptId="1115" conceptId="1130" style="checkbox" answerLabel="Normal"> </obs></span>
 				<span id="checkboxCheckbox" class="enableDisable">
 					<span id="trigger"><obs field="PSYCH_abnormal" answerConceptId="1116" conceptId="1130" style="checkbox" answerLabel="Abnormal"> </obs></span>
-Add Psychosis 113517
-Add Anxiety 121543
-Add Manic 115926
-Add Suicidal 158978
+
 
 					<span id="disabled">
 						<obs field="PSYCH_depressed" answerConceptId="119537" conceptId="1130" style="checkbox" answerLabel="Depressed"></obs>
