@@ -659,7 +659,7 @@ window.open(url );
 									</tr>
 									<tr>
 										<td class="nested-label">
-											P (Parity - Number of Pre-Term Deliveries): 
+											P (Parity - Number of Deliveries): 
 										</td>
 										<td class="nested-td">
 											<obs conceptId="1053"/>
