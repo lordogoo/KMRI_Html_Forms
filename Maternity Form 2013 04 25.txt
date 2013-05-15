@@ -643,7 +643,7 @@ window.open(url );
 					<table>
 									<tr>
 										<td class="nested-label">
-											G : 
+											G (Gravida - Number of Times Pregnant): 
 										</td>
 										<td class="nested-td">
 											<obs conceptId="5624"/>
@@ -651,7 +651,7 @@ window.open(url );
 									</tr>
 									<tr>
 										<td class="nested-label">
-											T :
+											T (Number of Full Term Pregnancies):
 										</td>
 										<td class="nested-td">
 											<obs conceptId="160080"/>
@@ -659,7 +659,7 @@ window.open(url );
 									</tr>
 									<tr>
 										<td class="nested-label">
-											P : 
+											P (Parity - Number of Pre-Term Deliveries): 
 										</td>
 										<td class="nested-td">
 											<obs conceptId="1053"/>
@@ -667,7 +667,7 @@ window.open(url );
 									</tr>
 									<tr>
 										<td class="nested-label">
-											SA :
+											SA (Number of Spontaneous Abortions):
 										</td>
 										<td class="nested-td">
 											<obs conceptId="160546"/>
@@ -675,7 +675,7 @@ window.open(url );
 									</tr>
 									<tr>
 										<td class="nested-label">
-											TA : 
+											TA (Number of Induced/Therapeutic Abortions): 
 										</td>
 										<td class="nested-td">
 											<obs conceptId="160547"/>
@@ -683,7 +683,7 @@ window.open(url );
 									</tr>
 									<tr>
 										<td class="nested-label">
-											L : 
+											L (Living Children): 
 										</td>
 										<td class="nested-td">
 											<obs conceptId="1825"/>
