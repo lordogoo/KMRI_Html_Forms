@@ -217,7 +217,9 @@ console.log('addedCount ' + addedCount);
 					group.children("#disabled").find("select").attr("disabled",false);
 					group.children("#disabled").find("textarea").attr("disabled",false);
 					}
+        <ifMode mode="VIEW">
 					disableFn();
+</ifMode>
 					$j(this).children("#trigger").find(":checkbox:first").change(function(){
 						var checked = $j(this).attr("checked");
 						if(checked == true){
@@ -1953,22 +1955,7 @@ Reportable Diagnoses:
 						<tr>
 							<td>
 								<obs id="{n}-list" conceptId="6042" 
-
-answerConceptIds="120295,150452,121629,117152,121605,121005,116543,892,122604,160148,78,119481,142412,111491,79,136677,152,117086,155,1408
-
-32,117399,149745,116128,160152,115122,134561,134369,77,149197,160204,114120,114100,114088,5258,80,126582,112992,124957,112141,141,111633,1
-
-23112,122759" answerLabels="Abortion,Accidents - Fractures/Injuries etc,Aneamia,Bilharzia,Bites - 
-
-Animal/Snake/etc,Brucellosis,Burns,Chicken Pox,Cholera,Confirmed Malaria,Dental Disorders,Diabetes,Diarrhoea,Dis. of Puerperium &amp; 
-
-Childbirth,Dis. of the skin (incl. wounds),Dracunculosis,Dysentery,Ear Infections,Epilepsy,Eye Infections,Hypertension,Infectious 
-
-Hepatitis,Malaria,Malaria in pregnancy,Malnutrition,Measles,Meningococcal Meningitis,Mental Disorders,New AIDS Cases,Other Dis. of 
-
-Repiratory System,Plague,Pneumonia,Poisoning,Poliomyelitis (AFP),Rheumatism/Joint Pains etc.,Sexual Assault,Sexually Transmitted 
-
-Infections,Tetanus,Tuberculosis,Typhoid fever,Urinary Tract Infection,Viral Haemorrhagic Fever,Yellow Fever" />
+answerConceptIds="120295,150452,121629,117152,121605,121005,116543,892,122604,160148,78,119481,142412,111491,79,136677,152,117086,155,140832,117399,149745,116128,160152,115122,134561,134369,77,149197,160204,114120,114100,114088,5258,80,126582,112992,124957,112141,141,111633,123112,122759" answerLabels="Abortion,Accidents - Fractures/Injuries etc,Aneamia,Bilharzia,Bites - Animal/Snake/etc,Brucellosis,Burns,Chicken Pox,Cholera,Confirmed Malaria,Dental Disorders,Diabetes,Diarrhoea,Dis. of Puerperium &amp; Childbirth,Dis. of the skin (incl. wounds),Dracunculosis,Dysentery,Ear Infections,Epilepsy,Eye Infections,Hypertension,Infectious Hepatitis,Malaria,Malaria in pregnancy,Malnutrition,Measles,Meningococcal Meningitis,Mental Disorders,New AIDS Cases,Other Dis. of Repiratory System,Plague,Pneumonia,Poisoning,Poliomyelitis (AFP),Rheumatism/Joint Pains etc.,Sexual Assault,Sexually Transmitted Infections,Tetanus,Tuberculosis,Typhoid fever,Urinary Tract Infection,Viral Haemorrhagic Fever,Yellow Fever" />
 
 							</td>
 							<td><button id="{n}-addEntry" field="RD_{n}" class="addEntry">Add</button><button 

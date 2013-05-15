@@ -285,7 +285,10 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					group.children("#disabled").find("select").attr("disabled",false);
 					group.children("#disabled").find("textarea").attr("disabled",false);
 					}
+
+        <ifMode mode="VIEW">
 					disableFn();
+</ifMode>
 					$j(this).children("#trigger").find(":checkbox:first").change(function(){
 						var checked = $j(this).attr("checked");
 						if(checked == true){
