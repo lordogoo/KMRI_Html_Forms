@@ -2249,7 +2249,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 											<obs field="REF_mhs" answerConceptId="5489" conceptId="1272" style="checkbox" answerLabel="Mental Health Services"> </obs>
 										</td>
 										<td class="nested-td" colspan="2">
-											<obs field="REF_mtct" answerConceptId="1776" conceptId="1272" style="checkbox" answerLabel="MTCT"> </obs>
+											<obs field="REF_mtct" answerConceptId="1776" conceptId="1272" style="checkbox" answerLabel="Prevention of Mother to Child Transmission"> </obs>
 										</td>
 									</tr>
 								<tr>
