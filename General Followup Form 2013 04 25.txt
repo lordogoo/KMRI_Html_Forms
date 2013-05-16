@@ -987,7 +987,11 @@ answerConceptId="123529" answerLabel="Urethral Discharge" style="checkbox"/>
 									<div class="secondary" id="disabled">
 										<obs field="GU_udduration" conceptId="5996" 
 
-labelText="Duration: " answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months"/>
+labelText="Duration: " /> <obs conceptId="1732" field="GU_vddurationunits2" answerConceptIds="1822,1072,1073,1074" 
+
+answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+
+	
 									</div>
 								</div>
 							</td>
