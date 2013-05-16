@@ -1380,7 +1380,7 @@ style="checkbox" answerLabel="Bronchial breath sounds"> </obs>
 							<obs field="CHEST_rhonchi" answerConceptId="5181" conceptId="1123" style="checkbox" 
 
 answerLabel="Rhonchi"> </obs>
-							<obs field="CHEST_wheezes" answerConceptId="5209" conceptId="1123" 
+							<br/><obs field="CHEST_wheezes" answerConceptId="5209" conceptId="1123" 
 
 style="checkbox" answerLabel="Wheezes"> </obs>
 							<obs field="CHEST_crepitations" answerConceptId="5127" conceptId="1123" 
