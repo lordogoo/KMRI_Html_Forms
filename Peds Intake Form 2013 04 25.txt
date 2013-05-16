@@ -1915,7 +1915,7 @@ window.open(url );
 						<b>Auscultation:</b>
 						<obs field="C_bsd" answerConceptId="5115" conceptId="1123" style="checkbox" answerLabel="Breath sounds diminished"> </obs>
 						<obs field="C_bbs" answerConceptId="5116" conceptId="1123" style="checkbox" answerLabel="Bronchial breath sounds"> </obs>
-						<obs field="C_ronchi" answerConceptId="5181" conceptId="1123" style="checkbox" answerLabel="Ronchi"> </obs>
+						<obs field="C_ronchi" answerConceptId="5181" conceptId="1123" style="checkbox" answerLabel="Rhonchi"> </obs>
 						<obs field="C_whe" answerConceptId="5209" conceptId="1123" style="checkbox" answerLabel="Wheezes"> </obs>
 						<obs field="C_crep" answerConceptId="5127" conceptId="1123" style="checkbox" answerLabel="Crepitations"> </obs>
 						<obs field="C_strid" answerConceptId="125782" conceptId="1123" style="checkbox" answerLabel="Stridor"/>
