@@ -1267,7 +1267,7 @@ window.open(url );
 						</tr>
 						<tr>
 							<td class="nested-td">
-								<obs field="DDH_au" conceptId="160706" labelText="Age of unsupported walking:"/>
+								<obs field="DDH_au" conceptId="160706" labelText="Age of unsupported walking:"/> months
 							</td>
 						</tr>
 						<tr>
