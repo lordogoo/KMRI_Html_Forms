@@ -33,9 +33,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
                 // startRow is the first row in the array 
                 // numberRows is the number of rows in this block
                 // numListElements is the number of elements in each row
-                // if numListElements is more than one allBlank TRUE means to ensure all elements are blank otherwise checks just the 
-
-first
+                // if numListElements is more than one allBlank TRUE means to ensure all elements are blank otherwise checks just the first
                 //
            
                 var i = startRow;
@@ -101,7 +99,6 @@ first
                             addedCount = 1;
                         };
 		};
-console.log('addedCount ' + addedCount);
                 // make sure all of the ones we have display	
 		for(i=1; addedCount>=i; i++){
                         var rowNumber = startRow + i - 1;
@@ -125,7 +122,9 @@ console.log('addedCount ' + addedCount);
                                 //don't need an add button on the 44 entry because they can only add 44
 				$j('#44-addEntry').remove();
 
-                              });
+                               //don't need a button on 54 surgeries because they can only add 10
+				$j('#54-addEntry').remove();
+                               });
 
 	        $j(document).ready(function(){
 				$j('button.addEntry').live("click", function(){
@@ -142,8 +141,12 @@ console.log('addedCount ' + addedCount);
 					     var correctedAddButtonId = parseFloat(this.id) + 1;
 
                                             // determine the right count to update
-                                            valuestring = 'addedDiagnosisCount.value';
-                              
+                                           if (this.id > 44) {
+                                                valuestring = 'addedSurgeryCount.value';
+                                            } else {
+                                                valuestring = 'addedDiagnosisCount.value';
+                                            };
+
                                             //once we have the right count string, get the current count and increment if we have added
                                             var currentCount = getValue(valuestring);
                                             if (correctedAddButtonId>currentCount){
@@ -159,6 +162,7 @@ console.log('addedCount ' + addedCount);
 					}
 				
                                         return false;
+					});
 				});
 
             	$j(document).ready(function(){
@@ -167,16 +171,20 @@ console.log('addedCount ' + addedCount);
 					
                                         // update the right count - 1 - 44 reportable diagnoses 45 -54 surgery
                                         var whichBlock = 1;
-                                        setValue('addedDiagnosisCount.value', Number(getValue('addedDiagnosisCount.value')) - 1);
-                                  	var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+                                        if (correctedRemoveButtonId > 44) {
+                                            setValue('addedSurgeryCount.value', Number(getValue('addedSurgeryCount.value')) - 1);
+                                            whichBlock = 2;
+                                        } else {
+                                            setValue('addedDiagnosisCount.value', Number(getValue('addedDiagnosisCount.value')) - 1);
+                                        };
+					var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
 					$j(contentAddId).toggle(false);
 					$j( ':input:not(:button)', contentAddId).val([]);
                                         //
                                         // only need an addEntry button on the last diagnosis or last surgery 
                                         //
-                                        if (((correctedRemoveButtonId == getValue('addedDiagnosisCount.value')) &amp;&amp; (whichBlock == 
-
-1) ) {
+                                        if (((correctedRemoveButtonId == getValue('addedDiagnosisCount.value')) &amp;&amp; (whichBlock == 1) )
+                                       ||   (correctedRemoveButtonId == getValue('addedSurgeryCount.value'))   &amp;&amp; (whichBlock == 2) ) {
 					     $j('#' + correctedRemoveButtonId + '-addEntry').toggle(true); 
                                         };
                                         $j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
@@ -190,9 +198,46 @@ console.log('addedCount ' + addedCount);
          beforeSubmit.push(function() {
 
                 setValue('addedDiagnosisCount.value', removeBlanks(1,44,"-list.value",1,false));
+                setValue('addedSurgeryCount.value', removeBlanks(45,10,"-list.value",2,false));
                 return true;
          }); 
      
+		/***********************************************************
+		  ==== Dylan's duration function ====
+		  ensures that a duration pair has both a quantity and units
+		 ***********************************************************/
+		$j(document).ready(function(){
+				var durationCount = $j(".duration").length;
+				var index = 0;
+				var durationCheck = true;
+
+				$j(".duration").each(function(){
+					index++;
+					var group = $j(this);
+					var id = index;
+					beforeSubmit.push(function() {
+    						var numeric = group.find("input[type$='text']:first").val();
+						var dropdown = group.find("select:first").val();
+						var errorID = group.find(".error:last").attr('id');
+						clearError(errorID);
+
+						if ((dropdown == '' &amp;&amp; numeric != '') || (dropdown != '' &amp;&amp; numeric =='')) {
+						showError(errorID,'<br/>Need quantity and units');
+							if (durationCheck) {
+								group.find("select:first").focus();
+								durationCheck = false;
+							}
+						}
+						if (id == durationCount) {
+							var ret = durationCheck;
+							durationCheck = true;
+							return ret;
+						}
+						return true;
+					});
+				});
+		});
+
 		$j(document).ready(function(){
 				if ( $j.browser.msie ) {
 				$j(":checkbox").click(function(){
@@ -217,7 +262,7 @@ console.log('addedCount ' + addedCount);
 					group.children("#disabled").find("select").attr("disabled",false);
 					group.children("#disabled").find("textarea").attr("disabled",false);
 					}
-                                                      <ifMode mode="ENTER" include="true">
+                                               <ifMode mode="ENTER" include="true">
 						disableFn();
                                                 </ifMode>
                                                 <ifMode mode="VIEW" include="true">
@@ -228,11 +273,10 @@ console.log('addedCount ' + addedCount);
 						if(checked == true){
 						enableFn();
 						}else{
-						disableFn();
+                                                disableFn();
 						}
 						});
 				});
-
 
 				$j(".checkboxGroup").each(function(){
 						var group = $j(this);
@@ -241,36 +285,26 @@ console.log('addedCount ' + addedCount);
 						group.find("input[type$='checkbox']").change();
 						}
 						var uncheckRadioAndAll = function(){
-						group.find("#checkboxAll,#checkboxRadio").find("input[type$='checkbox']").attr
-
-("checked",false);
+						group.find("#checkboxAll,#checkboxRadio").find("input[type$='checkbox']").attr("checked",false);
 						group.find("#checkboxAll,#checkboxRadio").find("input[type$='checkbox']").change();
 						}
-
-
 
 						group.find("#checkboxAll").find("input").click(
 							function(){
 							var flip;
 							var checked = $j(this).siblings(":checkbox:first").attr("checked");
-							if($j(this).attr("name") == $j(this).parents("#checkboxAll:first").find
-
-(":checkbox:first").attr("name")){
+							if($j(this).attr("name") == $j(this).parents("#checkboxAll:first").find(":checkbox:first").attr("name")){
 							checked = $j(this).attr("checked");
 							flip = checked;
 							}else{
 							flip = !checked;
 							}
-							if($j(this).attr("type") == "text") if(flip == false) flip = !flip; // this is so 
-
-the user doesn't go to check the checkbox, then uncheck it when they hit the input.
+							if($j(this).attr("type") == "text") if(flip == false) flip = !flip; // this is so the user doesn't go to check the checkbox, then uncheck it when they hit the input.
 							uncheckAll();
 							$j(this).parents("#checkboxAll:first").find(":checkbox").attr("checked",flip);
 							$j(this).parents("#checkboxAll:first").find(":checkbox").change();
 							}
 							);
-
-
 
 						group.find("#checkboxRadio").find("input[type$='checkbox']").click(function(){
 								uncheckAll();
@@ -287,56 +321,15 @@ the user doesn't go to check the checkbox, then uncheck it when they hit the inp
 				});
 		});
 	}
-beforeSubmit.push(function() {
-		setValue('addedCountConcept.value', problemsAdded);
-		setValue('resolvedCountConcept.value', problemsResolved);
-		return true;
-		});
 
-function openImpressions(){
-var url = "/openmrs/module/impressions/impressionList.list\?nw=1\u0026patientId=" + document.getElementById('patid').innerHTML.trim();
+</script>
 
-
-window.open(url );
-}
-	</script>
-
-	<!-- TRAVIS' FUNCTION -->
-	<script>
-		$j(function() {
-
-			var addedCount = document.getElementById('addedCountConcept').innerHTML;
-			var resolvedCount = document.getElementById('resolvedCountConcept').innerHTML;
-			var regex = /(&lt;([^>]+)>)/ig;
-			var addedInt = addedCount.replace(regex, "");
-			var resolvedInt = resolvedCount.replace(regex, "");
-			addedCount = Number(addedInt);
-			resolvedCount = Number(resolvedInt);
-			if (addedCount == null || addedCount == '' || addedCount== 0){
-				addedCount=1;
-			};
-			if (resolvedCount == null || resolvedCount == ''|| resolvedCount == 0){
-				resolvedCount=1;
-			};
-			var dynString = "#1-toggleContainer";
-			$j(dynString).show();
-			for(i=1; addedCount >= i; i++){
-				var dynString = "#" + i + "-addEntry";
-				if (i != addedCount){
-					$j(dynString).click();
-				}	
-			};
-			var dynString = "#44-toggleContainer";
-			$j(dynString).show();
-			for(k=44; resolvedCount + 43 >= k; k++){
-				var dynString = "#" + k + "-addEntry";
-				if (k != resolvedCount + 43){
-					$j(dynString).click();
-				}		
-			};
-
-		});
-	</script>
+<script type="text/javascript">
+	function openGrowthChart() {
+		var id ="<lookup expression="patient.patientId"/>";
+		window.open('../growthchart/growthChart.htm?patientId=' + id, 'summaryWindow', 'toolbar=no,width=660,height=600,resizable=yes,scrollbars=yes').focus();
+	}
+</script>
 
 
 
