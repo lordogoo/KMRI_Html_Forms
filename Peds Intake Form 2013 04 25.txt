@@ -1641,43 +1641,6 @@ window.open(url );
 						</tr>
 					</table>		
 				</td>
-				<td>
-					<div class="enableDisable">
-						<h4> Employment: </h4>
-						<div id="trigger">
-							<obs conceptId="5608" answerLabel="Patient is employed outside the home" style="checkbox"/>
-						</div>
-
-						<div id="disabled" class="secondary">
-							<table>
-								<tr>
-									<td class="nested-label">
-										Occupation:
-									</td>
-									<td class="nested-td">
-										<obs conceptId="160631"/>
-									</td>
-								</tr>
-								<tr>
-									<td class="nested-label">
-										Location: 
-									</td>
-									<td class="nested-td">
-										<obs conceptId="160519"/>
-									</td>
-								</tr>
-								<tr>
-									<td class="nested-label">
-										How long:
-									</td>
-									<td class="nested-td">
-										<obs conceptId="160520"/>years
-									</td>
-								</tr>
-							</table>						
-						</div>
-					</div>
-				</td>
 			</tr>
 		</table>
 		</section>
