@@ -870,6 +870,15 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 													<obs field="GU_amenorrhea" conceptId="160575" answerConceptId="148989" answerLabel="Amenorrhea" style="checkbox"/>
 												</td>
 												<td class="nested-td">
+													<obs field="GU_Oligomenorrhea" conceptId="160575" answerConceptId="114997" answerLabel="Oligomenorrhea" style="checkbox"/>
+												</td>
+												<td class="nested-td">
+													<obs field="GU_Dysmenorrhea" conceptId="160575" answerConceptId="118794" answerLabel="Dysmenorrhea" style="checkbox"/>
+												</td>
+												<td class="nested-td">
+													<obs field="GU_meno" conceptId="160575" answerConceptId="5990" answerLabel="Menopausal" style="checkbox"/>
+												</td>
+												<td class="nested-td">
 													<obs field="GU_postmeno" conceptId="160575" answerConceptId="113928" answerLabel="Post-menopausal" style="checkbox"/>
 												</td>
 											</tr>
@@ -1630,25 +1639,16 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 									Occupation:
 								</td>
 								<td class="nested-td">
-									<obs field="EMPLOY_occupation" conceptId="160631"/>
+									<obs field="EMPLOY_occupation" conceptId="1542" showCommentField="true"/>
 								</td>
 							</tr>
 							<tr>
-								<td class="nested-label">
-									Location: 
-								</td>
-								<td class="nested-td">
-									<obs field="EMPLOY_location" conceptId="160519"/>
+								<td>
+									Relevant Past Employment History:
+									<obs field="EMPLOY_comments" conceptId="1542"/>
 								</td>
 							</tr>
-							<tr>
-								<td class="nested-label">
-									How long:
-								</td>
-								<td class="nested-td">
-									<obs field="EMPLOY_time" conceptId="160520"/>years
-								</td>
-							</tr>
+
 						</table>						
 					</div>
 				</div>
