@@ -810,13 +810,25 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					</tr>
 					<tr id="checkboxCheckbox">
 						<td class="nested-td">
-							<obs field="HEENT_hearing" conceptId="1070" answerConceptId="861" answerLabel="Hearing difficulties" style="checkbox"/>
+							<obs field="HEENT_vd" conceptId="1070" answerConceptId="5953" answerLabel="Vision difficulties" style="checkbox"/>
 						</td>
 						<td class="nested-td">
-							<obs field="HEENT_vision" conceptId="1070" answerConceptId="5953" answerLabel="Vision difficulties" style="checkbox"/>
+							<obs field="HEENT_hd" conceptId="1070" answerConceptId="861" answerLabel="Hearing difficulties" style="checkbox"/>
 						</td>
 						<td class="nested-td">
-							<obs field="HEENT_swallow" conceptId="1070" answerConceptId="5954" answerLabel="Swallowing difficulties" style="checkbox"/>
+							<obs field="HEENT_oto" conceptId="1070" answerConceptId="873" answerLabel="Otorrhea" style="checkbox"/>
+						</td>
+						<td class="nested-td">
+							<obs field="HEENT_rhino" conceptId="1070" answerConceptId="115403" answerLabel="Rhinorrhea" style="checkbox"/>
+						</td>
+						<td class="nested-td">
+							<obs field="HEENT_sd" conceptId="1070" answerConceptId="5954" answerLabel="Swallowing difficulties" style="checkbox"/>
+						</td>
+						<td class="nested-td">
+							<obs field="HEENT_os" conceptId="1070" answerConceptId="5244" answerLabel="Oral Sores" style="checkbox"/>
+						</td>
+						<td class="nested-td">
+							<obs field="HEENT_oc" conceptId="1070" answerConceptId="5334" answerLabel="Oral Candidiasis" style="checkbox"/>
 						</td>
 					</tr>
 				</table>
@@ -1567,46 +1579,20 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							<obs field="EDUCATION_unknown" conceptId="1712" answerConceptId="1067" answerLabel="Unknown"/>
 						</td>
 					</tr>
-					<tr id="checkboxRadio">
-						<td class="nested-td">
-							<obs field="EDUCATION_preschool" conceptId="1712" answerConceptId="160289" answerLabel="Preschool education"/>
-						</td>
-						<td class="nested-td">
-							<obs field="EDUCATION_somePrimary" conceptId="1712" answerConceptId="160290" answerLabel="Primary education incomplete"/>
-						</td>
-					</tr>
-					<tr id="checkboxRadio">
 						<td class="nested-td">
 							<obs field="EDUCATION_primary" conceptId="1712" answerConceptId="1713" answerLabel="Primary education"/>
 						</td>
+		
+		
 						<td class="nested-td">
-							<obs field="EDUCATION_someSecondary" conceptId="1712" answerConceptId="160291" answerLabel="Secondary education incomplete"/>
+							<obs field="EDUCATION_secondary" conceptId="1712" answerConceptId="1714" answerLabel="Secondary education"/>
 						</td>
-					</tr>
-					<tr id="checkboxRadio">
+			
+					
 						<td class="nested-td">
-							<obs field="EDUCATION_secondary" conceptId="1712" answerConceptId="1724" answerLabel="Secondary education"/>
+							<obs field="EDUCATION_ug" conceptId="1712" answerConceptId="159785" answerLabel="Polytechnic/College/Undergraduate education"/>
 						</td>
-						<td class="nested-td">
-							<obs field="EDUCATION_someTertiary" conceptId="1712" answerConceptId="160298" answerLabel="Tertiary education incomplete"/>
-						</td>
-					</tr>
-					<tr id="checkboxRadio">
-						<td class="nested-td">
-							<obs field="EDUCATION_tertiary" conceptId="1712" answerConceptId="160292" answerLabel="Tertiary education"/>
-						</td>
-						<td class="nested-td">
-							<obs field="EDUCATION_terType" conceptId="1712" answerConceptId="159785" answerLabel="College/university/polytechnic"/>
-						</td>
-					</tr>
-					<tr id="checkboxRadio">
-						<td class="nested-td">
-							<obs field="EDUCATION_someUG" conceptId="1712" answerConceptId="160299" answerLabel="Undergraduate education incomplete"/>
-						</td>
-						<td class="nested-td">
-							<obs field="EDUCATION_ug" conceptId="1712" answerConceptId="160300" answerLabel="Undergraduate education"/>
-						</td>
-					</tr>
+					
 					<tr id="checkboxRadio">
 						<td class="nested-td">
 							<obs field="EDUCATION_special" conceptId="1712" answerConceptId="160293" answerLabel="Special education received"/>
@@ -1615,7 +1601,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							<div class="enableDisable">
 
 								<div id="trigger">
-									<obs field="EDUCATION_other" conceptId="1712" answerConceptId="160572" answerLabel="Other"/>
+									<obs field="EDUCATION_other" conceptId="1712" answerConceptId="5622" answerLabel="Other"/>
 								</div>
 								<div id="disabled" class="secondary">
 									<obs field="EDUCATION_specify" conceptId="5281" labelText="Specify : "/>
