@@ -581,7 +581,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				</table>
 				<br/>
 				Comments: 
-				<div class="secondary"><obs field="R_comments" id="secondary2" conceptId="160538" style="textarea" rows="5" cols="50"/></div>
+				<div class="secondary"><obs field="R_comments" id="secondary2" conceptId="161011" answerconceptId="160538" style="textarea" rows="5" cols="50"/></div>
 			</td>
 		</tr>
 		<tr>
@@ -660,7 +660,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				</table>
 				<br/>
 				Comments: 
-				<div class="secondary"><obs field="GI_comments" conceptId="160541" style="textarea" rows="5" cols="50"/></div>
+				<div class="secondary"><obs field="GI_comments" conceptId="161011" answerconceptId="160541" style="textarea" rows="5" cols="50"/></div>
 			</td>
 			<td>
 				<h4>Cardiopulmonary: </h4>
@@ -778,7 +778,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 											<obs field="CP_chestRadiating" conceptId="909" answerConceptId="127949" answerLabel="Radiating"/>
 										</div>
 										<div id="disabled" class="secondary">
-											<obs field="CP_chestRadiatingType" conceptId="160608" answerConceptIds="160609,160610,160611" answerLabels="Down arm, To back, Up neck"/>
+											<obs field="CP_chestRadiatingType" conceptId="909" answerConceptIds="160609,160610,160611" answerLabels="Down arm, To back, Up neck"/>
 										</div>	
 									</td>
 								</tr>
@@ -796,7 +796,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					</tr>
 				</table>
 				Comments: 
-				<div class="secondary"><obs field="CP_secondaryWhatIsThisField" conceptId="160540" style="textarea" rows="5" cols="50"/></div>
+				<div class="secondary"><obs field="CP_secondaryWhatIsThisField" conceptId="161011" answerconceptId="160540" style="textarea" rows="5" cols="50"/></div>
 			</td>
 		</tr>
 		<tr>
@@ -834,7 +834,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				</table>
 				<br/>
 				Comments: 
-				<div class="secondary"><obs field="HEENT_comments" conceptId="160539" style="textarea" rows="5" cols="50"/></div>
+				<div class="secondary"><obs field="HEENT_comments" conceptId="161011" answerconceptId="160539" style="textarea" rows="5" cols="50"/></div>
 			</td>
 			<td>
 				<h4>Genitourinary: </h4>
@@ -937,7 +937,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				</table>
 				<br/>
 				Comments: 
-				<div class="secondary"><obs field="GU_comments" conceptId="160542" style="textarea" rows="5" cols="50"/></div>
+				<div class="secondary"><obs field="GU_comments" conceptId="161011" answerconceptId="160542" style="textarea" rows="5" cols="50"/></div>
 			</td>
 		</tr>
 		<tr>
@@ -971,7 +971,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				</table>
 				<br/>
 				Comments: 
-				<div class="secondary"><obs field="MS_comments" conceptId="160543" style="textarea" rows="5" cols="50"/></div>
+				<div class="secondary"><obs field="MS_comments" conceptId="161011" answerconceptId="160543" style="textarea" rows="5" cols="50"/></div>
 			</td>
 			<td class="checkboxGroup">
 				<h4>Central Nervous System: </h4>
@@ -1009,7 +1009,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				</table>
 				<br/>
 				Comments: 
-				<div class="secondary"><obs field="CNS_comments" conceptId="160544" style="textarea" rows="5" cols="50"/></div>
+				<div class="secondary"><obs field="CNS_comments" conceptId="161011" answerconceptId="160544" style="textarea" rows="5" cols="50"/></div>
 			</td>
 		</tr>
 	</table>
@@ -1026,7 +1026,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				<span id="checkboxCheckbox" class="enableDisable">
 					<span id="trigger"><obs field="A_pYes" answerConceptId="1065" conceptId="149071" style="checkbox" answerLabel="Yes"> </obs></span>
 					<br /><span id="disabled"> Specify Reaction:
-						<obs field="A_pReaction" conceptId="160558" answerLabel="Specify Reaction"> </obs>
+						<obs field="A_pReaction" conceptId="149086" answerConceptId="149071" answerLabel="Specify Reaction" style="text"> </obs>
 						<br />
 					</span>
 				</span>
@@ -1037,7 +1037,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				<span id="checkboxCheckbox" class="enableDisable">
 					<span id="trigger"><obs field="A_sYes" answerConceptId="1065" conceptId="6012" style="checkbox" answerLabel="Yes"> </obs></span>
 					<br /><span id="disabled"> Specify Reaction:
-						<obs field="A_sReaction" conceptId="160559" answerLabel="Specify Reaction"> </obs>
+						<obs field="A_sReaction" conceptId="149086" answerConceptId="6012" answerLabel="Specify Reaction" style="text"> </obs>
 						<br />
 					</span>
 				</span>
@@ -1048,9 +1048,9 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				<span id="checkboxCheckbox" class="enableDisable">
 					<span id="trigger"><obs field="A_oYes" answerConceptId="1065" conceptId="1083" style="checkbox" answerLabel="Yes"> </obs></span>
 					<br /><span id="disabled"> Name of drug/product:
-						<obs field="A_oDrug" conceptId="2089" answerLabel="Specify Reaction"> </obs>
+						<!-- TO DO <obs field="A_oDrug" conceptId="2089" answerLabel="Name of Drug"> </obs> -->
 						<br />Specify Reaction:
-						<obs field="A_oReaction" conceptId="160559" answerLabel="Specify Reaction"> </obs>
+						<obs field="A_oReaction" conceptId="149086" answerConceptId="1083" answerLabel="Specify Reaction" style="text"> </obs>
 					</span>
 				</span>
 			</td>
@@ -1631,7 +1631,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							<tr>
 								<td>
 									Relevant Past Employment History:
-									<obs field="EMPLOY_comments" conceptId="1542"/>
+									<obs field="EMPLOY_comments" conceptId="161011" answerconceptId="1542"/>
 								</td>
 							</tr>
 
