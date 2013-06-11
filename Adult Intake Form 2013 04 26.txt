@@ -1303,7 +1303,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 										SA :
 									</td>
 									<td class="nested-td">
-										<obs field="FEMALE_SA" conceptId="160546"/>
+										<obs field="FEMALE_SA" conceptId="48"/>
 									</td>
 								</tr>
 								<tr>
@@ -1311,7 +1311,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 										TA : 
 									</td>
 									<td class="nested-td">
-										<obs field="FEMALE_ta" conceptId="160547"/>
+										<obs field="FEMALE_ta" conceptId="124927"/>
 									</td>
 								</tr>
 								<tr>
