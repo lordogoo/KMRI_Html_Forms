@@ -431,7 +431,6 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 	<li><a href="#S2"> Demographics </a> </li>
 	<li><a href="#S3"> Presenting Complaint </a> </li>
 	<li><a href="#S4"> Review of Systems </a> </li>
-	<li><a href="#S5"> Allergy History </a> </li>
 	<li><a href="#S6"> Current Medications </a> </li>
 	<li><a href="#S7"> Past Medical History </a> </li>
 	<li><a href="#S8"> Social History </a> </li>
@@ -461,12 +460,17 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 	</section>
 </span>
 
+
 <span id="S2">
 	<section headerLabel="Demographic Information">
 	<table class="baseline-aligned">
 		<tr>
 			<td class="label">Name:</td>
 			<td><lookup class="value" expression="patient.personName"/></td>
+		</tr>
+		<tr>
+			<td class="label">Phone Number:</td>
+			<td><lookup class="value" expression="patient.phoneNumber"/></td>
 		</tr>
 		<tr>
 			<td class="label">Old Identification Number:</td>
@@ -526,11 +530,11 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 			<td style="padding-left:5px; padding-top:10px;">
 				<obs field="PC_symptomatic" id="presentingComplaint" conceptId="5219" answerConceptIds="5006,1068" answerLabels="Feeling well,Having symptoms" style="radio"/>
 				<br/>
-				CHIEF COMPLAINT: <obs field="PC_chiefComplaint" id="chiefComplaint" conceptId="5219" answerClasses="Chief Complaint" style="autocomplete" />
+				CHIEF COMPLAINT: <obs field="PC_chiefComplaint" id="chiefComplaint" conceptId="5219" answerClasses="Chief Complaint" />
 				<br/>
 
 				Comments: 
-				<div class="secondary"><obs field="PC_comments" id="secondary1" conceptId="160602" style="textarea" rows="8" cols="75"/></div>
+				<div class="secondary"><obs field="PC_comments" id="secondary1" conceptId="161011" answerConceptId="5219" style="textarea" rows="8" cols="75"/></div>
 			</td>
 		</tr>
 	</table>
@@ -561,7 +565,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							<obs field="R_weightLoss" id="weightLoss" conceptId="1069" answerConceptId="832" answerLabel="Weight loss" style="checkbox"/>
 						</td>
 						<td class="nested-td">
-							<obs field="R_nightSweats" id="nightSweats" conceptId="1069" answerConceptId="6029" answerLabel="Night sweats" style="checkbox"/>
+							<obs field="R_nightSweats" id="nightSweats" conceptId="1069" answerConceptId="133027" answerLabel="Night sweats" style="checkbox"/>
 						</td>
 					</tr>
 					<tr id="checkboxCheckbox">
@@ -606,7 +610,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					</tr>
 
 					<tr id="checkboxCheckbox">
-						<obsgroup groupingConceptId="160616">
+						<obsgroup groupingConceptId="5978">
 						<td class="enableDisable">
 							<div id="trigger">	
 								<obs field="GI_nausea" conceptId="1078" answerConceptId="5978" answerLabel="Nausea" style="checkbox"/>
@@ -618,7 +622,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							</div>
 						</td>
 						</obsgroup>
-						<obsgroup groupingConceptId="160618">
+						<obsgroup groupingConceptId="122983">
 						<td class="enableDisable">
 							<div id="trigger">
 								<obs field="GI_vomiting" conceptId="1078" answerConceptId="122983" answerLabel="Vomiting" style="checkbox"/>
@@ -632,7 +636,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 						</obsgroup>
 					</tr>
 					<tr>
-						<obsgroup groupingConceptId="160617">
+						<obsgroup groupingConceptId="142412">
 						<td class="enableDisable">
 							<div id="trigger">
 								<obs id="GI_diarrhea" field="GI_diarrhea" conceptId="1078" answerConceptId="142412" answerLabel="Diarrhea" style="checkbox"/>
@@ -644,14 +648,14 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							</div>
 						</td>
 						</obsgroup>
-						<obsgroup groupingConceptId="160615">
+						<obsgroup groupingConceptId="996">
 						<td class="enableDisable">
 							<div id="trigger">
 								<obs id="GI_constipation" conceptId="1078" answerConceptId="996" answerLabel="Constipation" style="checkbox"/>
 							</div>
 							<div id="disabled" class="secondary">
 								<span class="duration">
-									Duration: <obs field="GI_constipationDuration" conceptId="160613"/><obs field="GI_constipationDurationUnits" conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+									Duration: <obs field="GI_constipationDuration" conceptId="1731" answerConceptId="1078"/><obs field="GI_constipationDurationUnits" conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
 								</span>
 							</div>
 						</td>
@@ -671,7 +675,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 						</td>
 					</tr>
 					<tr id="checkboxCheckbox">
-						<obsgroup groupingConceptId="160619">
+						<obsgroup groupingConceptId="143264">
 						<td class="enableDisable">
 							<div id="trigger">
 								<obs field="CP_cough" conceptId="1071" answerConceptId="143264" answerLabel="Cough" style="checkbox"/>
@@ -694,7 +698,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							</div>
 						</td>
 						</obsgroup>
-						<obsgroup groupingConceptId="160720">
+						<obsgroup groupingConceptId="141600">
 						<td class="enableDisable">
 							<div id="trigger">
 								<obs field="CP_short" conceptId="1071" answerConceptId="141600" answerLabel="Shortness of breath" style="checkbox"/>
@@ -702,7 +706,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							<div id="disabled">
 								<div class="secondary">
 									<obs field="CP_shortRest" conceptId="1071" answerConceptId="5961" answerLabel="At rest" style="checkbox"/>
-									<obs field="CP_shortExert" conceptId="1071" answerConceptId="5963" answerLabel="On exertion" style="checkbox"/>
+									<obs field="CP_shortExert" conceptId="1071" answerConceptId="5973" answerLabel="On exertion" style="checkbox"/>
 								</div>
 								<div class="secondary">
 									<span class="duration">
@@ -714,9 +718,9 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 						</obsgroup>
 					</tr>
 					<tr id="checkboxCheckbox">
-						<obsgroup groupingConceptId="160623">
+						<obsgroup groupingConceptId="120749">
 						<td class="enableDisable" colspan="2">
-							<div id="trigger"><obs field="CP_chestPain" conceptId="1071" answerConceptId="136" answerLabel="Chest pain" style="checkbox"/></div>
+							<div id="trigger"><obs field="CP_chestPain" conceptId="1071" answerConceptId="120749" answerLabel="Chest pain" style="checkbox"/></div>
 							<table id="disabled" class="secondary">
 								<tr>
 									<td class="nested-td">
@@ -778,7 +782,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 											<obs field="CP_chestRadiating" conceptId="909" answerConceptId="127949" answerLabel="Radiating"/>
 										</div>
 										<div id="disabled" class="secondary">
-											<obs field="CP_chestRadiatingType" conceptId="909" answerConceptIds="160609,160610,160611" answerLabels="Down arm, To back, Up neck"/>
+											<obs field="CP_chestRadiatingType" conceptId="909" answerConceptIds="643,1237,541" answerLabels="Cervical -- to Neck, Upper extremities - down arm, Posterior - to back"/>
 										</div>	
 									</td>
 								</tr>
@@ -847,7 +851,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					<includeIf velocityTest="$patient.gender == 'F' ">
 
 					<tr id="checkboxCheckbox">
-						<obsgroup groupingConceptId="160620">
+						<obsgroup groupingConceptId="5993">
 						<td class="nested-td">
 							<div class="enableDisable">
 								<div id="trigger">
@@ -871,10 +875,10 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 										<table>
 											<tr>
 												<td class="nested-td">
-													<obs field="GU_regular" conceptId="160575" answerConceptId="1115" answerLabel="Regular" style="checkbox"/>
+													<obs field="GU_regular" conceptId="160596" answerConceptId="1115" answerLabel="Regular" style="checkbox"/>
 												</td>
 												<td class="nested-td">
-													<obs field="GU_irregular" conceptId="160575" answerConceptId="1116" answerLabel="Irregular" style="checkbox"/>
+													<obs field="GU_irregular" conceptId="160596" answerConceptId="1116" answerLabel="Irregular" style="checkbox"/>
 												</td>
 											</tr>
 											<tr>
@@ -913,7 +917,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 
 					<includeIf velocityTest="$patient.gender == 'M' ">
 					<tr id="checkboxCheckbox">
-						<obsgroup groupingConceptId="160653">
+						<obsgroup groupingConceptId="123529">
 						<td class="nested-td">
 							<div class="enableDisable">
 								<div id="trigger">
@@ -1016,62 +1020,6 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 	</section>
 </span>
 
-<span id="S5">
-	<section headerLabel="ALLERGY HISTORY">
-
-	<table id="three-wide" style="width:100%;">
-		<tr>
-			<td class="checkboxGroup" style="width:33%;">Penicillin Allergy
-				<span id="checkboxAll"><obs field="A_pNo" answerConceptId="1066" conceptId="149071" style="checkbox" answerLabel="No"> </obs></span>
-				<span id="checkboxCheckbox" class="enableDisable">
-					<span id="trigger"><obs field="A_pYes" answerConceptId="1065" conceptId="149071" style="checkbox" answerLabel="Yes"> </obs></span>
-					<br /><span id="disabled"> Specify Reaction:
-						<obs field="A_pReaction" conceptId="149086" answerConceptId="149071" answerLabel="Specify Reaction" style="text"> </obs>
-						<br />
-					</span>
-				</span>
-			</td>
-
-			<td class="checkboxGroup" style="width:33%;">Sulfa Allergy
-				<span id="checkboxAll"><obs field="A_sNo" answerConceptId="1066" conceptId="6012" style="checkbox" answerLabel="No"> </obs></span>
-				<span id="checkboxCheckbox" class="enableDisable">
-					<span id="trigger"><obs field="A_sYes" answerConceptId="1065" conceptId="6012" style="checkbox" answerLabel="Yes"> </obs></span>
-					<br /><span id="disabled"> Specify Reaction:
-						<obs field="A_sReaction" conceptId="149086" answerConceptId="6012" answerLabel="Specify Reaction" style="text"> </obs>
-						<br />
-					</span>
-				</span>
-			</td>
-
-			<td class="checkboxGroup" style="width:33%;">Other Allergy
-				<span id="checkboxAll"><obs field="A_oNo" answerConceptId="1066" conceptId="1083" style="checkbox" answerLabel="No"> </obs></span>
-				<span id="checkboxCheckbox" class="enableDisable">
-					<span id="trigger"><obs field="A_oYes" answerConceptId="1065" conceptId="1083" style="checkbox" answerLabel="Yes"> </obs></span>
-					<br /><span id="disabled"> Name of drug/product:
-						<!-- TO DO <obs field="A_oDrug" conceptId="2089" answerLabel="Name of Drug"> </obs> -->
-						<br />Specify Reaction:
-						<obs field="A_oReaction" conceptId="149086" answerConceptId="1083" answerLabel="Specify Reaction" style="text"> </obs>
-					</span>
-				</span>
-			</td>
-		</tr>
-	</table>
-
-	</section>
-</span>
-
-<span id="S6">
-	<section headerLabel="CURRENT MEDICATIONS">
-	<table>
-		<tr>
-			<td>
-				<obs labelText="" style="textarea" cols="150" conceptId="1354" />
-			</td>
-		</tr>
-	</table>
-	</section>
-</span>
-
 <span id="S7">
 	<section headerLabel="Past Medical History">
 	<table id="two-wide">
@@ -1086,44 +1034,43 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 						</td>
 					</tr>
 					<tr>
-						<obsgroup groupingConceptId="160622">
 						<td class="nested-td">
 
 							<div class="enableDisable">
 								<div id="trigger">
-									<obs field="GENERAL_weightGain" conceptId="1633" answerConceptId="122887" answerLabel="Weight gain" style="checkbox"/>
+									<obs field="GENERAL_weightGain" conceptId="5544" answerConceptId="122887" answerLabel="Weight gain" style="checkbox"/> Weight Gain
 								</div>
 								<div id="disabled" class="secondary">
 									<span class="duration">
-										How much? <obs field="GENERAL_weightGainAmount" conceptId="160625"/><obs field="GENERAL_weightGainAmountUnits" conceptId="160563" answerConceptIds="160564,160565" answerLabels="kg,lbs"/>
+										How much? <obs field="GENERAL_weightGainAmount" conceptId="5089" answerConceptId="5544"/> kg
 									</span>
 									<br/>
 									<span class="duration">
-										Over how long? <obs field="GENERAL_weightGainLength" conceptId="160626"/><obs field="GENERAL_weightGainLengthUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
+										Over how long? <obs field="GENERAL_weightGainLength" conceptId="1731"/><obs field="GENERAL_weightGainLengthUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
 									</span>
 								</div>
 							</div>
 						</td>
-						</obsgroup>
-						<obsgroup groupingConceptId="160621">
+
+
 						<td class="nested-td">
 
 							<div class="enableDisable">
 								<div id="trigger">
-									<obs field="GENERAL_weightLoss" conceptId="1633" answerConceptId="832" answerLabel="Weight loss" style="checkbox"/>
+									<obs field="GENERAL_weightLoss" conceptId="1633" answerConceptId="832" answerLabel="Weight loss" style="checkbox"/> Weight Loss
 								</div>
 								<div id="disabled" class="secondary">
 									<span class="duration">
-										How much? <obs field="GENERAL_weightLossAmount" conceptId="160562"/><obs field="GENERAL_weightLossAmountUnits" conceptId="160563" answerConceptIds="160564,160565" answerLabels="kg,lbs"/>
+										How much? <obs field="GENERAL_weightLossAmount" conceptId="5089" answerConceptId="1633"/> kg
 									</span>
 									<br/>
 									<span class="duration">
-										Over how long? <obs field="GENERAL_weightLossTime" conceptId="160561"/><obs field="GENERAL_weightLossTimeUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
+										Over how long? <obs field="GENERAL_weightLossTime" conceptId="1731"/><obs field="GENERAL_weightLossTimeUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
 									</span>
 								</div>
 							</div>
 						</td>
-						</obsgroup>
+
 					</tr>
 				</table>
 			</td>			
@@ -1141,7 +1088,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							Briefly describe reason(s) for hospitalizations:
 
 							<div class="secondary">
-								<obs field="HOSPITAL_reasons" conceptId="160545" style="textarea" cols="50" rows="5"/>
+								<obs field="HOSPITAL_reasons" conceptId="161011" answerConceptId="1655" style="textarea" cols="50" rows="5"/>
 							</div>
 						</div>
 					</div>
@@ -1154,25 +1101,25 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				<table>
 					<tr>
 						<td class="nested-td">
-							<obs field="EXPOSURE_hiv" conceptId="1633" answerConceptId="822" answerLabel="HIV" style="checkbox"/>
+							<obs field="EXPOSURE_hiv" conceptId="1633" answerConceptId="822" answerLabel="HIV" style="checkbox"/> HIV
 						</td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_tb" conceptId="1633" answerConceptId="124068" answerLabel="TB" style="checkbox"/>
+							<obs field="EXPOSURE_tb" conceptId="1633" answerConceptId="124068" answerLabel="TB" style="checkbox"/> TB
 						</td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_other" conceptId="1633" answerConceptId="151056" answerLabel="Other sickness" style="checkbox"/>
+							<obs field="EXPOSURE_other" conceptId="1633" answerConceptId="151056" answerLabel="Other sickness" style="checkbox"/> Other sickness
 						</td>						
 						<td class="nested-td">
-							<obs field="EXPOSURE_animal" conceptId="1633" answerConceptId="160635" answerLabel="Animals" style="checkbox"/>
+							<obs field="EXPOSURE_animal" conceptId="1633" answerConceptId="160635" answerLabel="Animals" style="checkbox"/> Animals
 						</td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_travel" conceptId="1633" answerConceptId="160634" answerLabel="Travel" style="checkbox"/>
+							<obs field="EXPOSURE_travel" conceptId="1633" answerConceptId="124153" answerLabel="Travel" style="checkbox"/> Travel
 						</td>
 					</tr>
 				</table>
 				<br/>
 				Details: 
-				<div class="secondary"><obs field="EXPOSURE_details" conceptId="160636" style="textarea" rows="5" cols="75"/></div>				
+				<div class="secondary"><obs field="EXPOSURE_details" conceptId="161011" answerConceptId="118713" style="textarea" rows="5" cols="75"/></div>				
 			</td>
 			<td>
 				<h4>Tuberculosis Status:</h4>
@@ -1217,19 +1164,19 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 
 								<div class="enableDisable">
 									<div id="trigger">
-										<obs field="TB_pc" conceptId="1633" answerConceptId="5957" answerLabel="Productive cough" style="checkbox"/>
+										<obs field="TB_pc" conceptId="1633" answerConceptId="5957" answerLabel="Productive cough" style="checkbox"/> Productive Cough
 									</div>
 
 									<div id="disabled" class="secondary">
-										<obs field="TB_hemo" conceptId="1633" answerConceptId="138905" answerLabel="Hemoptysis" style="checkbox"/>
+										<obs field="TB_hemo" conceptId="1633" answerConceptId="138905" answerLabel="Hemoptysis" style="checkbox"/> Hemoptysis
 										<br/>
-										<obs field="TB_sputum" conceptId="1633" answerConceptId="125998" answerLabel="Sputum" style="checkbox"/>
+										<obs field="TB_sputum" conceptId="1633" answerConceptId="125998" answerLabel="Sputum" style="checkbox"/> Sputum
 									</div> 
 								</div>
 							</td>
 							<td class="nested-td">
 
-								<obs field="TB_chronic" conceptId="1633" answerConceptId="145455" answerLabel="Chronic cough (longer than 3 weeks)" style="checkbox"/>
+								<obs field="TB_chronic" conceptId="1633" answerConceptId="145455" answerLabel="Chronic cough (longer than 3 weeks)" style="checkbox"/> Chronic cough (longer than 3 weeks)
 							</td>
 						</tr>
 					</table>
@@ -1238,7 +1185,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 		<tr>
 			<td colspan="2">
 				<h4> Surgeries: </h4>
-		<obsgroup groupingConceptId="159619">
+		                <obsgroup groupingConceptId="6042">
 				<repeat>
 				<template>
  				<table>
@@ -1303,7 +1250,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 										SA :
 									</td>
 									<td class="nested-td">
-										<obs field="FEMALE_SA" conceptId="48"/>
+										<obs field="FEMALE_SA" conceptId="161645"/>
 									</td>
 								</tr>
 								<tr>
@@ -1311,7 +1258,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 										TA : 
 									</td>
 									<td class="nested-td">
-										<obs field="FEMALE_ta" conceptId="124927"/>
+										<obs field="FEMALE_ta" conceptId="161644" style="numeric"/>
 									</td>
 								</tr>
 								<tr>
@@ -1357,12 +1304,12 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 											</div>
 
 											<div id="disabled" class="secondary">
-												<obs field="FEMALE_specify" conceptId="160573" labelText="Specify:"/>
+												<obs field="FEMALE_specify" conceptId="161011" labelText="Specify:"/>
 											</div>
 										</div>
 									</td>
 									<td class="nested-td">
-										<obs field="FEMALE_sti" conceptId="160574" labelText="History of STI(s)" style="checkbox"/>
+										<obs field="FEMALE_sti" conceptId="156660" labelText="History of STI(s)" style="checkbox"/>
 									</td>
 								</tr>
 							</table>
@@ -1423,7 +1370,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							How many children have you given birth to?							
 						</td>
 						<td class="nested-td">
-							<obs field="HOUSEHOLD_births" conceptId="132658"/>
+							<obs field="HOUSEHOLD_births" conceptId="160601"/>
 						</td>
 					</tr>
 					<tr>
@@ -1441,7 +1388,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							&lt; 13 years old
 						</td>
 						<td class="nested-td">
-							<obs field="HOUSEHOLD_under13" conceptId="160518"/>
+							<obs field="HOUSEHOLD_under13" conceptId="161646"/>
 						</td>
 					</tr>
 					<tr class="secondary">
@@ -1449,7 +1396,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							&lt; 18 months old
 						</td>
 						<td class="nested-td">
-							<obs field="HOUSEHOLD_under18mo" conceptId="160517"/>
+							<obs field="HOUSEHOLD_under18mo" conceptId="161647"/>
 						</td>
 					</tr>
 					</excludeIf>
@@ -1459,64 +1406,22 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				<h4> Substance Use: </h4>
 				<table>
 					<tr>
-						<obsgroup groupingConceptId="160624">
-						<td class="nested-td">
-							<div class="enableDisable">
-								<div id="trigger">
-									<obs field="SUBSTANCE_alcohol" conceptId="160246" answerLabel="Drinks alcohol" answerConceptId="159449" style="checkbox"/>
-								</div>
+						<td class="nested-label">
 
-								<div id="disabled" class="secondary">
-									<span class="duration">
-										<obs field="SUBSTANCE_alcoholQuantity" conceptId="160521" labelText="Quantity: "/> drinks per <obs field="SUBSTANCE_alcoholUnits" conceptId="1732" answerConceptIds="1072,1073,1074,1734" answerLabels="Day,Week,Month,Year"/>
-									</span>
-								</div>
-							</div>
-						</td>
-						</obsgroup>
-					</tr>
-					<tr>
-						<td class="enableDisable">
-							<div id="trigger">
-								<obs field="SUBSTANCE_illicit" conceptId="160246" answerLabel="Illicit drug user" answerConceptId="160523" style="checkbox"/>
-							</div>
+ How often was a drink containing alcohol consumed in the last year? 			</td>			<td class="nested-td"><obs field="SUBSTANCE_audit3_1" conceptId="5319"/>
+</td></tr><tr>
 
-							<div id="disabled" class="secondary">
-								<obsgroup groupingConceptId="160601">
-								<table>
-									<tr>
-										<td class="nested-label">
-											Type:
-										</td>
-										<td class="nested-td">
-											<obs field="SUBSTANCE_type" conceptId="160568"/>
-										</td>
-									</tr>
-									<tr>
-										<td class="nested-label">
-											Amount:
-										</td>
-										<td class="nested-td">
-											<obs field="SUBSTANCE_amount" conceptId="160600"/>
-										</td>
-									</tr>
+<td class="nested-label">How many drinks containing alcohol were consumed on a typical day when drinking occurred in the past year?		</td>				<td class="nested-td"><obs field="SUBSTANCE_audit3_2" conceptId="5320"/>
+</td>
+</tr><tr>
+<td class="nested-label">How often were six or more drinks consumed on one occasion in the past year? 			</td>			<td class="nested-td"><obs field="SUBSTANCE_audit3_3" conceptId="5321"/>
+</td>
 
-									<tr>
-										<td class="nested-label">
-											Duration:
-										</td>
-										<td class="nested-td">
-										<span class="duration">
-											<obs field="SUBSTANCE_duration" conceptId="160567"/>
-											<obs field="SUBSTANCE_durationUnits" conceptId="1732" answerConceptIds="1072,1073,1074,1734" answerLabels="Days,Weeks,Months,Years"/>
-										</span>
-										</td>
-									</tr>
-								</table>
-								</obsgroup>
-							</div>
-						</td>
-					</tr>
+					</tr></table>
+					<table><tr>
+<td class="nested-label">Substance Use:</td>	<td class="nested-td"><obs field="SUBSTANCE_illicit_1" conceptId="112603" style="checkbox"/></td>
+<td class="nested-label">Other(Specify):</td>	<td class="nested-td"><obs field="SUBSTANCE_illicit_2" conceptId="161011" answerConceptId="112603"/></td>
+					</tr></table><table>
 					<div class="checkboxGroup">
 						<tr id="checkboxRadio">
 							<td class="nested-td">
@@ -1534,8 +1439,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 												<td class="nested-td">
 													<obs field="SUBSTANCE_packs" conceptId="1546"/> packs per day
 												</td>
-											</tr>
-											<tr>
+
 												<td class="nested-label">
 													For how long:  
 												</td>
@@ -1557,7 +1461,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 									</div>
 
 									<div id="disabled" class="secondary">
-										<obs field="SUBSTANCE_quit" conceptId="160522" labelText="Quit Date"/>
+										<obs field="SUBSTANCE_quit" conceptId="159932" labelText="Year of Smoking Cessation"/>
 									</div>
 								</div>
 							</td>
@@ -1612,32 +1516,35 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				</table>		
 			</td>
 			<td>
-				<div class="enableDisable">
-					<h4> Employment: </h4>
-					<div id="trigger">
-						<obs field="EMPLOY_outside" conceptId="5608" labelText="Patient is employed outside the home" style="checkbox"/>
-					</div>
 
-					<div id="disabled" class="secondary">
-						<table>
-							<tr>
-								<td class="nested-label">
+<table>
+				<div class="enableDisable">
+
+					<h4> Employment: </h4>
+
+					<div id="trigger">
+						<obs field="EMPLOY_outside" conceptId="1065" answerConceptId="5608" labelText="Patient is employed outside the home" style="checkbox"/>
+					</div>
+					<div id="disabled" style="padding-left:0px">
+<tr>
+								<td class="nested-label" style="padding-left:0px">
 									Occupation:
 								</td>
 								<td class="nested-td">
 									<obs field="EMPLOY_occupation" conceptId="1542" showCommentField="true"/>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									Relevant Past Employment History:
-									<obs field="EMPLOY_comments" conceptId="161011" answerconceptId="1542"/>
-								</td>
-							</tr>
+</td></tr>
+<tr class="secondary">
 
-						</table>						
+								<td class="nested-td">
+									Relevant Past Employment History:
+									<obs field="EMPLOY_comments" conceptId="1542"/>
+								</td>
+</tr>
+
+					
 					</div>
-				</div>
+		</div>
+</table>
 			</td>
 		</tr>
 	</table>
@@ -1648,40 +1555,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 	<section headerLabel="Sexual Health">
 	<table id="two-wide">
 		<tr>
-			<td>
-				<h4>Current Relationship Status:</h4>
-				<table class="checkboxGroup">	
-					<tr id="checkboxRadio">
-						<td class="nested-td">
-							<obs field="CRS_single" conceptId="1054" answerConceptId="1057" answerLabel="Single" style="checkbox"/>
-						</td>
-						<td class="nested-td">
-							<obs field="CRS_liveIn" conceptId="1054" answerConceptId="1060" answerLabel="Living with partner" style="checkbox"/>
-						</td>
-						<td class="enableDisable">
-							<div id="trigger">
-								<obs field="CRS_married" conceptId="1054" answerConceptId="1057" answerLabel="Legally married" style="checkbox"/>
-							</div>
-							<includeIf velocityTest="$patient.gender == 'M' "> 
-							<div id="disabled" class="secondary">
-								<obs field="CRS_wives" conceptId="5557" labelText="Number of wives"/>
-							</div>
-							</includeIf>
-						</td>
-					</tr>
-					<tr id="checkboxRadio">
-						<td class="nested-td">
-							<obs field="CRS_sep" conceptId="1054" answerConceptId="1056" answerLabel="Separated" style="checkbox"/>
-						</td>
-						<td class="nested-td">
-							<obs field="CRS_div" conceptId="1054" answerConceptId="1058" answerLabel="Divorced" style="checkbox"/>
-						</td>
-						<td class="nested-td">
-							<obs field="CRS_wid" conceptId="1054" answerConceptId="1059" answerLabel="Widowed" style="checkbox"/>
-						</td>
-					</tr>
-				</table>	
-			</td>
+			
 			<td>
 				<h4>Family Planning</h4>
 				<div class="enableDisable">
@@ -1744,12 +1618,12 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				<table>
 					<tr>
 						<td class="nested-td" colspan="2">
-							<obs field="SA_active" conceptId="160550" answerLabel="Currently sexually active" answerConceptId="160109" style="checkbox"/>
+							Sexually Active: <obs field="SA_active" conceptId="160109" style="radio"/>
 						</td>
 					</tr>
 					<tr>
 						<td class="nested-td" colspan="2">
-							<obs field="SA_treated" conceptId="160550" answerConceptId="160551" answerLabel="Patient or partner(s) have been treated for sexually transmitted infections" style="checkbox"/>
+							<obs field="SA_treated" conceptId="160550" answerConceptId="160551" answerLabel="Patient or partner(s) have been treated for sexually transmitted infections" style="checkbox"/> Patient or partner(s) have been treated for sexually transmitted infections
 						</td>
 					</tr>
 					<tr>
@@ -1765,7 +1639,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							Number of sexual partners in past 6 months: 
 						</td>
 						<td class="nested-td" style="padding-right: 0px;">
-							<obs field="SA_longNum" conceptId="160549"/>
+							<obs field="SA_longNum" conceptId="5570"/>
 						</td>
 					</tr>
 				</table>
@@ -1800,7 +1674,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 
 						</tr>
 						<tr>
-							<td class="nested-label">Spo2</td><td class="nested-td"><obs conceptId="5092" />% </td>
+							<td class="nested-label">SpO2</td><td class="nested-td"><obs conceptId="5092" />% </td>
 						</tr>
 						<tr>
 							<td class="nested-label">Wt</td><td class="nested-td"><obs conceptId="5089" />kg</td>
@@ -1836,7 +1710,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 	<table id="two-wide" style="width:100%;">
 		<tr><td style="width:50%;"><h4>General Exam</h4>
 				<obs answerConceptId="5201" conceptId="1119" style="checkbox" answerLabel="Temporal wasting"> </obs><br /><br />
-				Comments: <div class="secondary"><obs conceptId="160525" style="textarea" rows="5" cols="50"></obs></div>
+				Comments: <div class="secondary"><obs conceptId="161011" answerConceptId="1119" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 			<td class="checkboxGroup" style="width:50%;">
 				<h4>Skin</h4>
@@ -1856,7 +1730,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 <obs field="SKIN_ulcer" answerConceptId="112934" conceptId="1120" style="checkbox" answerLabel="Ulcer"> </obs>						
 					</span>
 				</span>
-				<br /><br />Comments: <div class="secondary"><obs field="SKIN_comments" conceptId="160526" style="textarea" rows="5" cols="50"></obs></div>
+				<br /><br />Comments: <div class="secondary"><obs field="SKIN_comments" conceptId="161011" answerConceptId="1120" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 		</tr>
 		<tr>
@@ -1874,7 +1748,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 						<obs field="LN_epit" answerConceptId="160679" conceptId="1121" style="checkbox" answerLabel="epitrochlear"> </obs>
 					</span>
 				</span><br /><br /> 
-				Comments: <div class="secondary"><obs field="LN_comments" conceptId="160527" style="textarea" rows="5" cols="50"></obs></div>
+				Comments: <div class="secondary"><obs field="LN_comments" conceptId="161011" answerConceptId="1121"  style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 			<td class="checkboxGroup"  style="width:50%;">
 				<h4>HEENT</h4>
@@ -1901,16 +1775,16 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 						<obs field="PEHEENT_kaposi_sarcoma" answerConceptId="644" conceptId="1122" style="checkbox" answerLabel="Kaposi Sarcoma"> </obs>
 						<obs field="PEHEENT_poor" answerConceptId="147999" conceptId="1122" style="checkbox" answerLabel="Poor dentition"> </obs>
                                                 <obs field="PEHEENT_ulcers" answerConceptId="160614" conceptId="1122" style="checkbox" answerLabel="Ulcers and rash"> </obs><br /><b>Tonsils: </b>
-                                                <obs field="PEHEENT_enlarged" answerConceptId="536" conceptId="160612" style="checkbox" answerLabel="Enlarged" />
-                                                 <obs field="PEHEENT_erythe" answerConceptId="535" conceptId="160612" style="checkbox" answerLabel="Erythematous" />
-                                                 <obs field="PEHEENT_exudate" answerConceptId="537" conceptId="160612" style="checkbox" answerLabel="Exudate" />
+                                                <obs field="PEHEENT_enlarged" answerConceptId="536" conceptId="1122" style="checkbox" answerLabel="Enlarged" />
+                                                 <obs field="PEHEENT_erythe" answerConceptId="535" conceptId="1122" style="checkbox" answerLabel="Erythematous" />
+                                                 <obs field="PEHEENT_exudate" answerConceptId="537" conceptId="1122" style="checkbox" answerLabel="Exudate" />
 
 
 
 						<br />	
 					</span>
 				</span><br />
-				Comments: <div class="secondary"><obs field="PEHEENT_comments" conceptId="160528" style="textarea" rows="5" cols="50"></obs></div>
+				Comments: <div class="secondary"><obs field="PEHEENT_comments" conceptId="161011" answerConceptId="160612" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 		</tr>
 		<tr>
@@ -1938,7 +1812,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					</span>
 				</span>
 				<br />
-				Comments: <div class="secondary"><obs field="CHEST_comments" conceptId="160529" style="textarea" rows="5" cols="50"></obs></div>
+				Comments: <div class="secondary"><obs field="CHEST_comments" conceptId="161011" answerConceptId="1123" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 			<td class="checkboxGroup" style="width:50%;">
 				<h4>Heart</h4>
@@ -1978,7 +1852,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					</span>
 				</span>
 				<br />
-				Comments: <div class="secondary"><obs field="HEART_comments" conceptId="160530" style="textarea" rows="5" cols="50"></obs></div>
+				Comments: <div class="secondary"><obs field="HEART_comments" conceptId="161011" answerConceptId="1124" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 
 		</tr>
@@ -1999,9 +1873,8 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 								<obs field="ABDOMEN_rightlow" answerConceptId="160381" conceptId="1125" style="checkbox" answerLabel="Right Lower Quadrant"> </obs>
 								<obs field="ABDOMEN_epigas" answerConceptId="5099" conceptId="1125" style="checkbox" answerLabel="Epigastric"> </obs>
 								<obs field="ABDOMEN_suprapub" answerConceptId="575" conceptId="1125" style="checkbox" answerLabel="Suprapubic"> </obs>
-								<obs field="ABDOMEN_leftflank" answerConceptId="160515" conceptId="1125" style="checkbox" answerLabel="Left Flank"> </obs>
-								<obs field="ABDOMEN_rightflank" answerConceptId="160516" conceptId="1125" style="checkbox" answerLabel="Right Flank"> </obs>
-								<obs field="ABDOMEN_periumbilicial" answerConceptId="104307" conceptId="1125" style="checkbox" answerLabel="Periumbilical"> </obs>
+								<obs field="ABDOMEN_leftflank" answerConceptId="140070" conceptId="1125" style="checkbox" answerLabel="Flank Pain"> </obs>
+								<obs field="ABDOMEN_periumbilicial" answerConceptId="124998" conceptId="1125" style="checkbox" answerLabel="Periumbilical"> </obs>
 								)<br />
 							</span>
 						</span>
@@ -2024,20 +1897,20 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 
 					</span>
 				</span>
-				<br />Comments: <div field="ABDOMEN_comments" class="secondary"><obs conceptId="160531" style="textarea" rows="5" cols="50"></obs></div>
+				<br />Comments: <div field="ABDOMEN_comments" class="secondary"><obs conceptId="161011" answerConceptId="1125" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 			<td class="checkboxGroup" style="width:50%;">
 				<h4>Urogenital</h4>
-				<span id="checkboxRadio"><obs field="UG2_normal" answerConceptId="1115" conceptId="1127" style="checkbox" answerLabel="Normal"> </obs>
-					<obs field="UG2_abnormal" answerConceptId="1116" conceptId="1127" style="checkbox" answerLabel="Abnormal"> </obs>
-					<obs field="UG2_notDone" answerConceptId="1118" conceptId="1127" style="checkbox" answerLabel="Not Done"> </obs>
+				<span id="checkboxRadio"><obs field="UG2_normal" answerConceptId="1115" conceptId="1126" style="checkbox" answerLabel="Normal"> </obs>
+					<obs field="UG2_abnormal" answerConceptId="1116" conceptId="1126" style="checkbox" answerLabel="Abnormal"> </obs>
+					<obs field="UG2_notDone" answerConceptId="1118" conceptId="1126" style="checkbox" answerLabel="Not Done"> </obs>
 				</span>
-				<br /><br />Comments:  <div class="secondary"><obs field="UG2_comments" conceptId="160532" style="textarea" rows="5" cols="50"></obs></div>
+				<br /><br />Comments:  <div class="secondary"><obs field="UG2_comments" conceptId="161011" answerConceptId="1126" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 		</tr>
 		<tr>
 			<td class="checkboxGroup" style="width:50%;">
-				<h4>Extremeties</h4>
+				<h4>Extremities</h4>
 				<span id="checkboxAll"><obs field="EXT_normal" answerConceptId="1115" conceptId="1127" style="checkbox" answerLabel="Normal"> </obs></span>
 				<span id="checkboxCheckbox" class="enableDisable">
 					<span id="trigger"><obs field="EXT_abnormal" answerConceptId="1116" conceptId="1127" style="checkbox" answerLabel="Abnormal"> </obs></span>
@@ -2048,13 +1921,13 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 						<obs field="EXT_kaposi" answerConceptId="507" conceptId="1127" style="checkbox" answerLabel="Kaposi sarcoma"></obs>
 					</span>
 				</span>
-				<br /><br />Comments:  <div class="secondary"><obs field="EXT_comments" conceptId="160533" style="textarea" rows="5" cols="50"></obs></div>
+				<br /><br />Comments:  <div class="secondary"><obs field="EXT_comments" conceptId="161011" answerConceptId="1127" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 			<td style="width:50%;">
 				<h4>Musculoskeletal</h4>
 				<obs answerConceptId="1115" field="MS2_normal" conceptId="1128" style="checkbox" answerLabel="Normal"> </obs>
 				<obs answerConceptId="1116" field="MS2_abnormal" conceptId="1128" style="checkbox" answerLabel="Abnormal"> </obs>
-				<br /><br />Comments:  <div class="secondary"><obs field="MS2_comment" conceptId="160534" style="textarea" rows="5" cols="50"></obs></div>
+				<br /><br />Comments:  <div class="secondary"><obs field="MS2_comment" conceptId="161011" answerConceptId="1128" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 		</tr>
 		<tr>
@@ -2065,12 +1938,12 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					<span id="trigger"><obs field="NL2_abnormal" answerConceptId="1116" conceptId="1129" style="checkbox" answerLabel="Abnormal"> </obs></span>
 					<span id="disabled">
 						<obs field="NL2_cranial" answerConceptId="599" conceptId="1129" style="checkbox" answerLabel="Cranial nerve abnormality"></obs>
-						<obs field="NL2_lower" answerConceptId="160628" conceptId="1129" style="checkbox" answerLabel="Decreased sensation lower extremeties"></obs>
-						<obs field="NL2_upper" answerConceptId="160629" conceptId="1129" style="checkbox" answerLabel="Decreased sensation upper extremeties"></obs>
+						<obs field="NL2_lower" answerConceptId="160628" conceptId="1129" style="checkbox" answerLabel="Decreased sensation lower extremities"></obs>
+						<obs field="NL2_upper" answerConceptId="160629" conceptId="1129" style="checkbox" answerLabel="Decreased sensation upper extremities"></obs>
 						<obs field="NL2_gait" answerConceptId="5108" conceptId="1129" style="checkbox" answerLabel="Abnormal gait"> </obs>
 						<obs field="NL2_focal" answerConceptId="6005" conceptId="1129" style="checkbox" answerLabel="Focal weakness"> </obs>
 					</span>
-				</span><br /><br />Comments:   <div class="secondary"><obs field="NL2_comments" conceptId="160535" style="textarea" rows="5" cols="50"></obs></div>
+				</span><br /><br />Comments:   <div class="secondary"><obs field="NL2_comments" conceptId="161011" answerConceptId="1129" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 			<td class="checkboxGroup" style="width:50%;">
 				<h4>Psychiatric</h4>
@@ -2088,7 +1961,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 <obs field="PSYCH_suicidal" answerConceptId="158978" conceptId="1130" style="checkbox" answerLabel="Suicidal"> </obs>
 					</span>
 				</span>
-				<br /><br />Comments:  <div class="secondary"><obs field="PSYCH_comments" conceptId="160536" style="textarea" rows="5" cols="50"></obs></div>
+				<br /><br />Comments:  <div class="secondary"><obs field="PSYCH_comments" conceptId="161011" answerConceptId="1130" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 		</tr>
 	</table>
@@ -2240,22 +2113,26 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 									</tr>
 								<tr>
 									<td class="nested-td" colspan="4">
-										<div id="checkboxCheckbox" class="enableDisable">
-											<div id="trigger"><obs field="REF_other" answerConceptId="5622" conceptId="1272" style="checkbox" answerLabel="Other Referral (Specify):"> </obs></div>
-											<div id="disabled">
-												<obs  field="REF_specify" conceptId="160556"> </obs>
-											</div>
+										<div id="checkboxCheckbox">
+											<div><obs field="REF_other" answerConceptId="5622" conceptId="161011" answerLabel="Other Referral (Specify):"> </obs></div>
 										</div>
 										<div id="checkboxCheckbox" class="enableDisable">
 											<div id="trigger"><obs field="REF_ipch" answerConceptId="5488" conceptId="1272" style="checkbox" answerLabel="Inpatient Care/Hospitalization"> </obs></div>
 											<div id="disabled">(
 												<obs field="REF_mtrh" answerConceptId="1274" conceptId="1273" style="checkbox" answerLabel="MTRH"> </obs>
 												<obs field="REF_lhch" answerConceptId="1275" conceptId="1273" style="checkbox" answerLabel="Local Health Center/Hospital"> </obs>
-												<obs field="REF_other" answerConceptId="5622" conceptId="1273" style="checkbox" answerLabel="Other Facility:"> </obs>
-												<obs  field="REF_otherSpecify" conceptId="160557"> </obs> )
+<div id="checkboxCheckbox" class="enableDisable">
+<div id="trigger">
+												<obs field="REF_otherFac" answerConceptId="5622" conceptId="1273" style="checkbox" answerLabel="Other Facility:"> </obs></div>
+<div id="disabled">
+												<obs  field="REF_otherSpecify" conceptId="161011" answerConceptId="1273"> </obs> )
+</div></div>
 											</div>
 										</div>
 									</td>
+<td>
+Reason for Referrals: <obs field="REF_reasonFor" conceptId="161011" answerConceptId="1273"/>
+</td>
 								</tr>
 
 					</table>
@@ -2271,24 +2148,19 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 <br />
 
 Reportable Diagnoses:
-             
-
-	<table>
-		<obsgroup groupingConceptId="1284">
-		<tr valign="top">
-			<td>
+            
+<obsgroup groupingConceptId="161602">
 				<repeat>
 				<template>
-				<div id="{n}-toggleContainer" style="display:none;" class="secondary">
-					<table>
-						<tr>
-							<td>
-							<obs id="{n}-list" field="REPORTABLE_{n}" conceptId="6042" answerClasses="RequiredDiagnosis" />
+ 				<table>
+					<tr id="{n}-toggleContainer" style="display:none;">
+					
+							<td class="nested-td">
+							<obs id="{n}-list" field="REPDIAG_{n}" conceptId="161602" answerClasses="RequiredDiagnosis" showCommentField="true"/>
 							</td>
-							<td><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 						</tr>
 					</table>
-				</div>
 				</template>
 				<render n="1"/>
 				<render n="2"/>
@@ -2300,48 +2172,14 @@ Reportable Diagnoses:
 				<render n="8"/>
 				<render n="9"/>
 				<render n="10"/>
-				<render n="11"/>
-				<render n="12"/>
-				<render n="13"/>
-				<render n="14"/>
-				<render n="15"/>
-				<render n="16"/>
-				<render n="17"/>
-				<render n="18"/>
-				<render n="19"/>
-				<render n="20"/>
-				<render n="21"/>
-				<render n="22"/>
-				<render n="23"/>
-				<render n="24"/>
-				<render n="25"/>
-				<render n="26"/>
-				<render n="27"/>
-				<render n="28"/>
-				<render n="29"/>
-				<render n="30"/>
-				<render n="31"/>
-				<render n="32"/>
-				<render n="33"/>
-				<render n="34"/>
-				<render n="35"/>
-				<render n="36"/>
-				<render n="37"/>
-				<render n="38"/>
-				<render n="39"/>
-				<render n="40"/>
-				<render n="41"/>
-				<render n="42"/>
-				<render n="43"/>
-                                <render n="44"/>
 				</repeat>
-			</td>
-                 </tr>
 		</obsgroup>
-	</table>
+<span id="test"> </span>
+
+
         <div id="patid" style="display:none;"><lookup expression="patient.id"/></div> 
 <br />
-	Comments:  <div class="secondary"> <obs field="REPORTABLE_comments" conceptId="160537" style="textarea" rows="5" cols="50"></obs></div>		
+	Comments:  <div class="secondary"> <obs field="REPORTABLE_comments" conceptId="161011"  style="textarea" rows="5" cols="50"></obs></div>		
 
 	<br />
 
@@ -2355,8 +2193,8 @@ Reportable Diagnoses:
 
 	<!-- Hidden concepts for add/remove sections -->
 	<span id="testspan" style="display:none;">
-		<obs id="addedDiagnosisCount" conceptId="160569" />
-                <obs id="addedSurgeryCount" conceptId="160570" />
+		<obs id="addedDiagnosisCount" conceptId="161649" />
+                <obs id="addedSurgeryCount" conceptId="161648" />
 	</span>
 
 	<!-- TRAVIS' FUNCTION -->
