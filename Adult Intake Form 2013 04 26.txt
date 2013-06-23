@@ -124,24 +124,33 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 
                                //don't need a button on 54 surgeries because they can only add 10
 				$j('#54-addEntry').remove();
+
+
+                               //This one is for referrals
+				$j('#110-addEntry').remove();
                                });
 
-	        $j(document).ready(function(){
-				$j('button.addEntry').live("click", function(){
-                                        var rowNumber = parseFloat(this.id);
-                                        if (rowNumber > 44) {
-                                            var listValueString = '-list.value_1';
-                                        } else {
-                                            var listValueString = '-list.value';
-                                        };
-					var valuestring = parseFloat(this.id) + listValueString;
+
+
+
+$j(document).ready(function(){
+  $j('button.addEntry').live("click", function(){
+    var rowNumber = parseFloat(this.id);
+    varListValueString = '-list.value';
+    if (rowNumber > 44) {
+        listValueString = '-list.value_1';
+    }
+
+var valuestring = parseFloat(this.id) + listValueString;
                                         //the second element of this or fails so if it makes it through the first 
                                         //the form crashes - left it here in case there's a case where this is nec
 					if (getValue(valuestring) != '' ){
 					     var correctedAddButtonId = parseFloat(this.id) + 1;
 
                                             // determine the right count to update
-                                           if (this.id > 44) {
+                                           if ((this.id > 100)) {
+                                                valuestring = 'addedReferralsCount.value';
+                                            } else if (this.id > 44) {
                                                 valuestring = 'addedSurgeryCount.value';
                                             } else {
                                                 valuestring = 'addedDiagnosisCount.value';
@@ -162,20 +171,23 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					}
 				
                                         return false;
-					});
-				});
+  });
+});
 
-            	$j(document).ready(function(){
+                      	$j(document).ready(function(){
 				$j('button.removeEntry').live("click", function(){
 					var correctedRemoveButtonId = parseFloat(this.id) - 1;
 					
                                         // update the right count - 1 - 44 reportable diagnoses 45 -54 surgery
                                         var whichBlock = 1;
-                                        if (correctedRemoveButtonId > 44) {
-                                            setValue('addedSurgeryCount.value', Number(getValue('addedSurgeryCount.value')) - 1);
+                                        if (correctedRemoveButtonId > 100) {
+                                           setValue('addedReferralCounts.value', Number(getValue('addedReferralsCount.value')) -1);
+                                           whichBlock = 3;
+                                        } else if (correctedRemoveButtonId > 44) {
+                                             setValue('addedSurgeryCount.value', Number(getValue('addedSurgeryCount.value')) - 1);
                                             whichBlock = 2;
                                         } else {
-                                            setValue('addedDiagnosisCount.value', Number(getValue('addedDiagnosisCount.value')) - 1);
+                                          setValue('addedDiagnosisCount.value', Number(getValue('addedDiagnosisCount.value')) - 1);
                                         };
 					var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
 					$j(contentAddId).toggle(false);
@@ -183,15 +195,15 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
                                         //
                                         // only need an addEntry button on the last diagnosis or last surgery 
                                         //
-                                        if (((correctedRemoveButtonId == getValue('addedDiagnosisCount.value')) &amp;&amp; (whichBlock == 1) )
-                                       ||   (correctedRemoveButtonId == getValue('addedSurgeryCount.value'))   &amp;&amp; (whichBlock == 2) ) {
+                                        if (    ((correctedRemoveButtonId == getValue('addedDiagnosisCount.value')) &amp;&amp; (whichBlock == 1) )
+                                       ||   ((correctedRemoveButtonId == getValue('addedSurgeryCount.value'))   &amp;&amp; (whichBlock == 2)) 
+                                       || ((correctedRemoveButtonId == getValue('addedReferralsCount.value'))   &amp;&amp; (whichBlock == 3))) {
 					     $j('#' + correctedRemoveButtonId + '-addEntry').toggle(true); 
                                         };
                                         $j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
 					return false;
 					});
 				});
-          
          //
         // the main point of this function is to remove blank lines on submit
         // it also resets the number of rows to only nonblanks
@@ -199,6 +211,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 
                 setValue('addedDiagnosisCount.value', removeBlanks(1,44,"-list.value",1,false));
                 setValue('addedSurgeryCount.value', removeBlanks(45,10,"-list.value",2,false));
+                setValue('addedReferralsCount.value', removeBlanks(101,10,"-list.value",3,false));
                 return true;
          }); 
      
@@ -299,7 +312,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							}else{
 							flip = !checked;
 							}
-							if($j(this).attr("type") == "text") if(flip == false) flip = !flip; // this is so the user doesn't go to check the checkbox, then uncheck it when they hit the input.
+							if($j(this).attr("type") == "text") if(flip == false) flip = !flip; // this is so the user doesn't go to check the checkbox, then uncheck it when they 
 							uncheckAll();
 							$j(this).parents("#checkboxAll:first").find(":checkbox").attr("checked",flip);
 							$j(this).parents("#checkboxAll:first").find(":checkbox").change();
@@ -530,7 +543,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 			<td style="padding-left:5px; padding-top:10px;">
 				<obs field="PC_symptomatic" id="presentingComplaint" conceptId="5219" answerConceptIds="5006,1068" answerLabels="Feeling well,Having symptoms" style="radio"/>
 				<br/>
-				CHIEF COMPLAINT: <obs field="PC_chiefComplaint" id="chiefComplaint" conceptId="5219" answerClasses="Chief Complaint" />
+				Chief Complaint: <obs field="PC_chiefComplaint" id="chiefComplaint" conceptId="5219" answerClasses="Chief Complaint" />
 				<br/>
 
 				Comments: 
@@ -562,9 +575,6 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							<obs field="R_chills" id="chills" conceptId="1069" answerConceptId="871" answerLabel="Chills" style="checkbox"/>
 						</td>
 						<td class="nested-td">
-							<obs field="R_weightLoss" id="weightLoss" conceptId="1069" answerConceptId="832" answerLabel="Weight loss" style="checkbox"/>
-						</td>
-						<td class="nested-td">
 							<obs field="R_nightSweats" id="nightSweats" conceptId="1069" answerConceptId="133027" answerLabel="Night sweats" style="checkbox"/>
 						</td>
 					</tr>
@@ -575,13 +585,30 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 						<td class="nested-td">
 							<obs field="R_fatigue" id="fatigue" conceptId="1069" answerConceptId="140501" answerLabel="Fatigue" style="checkbox"/>
 						</td>
-						<td class="nested-td">
-							<obs field="R_weightGain" id="weightGain" conceptId="1069" answerConceptId="122887" answerLabel="Weight gain" style="checkbox"/>
-						</td>
+	
 						<td class="nested-td">
 							<obs field="R_pain" id="pain" conceptId="1069" answerConceptId="114403" answerLabel="Pain" style="checkbox"/>
 						</td>
 					</tr>
+<tr id="checkboxCheckbox">
+<td class="nested-td">
+
+							<div class="enableDisable">
+								<div id="trigger">
+									<obs field="GENERAL_weightGain" conceptId="5544" answerConceptId="122887" answerLabel="Weight gain" style="checkbox"/> Weight Gain
+								</div>
+								<div id="disabled" class="secondary">
+									<span class="duration">
+										How much? <obs field="GENERAL_weightGainAmount" conceptId="5089" answerConceptId="5544"/> kg
+									</span>
+									<br/>
+									<span class="duration">
+										Over how long? <obs field="GENERAL_weightGainLength" conceptId="1731"/><obs field="GENERAL_weightGainLengthUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
+									</span>
+								</div>
+							</div>
+						</td>
+</tr>
 				</table>
 				<br/>
 				Comments: 
@@ -782,7 +809,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 											<obs field="CP_chestRadiating" conceptId="909" answerConceptId="127949" answerLabel="Radiating"/>
 										</div>
 										<div id="disabled" class="secondary">
-											<obs field="CP_chestRadiatingType" conceptId="909" answerConceptIds="643,1237,541" answerLabels="Cervical -- to Neck, Upper extremities - down arm, Posterior - to back"/>
+											<obs field="CP_chestRadiatingType" conceptId="909" answerConceptIds="5168,5169" answerLabels="Radiates to neck, Radiates to axillia"/>
 										</div>	
 									</td>
 								</tr>
@@ -1034,23 +1061,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 						</td>
 					</tr>
 					<tr>
-						<td class="nested-td">
-
-							<div class="enableDisable">
-								<div id="trigger">
-									<obs field="GENERAL_weightGain" conceptId="5544" answerConceptId="122887" answerLabel="Weight gain" style="checkbox"/> Weight Gain
-								</div>
-								<div id="disabled" class="secondary">
-									<span class="duration">
-										How much? <obs field="GENERAL_weightGainAmount" conceptId="5089" answerConceptId="5544"/> kg
-									</span>
-									<br/>
-									<span class="duration">
-										Over how long? <obs field="GENERAL_weightGainLength" conceptId="1731"/><obs field="GENERAL_weightGainLengthUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
-									</span>
-								</div>
-							</div>
-						</td>
+						
 
 
 						<td class="nested-td">
@@ -1101,19 +1112,24 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				<table>
 					<tr>
 						<td class="nested-td">
-							<obs field="EXPOSURE_hiv" conceptId="1633" answerConceptId="822" answerLabel="HIV" style="checkbox"/> HIV
+							<obs field="EXPOSURE_hiv" conceptId="1633" answerConceptId="822" style="checkbox"/> HIV
 						</td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_tb" conceptId="1633" answerConceptId="124068" answerLabel="TB" style="checkbox"/> TB
+							<obs field="EXPOSURE_tb" conceptId="1633" answerConceptId="124068"  style="checkbox"/> TB
 						</td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_other" conceptId="1633" answerConceptId="151056" answerLabel="Other sickness" style="checkbox"/> Other sickness
+							<obs field="EXPOSURE_other" conceptId="1633" answerConceptId="151056" style="checkbox"/> Other sickness
 						</td>						
 						<td class="nested-td">
-							<obs field="EXPOSURE_animal" conceptId="1633" answerConceptId="160635" answerLabel="Animals" style="checkbox"/> Animals
+							<obs field="EXPOSURE_animal" conceptId="1633" answerConceptId="121605"  style="checkbox"/> Animals
 						</td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_travel" conceptId="1633" answerConceptId="124153" answerLabel="Travel" style="checkbox"/> Travel
+							<obs field="EXPOSURE_travel" conceptId="1633" answerConceptId="124153" style="checkbox"/> Travel
+						</td>
+</tr>
+<tr>
+                                                <td class="nested-td">
+                                                        <obs field="Exposure_water" conceptId="1511" labelText="Water Source:"/>
 						</td>
 					</tr>
 				</table>
@@ -1385,18 +1401,10 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					</tr>
 					<tr class="secondary">
 						<td class="nested-label">
-							&lt; 13 years old
+							Number of children under 5 years old living with you now:
 						</td>
 						<td class="nested-td">
-							<obs field="HOUSEHOLD_under13" conceptId="161646"/>
-						</td>
-					</tr>
-					<tr class="secondary">
-						<td class="nested-label">
-							&lt; 18 months old
-						</td>
-						<td class="nested-td">
-							<obs field="HOUSEHOLD_under18mo" conceptId="161647"/>
+							<obs field="HOUSEHOLD_childrenNow" conceptId="5676"/>
 						</td>
 					</tr>
 					</excludeIf>
@@ -1617,17 +1625,15 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 				<h4>Sexual Activity:</h4> 
 				<table>
 					<tr>
+<td class="nested-label" colspan="2">
+	Sexually Active: 
+</td>
 						<td class="nested-td" colspan="2">
-							Sexually Active: <obs field="SA_active" conceptId="160109" style="radio"/>
+						<obs field="SA_active" conceptId="160109" style="radio"/>
 						</td>
 					</tr>
 					<tr>
-						<td class="nested-td" colspan="2">
-							<obs field="SA_treated" conceptId="160550" answerConceptId="160551" answerLabel="Patient or partner(s) have been treated for sexually transmitted infections" style="checkbox"/> Patient or partner(s) have been treated for sexually transmitted infections
-						</td>
-					</tr>
-					<tr>
-						<td class="nested-td">
+						<td class="nested-label">
 							Number of sexual partners in past month: 
 						</td>
 						<td class="nested-td" style="padding-right: 0px;">
@@ -1635,11 +1641,27 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 						</td>
 					</tr>
 					<tr>
-						<td class="nested-td">
-							Number of sexual partners in past 6 months: 
+						<td class="nested-label">
+							Has had sexual partners in past 6 months: 
 						</td>
 						<td class="nested-td" style="padding-right: 0px;">
-							<obs field="SA_longNum" conceptId="5570"/>
+							<obs field="SA_longNum" conceptId="5569" style="checkbox"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="nested-label">
+							Syphilis Contact:
+						</td>
+						<td class="nested-td" style="padding-right: 0px;">
+							<obs field="SA_syph" conceptId="110339" style="checkbox"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="nested-label">
+							Gonorrhea Contact: 
+						</td>
+						<td class="nested-td" style="padding-right: 0px;">
+							<obs field="SA_gono" conceptId="110341" style="checkbox"/>
 						</td>
 					</tr>
 				</table>
@@ -1845,7 +1867,6 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 								<obs field="HEART_holosystolic" answerConceptId="5162" conceptId="1124" style="checkbox" answerLabel="Holosystolic Murmur"> </obs>
 								<obs field="HEART_diastolicDecrescendo" answerConceptId="5160" conceptId="1124" style="checkbox" answerLabel="Diastolic Decrescendo"> </obs>
 								<obs field="HEART_rumble" answerConceptId="5164" conceptId="1124" style="checkbox" answerLabel="Diastolic Rumble"> </obs><br />
-								<obs field="HEART_grade" conceptId="160630" labelText="Murmur Grade:"> </obs>
 								<br />
 							</span>
 						</span>
@@ -1938,8 +1959,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					<span id="trigger"><obs field="NL2_abnormal" answerConceptId="1116" conceptId="1129" style="checkbox" answerLabel="Abnormal"> </obs></span>
 					<span id="disabled">
 						<obs field="NL2_cranial" answerConceptId="599" conceptId="1129" style="checkbox" answerLabel="Cranial nerve abnormality"></obs>
-						<obs field="NL2_lower" answerConceptId="160628" conceptId="1129" style="checkbox" answerLabel="Decreased sensation lower extremities"></obs>
-						<obs field="NL2_upper" answerConceptId="160629" conceptId="1129" style="checkbox" answerLabel="Decreased sensation upper extremities"></obs>
+						<obs field="NL2_lower" answerConceptId="5135" conceptId="1129" style="checkbox" answerLabel="Decreased sensation in extremities"></obs>
 						<obs field="NL2_gait" answerConceptId="5108" conceptId="1129" style="checkbox" answerLabel="Abnormal gait"> </obs>
 						<obs field="NL2_focal" answerConceptId="6005" conceptId="1129" style="checkbox" answerLabel="Focal weakness"> </obs>
 					</span>
@@ -1976,169 +1996,41 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 		<tr>
 			<td class="checkboxGroup">
 				<h4>Tests Ordered: </h4>
-				<table class="checkboxGroup">
-					<tr id="checkboxAll">
-						<td class="nested-td">
-							<obs field="TO_none" answerConceptId="1107" conceptId="1271" style="checkbox" answerLabel="None"> </obs>
-						</td>
-					</tr>
-					<tr id="checkboxCheckbox">
-								<td class="nested-td">
-									<obs field="TO_cbc" answerConceptId="1019" conceptId="1271" style="checkbox" answerLabel="Complete Blood Count"> </obs>
-								</td>
-								<td class="nested-td">
-									<obs field="TO_alt" answerConceptId="654" conceptId="1271" style="checkbox" answerLabel="ALT"> </obs>
-								</td>
-								<td class="nested-td">
-									<obs field="TO_ast" answerConceptId="653" conceptId="1271" style="checkbox" answerLabel="AST"> </obs>
-								</td>
-								<td class="nested-td">
-									<obs field="TO_cxr" answerConceptId="12" conceptId="1271" style="checkbox" answerLabel="CXR"> </obs>
-								</td>
-							</tr>
-							<tr id="checkboxCheckbox">
-								<td class="enableDisable" colspan="4" cellspacing="0" cellpadding="0">
-									<div id="trigger" cellspacing="0" cellpadding="0">
-										<obs field="TO_rad" answerConceptId="160554" conceptId="1271" style="checkbox" answerLabel="Radiology Test (Specify):"> </obs>
-									</div>
-									<div id="disabled">
-										<obs field="TO_radab" answerConceptId="101" conceptId="160554" style="checkbox" answerLabel="Abdomen"> </obs>   
-										<obs field="TO_radskull" answerConceptId="386" conceptId="160554" style="checkbox" answerLabel="Skull"> </obs>
-										<obs field="TO_radspine" answerConceptId="390" conceptId="160554" style="checkbox" answerLabel="Spine"> </obs>
-										<obs field="TO_radpelv" answerConceptId="392" conceptId="160554" style="checkbox" answerLabel="Pelvis"> </obs>
-										<obs field="TO_radshoulder" answerConceptId="394" conceptId="160554" style="checkbox" answerLabel="Shoulder"> </obs>
-										<br />
-										<obs field="TO_radlefta" answerConceptId="1232" conceptId="160554" style="checkbox" answerLabel="Left Arm"> </obs>
-										<obs field="TO_radrighta" answerConceptId="1233" conceptId="160554" style="checkbox" answerLabel="Right Arm"> </obs>
-										<obs field="TO_radleftl" answerConceptId="1234" conceptId="160554" style="checkbox" answerLabel="Left Leg"> </obs>
-										<obs field="TO_radrightl" answerConceptId="1235" conceptId="160554" style="checkbox" answerLabel="Right Leg"> </obs>
-										<obs field="TO_radhand" answerConceptId="382" conceptId="160554" style="checkbox" answerLabel="Hand"> </obs>
-										<obs field="TO_radfoot" answerConceptId="384" conceptId="160554" style="checkbox" answerLabel="Foot"> </obs>
-
-
-										<br />Type of Radiology:<obs field="TO_radtype" answerConceptIds="160604,160605,160606,160607" conceptId="160603"  answerLabels="MRI,Ultrasound,X-Ray,CT Scan"> </obs>
-									</div>
-
-								</td>
-							</tr>
-							<tr id="checkboxCheckbox">
-								<td class="nested-td">
-									<obs field="TO_cd4" answerConceptId="5497" conceptId="1271" style="checkbox" answerLabel="CD4 Count Assay"> </obs>
-								</td>    
-								<td class="nested-td">
-									<obs field="TO_creat" answerConceptId="790" conceptId="1271" style="checkbox" answerLabel="Creatinine"> </obs>
-								</td> 
-								<td class="nested-td">
-									<obs field="TO_hive" answerConceptId="1042" conceptId="1271" style="checkbox" answerLabel="HIV ELISA"> </obs>
-								</td> 
-								<td class="nested-td">
-									<obs field="TO_sputum" answerConceptId="307" conceptId="1271" style="checkbox" answerLabel="Sputum for AFB"> </obs>
-								</td>
-							</tr>
-							<tr id="checkboxCheckbox">
-								<td class="nested-td">
-									<obs field="TO_syph" answerConceptId="299" conceptId="1271" style="checkbox" answerLabel="Syphilis Testing"> </obs>
-								</td>
-								<td class="nested-td">
-									<obs field="TO_elec" answerConceptId="5473" conceptId="1271" style="checkbox" answerLabel="Electrolytes"> </obs>
-								</td>
-								<td class="nested-td">
-									<obs field="TO_hivviral" answerConceptId="1305" conceptId="1271" style="checkbox" answerLabel="HIV Viral Load"> </obs>
-								</td>
-								<td class="nested-td">
-									<obs field="TO_preg" answerConceptId="45" conceptId="1271" style="checkbox" answerLabel="Pregnancy Test"> </obs>
-								</td>
-							</tr>
-							<tr id="checkboxCheckbox" >
-								<td class="enableDisable" colspan="4">
-									<div id="trigger"><obs field="TO_other" answerConceptId="5622" conceptId="1271" style="checkbox" answerLabel="Other (Specify):"> </obs></div>
-									<div id="disabled">
-										<obs  field="TO_specify" conceptId="160555"> </obs>
-									</div>
-								</td>
-							</tr>
-						</table>
-				</td>
+			</td>
 
 
 
 
-				<td class="checkboxGroup">
+
 					<h4>Referrals Made:</h4>
-					<table class="checkboxGroup">
-						<tr id="checkboxAll">
-							<td class="nested-td">
-								<obs field="REF_none" answerConceptId="1107" conceptId="1272" style="checkbox" answerLabel="None"> </obs>
-							</td>
-						</tr>
-						<tr id="checkboxCheckbox">
-							
-										<td class="nested-td">
-											<obs field="REF_sws" answerConceptId="5486" conceptId="1272" style="checkbox" answerLabel="Social Work Services"> </obs>
-										</td>
-										<td class="nested-td">
-											<obs field="REF_pss" answerConceptId="5490" conceptId="1272" style="checkbox" answerLabel="Psychosocial Support"> </obs>
-										</td>
-										<td class="nested-td">
-											<obs field="REF_dc" answerConceptId="1167" conceptId="1272" style="checkbox" answerLabel="Disclosure Counselling"> </obs>
-										</td>
-										<td class="nested-td">
-											<obs field="REF_fps" answerConceptId="5483" conceptId="1272" style="checkbox" answerLabel="Family Planning Services"> </obs>
-										</td>
-									</tr>
-									<tr id="checkboxCheckbox">
-										<td class="nested-td">
-											<obs field="REF_rh" answerConceptId="1851" conceptId="1272" style="checkbox" answerLabel="Reproductive Health"> </obs>
-										</td>
-										<td class="nested-td">
-											<obs field="REF_tbtdot" answerConceptId="5487" conceptId="1272" style="checkbox" answerLabel="TB treatment/DOT program"> </obs>
-										</td>
-										<td class="nested-td">
-											<obs field="REF_ns" answerConceptId="5484" conceptId="1272" style="checkbox" answerLabel="Nutritional Support"> </obs>
-										</td>
-										<td class="nested-td">
-											<obs field="REF_ac" answerConceptId="5488" conceptId="1272" style="checkbox" answerLabel="Adherence councilling"> </obs>
-										</td>
-									</tr>
-									<tr>
-										<td class="nested-td">
-											<obs field="REF_acsg" answerConceptId="1288" conceptId="1272" style="checkbox" answerLabel="Alcohol counseling/ support groups"> </obs>
-										</td>
-										<td class="nested-td">
-											<obs field="REF_mhs" answerConceptId="5489" conceptId="1272" style="checkbox" answerLabel="Mental Health Services"> </obs>
-										</td>
-										<td class="nested-td" colspan="2">
-											<obs field="REF_mtct" answerConceptId="1776" conceptId="1272" style="checkbox" answerLabel="Prevention of Mother to Child Transmission"> </obs>
-										</td>
-									</tr>
-								<tr>
-									<td class="nested-td" colspan="4">
-										<div id="checkboxCheckbox">
-											<div><obs field="REF_other" answerConceptId="5622" conceptId="161011" answerLabel="Other Referral (Specify):"> </obs></div>
-										</div>
-										<div id="checkboxCheckbox" class="enableDisable">
-											<div id="trigger"><obs field="REF_ipch" answerConceptId="5488" conceptId="1272" style="checkbox" answerLabel="Inpatient Care/Hospitalization"> </obs></div>
-											<div id="disabled">(
-												<obs field="REF_mtrh" answerConceptId="1274" conceptId="1273" style="checkbox" answerLabel="MTRH"> </obs>
-												<obs field="REF_lhch" answerConceptId="1275" conceptId="1273" style="checkbox" answerLabel="Local Health Center/Hospital"> </obs>
-<div id="checkboxCheckbox" class="enableDisable">
-<div id="trigger">
-												<obs field="REF_otherFac" answerConceptId="5622" conceptId="1273" style="checkbox" answerLabel="Other Facility:"> </obs></div>
-<div id="disabled">
-												<obs  field="REF_otherSpecify" conceptId="161011" answerConceptId="1273"> </obs> )
-</div></div>
-											</div>
-										</div>
-									</td>
 <td>
-Reason for Referrals: <obs field="REF_reasonFor" conceptId="161011" answerConceptId="1273"/>
-</td>
-								</tr>
-
+	<repeat>
+				<template>
+ 				<table>
+					<tr id="{n}-toggleContainer" style="display:none;">
+					
+							<td class="nested-td">
+							Referrals made:<obs id="{n}-list" field="REFER_{n}" conceptId="1272" showCommentField="true" style="dropdown"/>
+							</td>
+							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+						</tr>
 					</table>
-				</td>
+				</template>
+                                <render n="101"/>
+				<render n="102"/>
+				<render n="103"/>
+				<render n="104"/>
+				<render n="105"/>
+				<render n="106"/>
+				<render n="107"/>
+				<render n="108"/>
+				<render n="109"/>
+				<render n="110"/>
+				</repeat>
+</td>
 			</tr>
 		</table>
+
 		</section>
 </span>
 
@@ -2154,9 +2046,8 @@ Reportable Diagnoses:
 				<template>
  				<table>
 					<tr id="{n}-toggleContainer" style="display:none;">
-					
 							<td class="nested-td">
-							<obs id="{n}-list" field="REPDIAG_{n}" conceptId="161602" answerClasses="RequiredDiagnosis" showCommentField="true"/>
+							<obs id="{n}-list" field="REPDIAG_{n}" conceptId="161602" answerClasses="RequiredDiagnosis" showCommentField="true" style="dropdown"/>
 							</td>
 							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 						</tr>
@@ -2172,6 +2063,40 @@ Reportable Diagnoses:
 				<render n="8"/>
 				<render n="9"/>
 				<render n="10"/>
+				<render n="11"/>
+				<render n="12"/>
+				<render n="13"/>
+				<render n="14"/>
+				<render n="15"/>
+				<render n="16"/>
+				<render n="17"/>
+				<render n="18"/>
+				<render n="19"/>
+				<render n="20"/>
+				<render n="21"/>
+				<render n="22"/>
+				<render n="23"/>
+				<render n="24"/>
+				<render n="25"/>
+				<render n="26"/>
+				<render n="27"/>
+				<render n="28"/>
+				<render n="29"/>
+				<render n="30"/>
+				<render n="31"/>
+				<render n="32"/>
+				<render n="33"/>
+				<render n="34"/>
+				<render n="35"/>
+				<render n="36"/>
+				<render n="37"/>
+				<render n="38"/>
+				<render n="39"/>
+				<render n="40"/>
+				<render n="41"/>
+				<render n="42"/>
+				<render n="43"/>
+				<render n="44"/>
 				</repeat>
 		</obsgroup>
 <span id="test"> </span>
@@ -2195,6 +2120,7 @@ Reportable Diagnoses:
 	<span id="testspan" style="display:none;">
 		<obs id="addedDiagnosisCount" conceptId="161649" />
                 <obs id="addedSurgeryCount" conceptId="161648" />
+                <obs id="addedReferralsCount" conceptId="161652"/>
 	</span>
 
 	<!-- TRAVIS' FUNCTION -->
@@ -2211,6 +2137,7 @@ window.open(url );
                 //		
                 displayRows(addedDiagnosisCount,"addedDiagnosisCount.value",1);
                 displayRows(addedSurgeryCount,"addedSurgeryCount.value",45);
+                displayRows(addedReferralsCount,"addedReferralsCount.value",101);
 
 	});
 	}
@@ -2222,7 +2149,7 @@ window.open(url );
 
 		$j(document).ready(function(){
              // if this is in View, don't want any addEntry or remove Entry buttons 
-                     for (i=1;54>=i;++i) {
+                     for (i=1;300>=i;++i) {
                           $j('#' + i + '-removeEntry').toggle(false);
                           $j('#' + i + '-addEntry').toggle(false);
                      };
