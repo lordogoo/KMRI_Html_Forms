@@ -121,34 +121,53 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 		$j(document).ready(function(){
                                 //don't need an add button on the 44 entry because they can only add 44
 				$j('#44-addEntry').remove();
+                                $j('#1-removeEntry').remove();
 
                                //don't need a button on 54 surgeries because they can only add 10
 				$j('#54-addEntry').remove();
-
+  $j('#45-removeEntry').remove();
 
                                //This one is for referrals
+  $j('#101-removeEntry').remove();
 				$j('#110-addEntry').remove();
-                               });
 
+
+  $j('#201-removeEntry').remove();
+				$j('#210-addEntry').remove();
+
+  $j('#401-removeEntry').remove();
+				$j('#410-addEntry').remove();
+
+
+
+
+
+                               });
 
 
 
 $j(document).ready(function(){
   $j('button.addEntry').live("click", function(){
+
     var rowNumber = parseFloat(this.id);
+
     varListValueString = '-list.value';
     if (rowNumber > 44) {
         listValueString = '-list.value_1';
     }
 
-var valuestring = parseFloat(this.id) + listValueString;
+ valuestring = parseFloat(this.id) + listValueString;
                                         //the second element of this or fails so if it makes it through the first 
                                         //the form crashes - left it here in case there's a case where this is nec
 					if (getValue(valuestring) != '' ){
-					     var correctedAddButtonId = parseFloat(this.id) + 1;
+			     var correctedAddButtonId = parseFloat(this.id) + 1;
 
                                             // determine the right count to update
-                                           if ((this.id > 100)) {
+                                           if ((this.id > 400)) {
+                                                valuestring = 'addedDiagCount.value';
+                                            } else if (this.id > 200) {
+ valuestring='addedLabsCount.value';
+} else if ((this.id > 100)) {
                                                 valuestring = 'addedReferralsCount.value';
                                             } else if (this.id > 44) {
                                                 valuestring = 'addedSurgeryCount.value';
@@ -180,8 +199,14 @@ var valuestring = parseFloat(this.id) + listValueString;
 					
                                         // update the right count - 1 - 44 reportable diagnoses 45 -54 surgery
                                         var whichBlock = 1;
-                                        if (correctedRemoveButtonId > 100) {
-                                           setValue('addedReferralCounts.value', Number(getValue('addedReferralsCount.value')) -1);
+                                           if (correctedRemoveButtonId > 400) {
+                                           setValue('addedDiagCount.value', Number(getValue('addedDiagCount.value')) -1);
+                                           whichBlock = 6;
+                                        } else   if (correctedRemoveButtonId > 200) {
+                                           setValue('addedLabsCount.value', Number(getValue('addedLabsCount.value')) -1);
+                                           whichBlock = 5;
+                                        } else  if (correctedRemoveButtonId > 100) {
+                                           setValue('addedReferralsCount.value', Number(getValue('addedReferralsCount.value')) -1);
                                            whichBlock = 3;
                                         } else if (correctedRemoveButtonId > 44) {
                                              setValue('addedSurgeryCount.value', Number(getValue('addedSurgeryCount.value')) - 1);
@@ -197,7 +222,10 @@ var valuestring = parseFloat(this.id) + listValueString;
                                         //
                                         if (    ((correctedRemoveButtonId == getValue('addedDiagnosisCount.value')) &amp;&amp; (whichBlock == 1) )
                                        ||   ((correctedRemoveButtonId == getValue('addedSurgeryCount.value'))   &amp;&amp; (whichBlock == 2)) 
-                                       || ((correctedRemoveButtonId == getValue('addedReferralsCount.value'))   &amp;&amp; (whichBlock == 3))) {
+                                       || ((correctedRemoveButtonId == getValue('addedReferralsCount.value'))   &amp;&amp; (whichBlock == 3))
+                                       || ((correctedRemoveButtonId == getValue('addedLabsCount.value'))   &amp;&amp; (whichBlock == 5))
+                                       || ((correctedRemoveButtonId == getValue('addedDiagCount.value'))   &amp;&amp; (whichBlock == 6))
+) {
 					     $j('#' + correctedRemoveButtonId + '-addEntry').toggle(true); 
                                         };
                                         $j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
@@ -211,7 +239,9 @@ var valuestring = parseFloat(this.id) + listValueString;
 
                 setValue('addedDiagnosisCount.value', removeBlanks(1,44,"-list.value",1,false));
                 setValue('addedSurgeryCount.value', removeBlanks(45,10,"-list.value",2,false));
-                setValue('addedReferralsCount.value', removeBlanks(101,10,"-list.value",3,false));
+                setValue('addedReferralsCount.value', removeBlanks(101,10,"-list.value",2,false));
+                setValue('addedLabsCount.value', removeBlanks(201,10,"-list.value",1,false));
+                setValue('addedDiagCount.value', removeBlanks(401,10,"-list.value",1,false));
                 return true;
          }); 
      
@@ -644,7 +674,7 @@ var valuestring = parseFloat(this.id) + listValueString;
 							</div>
 							<div id="disabled" class="secondary">
 								<span class="duration">
-									Duration: <obs field="GI_nauseaDuration" conceptId="5979"/><obs field="GI_nauseaDurationUnits" conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+									Duration: <obs field="GI_nauseaDuration" conceptId="1731"/><obs field="GI_nauseaDurationUnits" conceptId="5979"/>
 								</span>
 							</div>
 						</td>
@@ -656,7 +686,7 @@ var valuestring = parseFloat(this.id) + listValueString;
 							</div>
 							<div id="disabled" class="secondary">
 								<span class="duration">
-									Duration: <obs field="GI_vomitingDuration" conceptId="5981"/><obs field="GI_vomitingDurationUnits" conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+									Duration: <obs field="GI_vomitingDuration" conceptId="1731"/><obs field="GI_vomitingDurationUnits" conceptId="5981" />
 								</span>
 							</div>
 						</td>
@@ -670,7 +700,7 @@ var valuestring = parseFloat(this.id) + listValueString;
 							</div>
 							<div id="disabled" class="secondary">
 								<span class="duration">
-									Duration: <obs field="GI_diarrheaDuration" conceptId="5984"/><obs field="GI_diarrheaDurationUnits" conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+									Duration: <obs field="GI_diarrheaDuration" conceptId="1731"/><obs field="GI_diarrheaDurationUnits" conceptId="5984" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
 								</span>
 							</div>
 						</td>
@@ -682,7 +712,7 @@ var valuestring = parseFloat(this.id) + listValueString;
 							</div>
 							<div id="disabled" class="secondary">
 								<span class="duration">
-									Duration: <obs field="GI_constipationDuration" conceptId="1731" answerConceptId="1078"/><obs field="GI_constipationDurationUnits" conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+									Duration: <obs field="GI_constipationDuration" conceptId="1731"/><obs field="GI_constipationDurationUnits" conceptId="1732" />
 								</span>
 							</div>
 						</td>
@@ -709,7 +739,7 @@ var valuestring = parseFloat(this.id) + listValueString;
 							</div>
 							<div id="disabled" class="secondary">
 								<span class="duration">
-									Duration: <obs field="CP_coughDuration" conceptId="5959"/><obs field="CP_coughDuration" conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+									Duration: <obs field="CP_coughDuration" conceptId="1731"/><obs field="CP_coughDuration" conceptId="1732" />
 								</span>
 
 								<div class="enableDisable">
@@ -737,7 +767,7 @@ var valuestring = parseFloat(this.id) + listValueString;
 								</div>
 								<div class="secondary">
 									<span class="duration">
-										Duration: <obs field="CP_shortDuration" conceptId="5962"/><obs field="CP_shortDurationUnits" conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+										Duration: <obs field="CP_shortDuration" conceptId="1731"/><obs field="CP_shortDurationUnits" conceptId="5962" />
 									</span>
 								</div>
 							</div>
@@ -763,7 +793,7 @@ var valuestring = parseFloat(this.id) + listValueString;
 									</td>
 									<td class="nested-td">
 										<span class="duration">
-											<obs field="CP_chestPainDuration" conceptId="5971"/><obs field="CP_chestPainDurationUnits" conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+											<obs field="CP_chestPainDuration" conceptId="1731"/><obs field="CP_chestPainDurationUnits" conceptId="5971" />
 										</span>
 									</td>
 								</tr>
@@ -886,7 +916,7 @@ var valuestring = parseFloat(this.id) + listValueString;
 								</div>
 								<div class="secondary" id="disabled">
 									<span class="duration">
-										Duration: <obs field="GU_vaginalDuration" conceptId="5994"/><obs field="GU_vaginalDurationUnits" conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+										Duration: <obs field="GU_vaginalDuration" conceptId="1731"/><obs field="GU_vaginalDurationUnits" conceptId="5994" />
 									</span>
 								</div>
 							</div>
@@ -952,7 +982,7 @@ var valuestring = parseFloat(this.id) + listValueString;
 								</div>
 								<div class="secondary" id="disabled">
 									<span class="duration">
-										Duration: <obs field="GU_urethralDuration" conceptId="5996"/><obs field="GU_urethralDuration" conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+										Duration: <obs field="GU_urethralDuration" conceptId="1731"/><obs field="GU_urethralDuration" conceptId="5996" />
 									</span>
 								</div>
 							</div>
@@ -1016,19 +1046,17 @@ var valuestring = parseFloat(this.id) + listValueString;
 						<td class="nested-td">
 							<obs field="CNS_pares" conceptId="1082" answerConceptId="6004" answerLabel="Paresthesia" style="checkbox"/>
 						</td>
-						<td class="nested-td">
+						<td class="nested-td"> 
 							<obs field="CNS_focal" conceptId="1082" answerConceptId="6005" answerLabel="Focal weakness" style="checkbox"/>
 						</td>
 						<td class="nested-td">
 							<obs field="CNS_seizures" conceptId="1082" answerConceptId="206" answerLabel="Seizures" style="checkbox"/>
 						</td>
-						<td class="nested-td">
-							<obs field="CNS_headache" conceptId="1082" answerConceptId="139084" answerLabel="Headache" style="checkbox"/>
-						</td>
+
 					</tr>
 					<tr id="checkboxCheckbox">
 						<td class="nested-td">
-							<obs field="CNS_depression" conceptId="1082" answerConceptId="119537" answerLabel="Depression" style="checkbox"/>
+							<obs field="CNS_depression" conceptId="1082" answerConceptId="207" answerLabel="Depression" style="checkbox"/>
 						</td>
 						<td class="nested-td">
 							<obs field="CNS_confusion" conceptId="1082" answerConceptId="120345" answerLabel="Confusion" style="checkbox"/>
@@ -1037,6 +1065,7 @@ var valuestring = parseFloat(this.id) + listValueString;
 							<obs field="CNS_memory" conceptId="1082" answerConceptId="6037" answerLabel="Memory problems" style="checkbox"/>
 						</td>
 					</tr>
+
 				</table>
 				<br/>
 				Comments: 
@@ -1516,7 +1545,7 @@ var valuestring = parseFloat(this.id) + listValueString;
 									<obs field="EDUCATION_other" conceptId="1712" answerConceptId="5622" answerLabel="Other"/>
 								</div>
 								<div id="disabled" class="secondary">
-									<obs field="EDUCATION_specify" conceptId="5281" labelText="Specify : "/>
+                                                                    <obs conceptId="161011" answerConceptId="1712" style="textarea" rows="3" cols="20" labelText="Specify :"/>
 								</div>
 							</div>
 						</td>
@@ -1610,7 +1639,7 @@ var valuestring = parseFloat(this.id) + listValueString;
 										<obs field="FP_other" conceptId="374" answerConceptId="5622" answerLabel="Other"/>
 									</div>
 									<div id="disabled" class="secondary">
-										<obs field="FP_specify" conceptId="5281" labelText="Specify : "/>
+                                                                            <obs conceptId="161011" answerConceptId="374" style="textarea" rows="3" cols="20" labelText="Specify :"/>
 									</div>
 								</div>
 							</td>
@@ -1662,6 +1691,9 @@ var valuestring = parseFloat(this.id) + listValueString;
 						</td>
 						<td class="nested-td" style="padding-right: 0px;">
 							<obs field="SA_gono" conceptId="110341" style="checkbox"/>
+						</td>
+                                                 <td class="nested-td">
+							<obs field="HIV_hiv" conceptId="822" style="checkbox"/> HIV
 						</td>
 					</tr>
 				</table>
@@ -1830,6 +1862,8 @@ var valuestring = parseFloat(this.id) + listValueString;
 <br/>
 						<obs field="CHEST_wheezes" answerConceptId="5209" conceptId="1123" style="checkbox" answerLabel="Wheezes"> </obs>
 						<obs field="CHEST_crepitations" answerConceptId="5127" conceptId="1123" style="checkbox" answerLabel="Crepitations"> </obs>
+<br/><b>Lung Finding:</b>
+<obs field="CHEST_LUNGfinding" conceptId="159370"/>
 						<br />
 					</span>
 				</span>
@@ -1944,10 +1978,12 @@ var valuestring = parseFloat(this.id) + listValueString;
 				</span>
 				<br /><br />Comments:  <div class="secondary"><obs field="EXT_comments" conceptId="161011" answerConceptId="1127" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
-			<td style="width:50%;">
+			<td style="width:50%;" class="checkboxGroup">
 				<h4>Musculoskeletal</h4>
-				<obs answerConceptId="1115" field="MS2_normal" conceptId="1128" style="checkbox" answerLabel="Normal"> </obs>
-				<obs answerConceptId="1116" field="MS2_abnormal" conceptId="1128" style="checkbox" answerLabel="Abnormal"> </obs>
+				<span id="checkboxAll"><obs conceptId="1128" answerConceptId="1115" style="checkbox" answerLabel="Normal" field="MS21"/></span>
+				<span id="checkboxCheckbox"><obs conceptId="1128" answerConceptId="1116" style="checkbox" answerLabel="Abnormal" field="MS22"/>
+				<obs conceptId="1128" answerConceptId="5312" style="checkbox" answerLabel="Joint Swelling" field="MS23"/>
+				<obs conceptId="1128" answerConceptId="5313" style="checkbox" answerLabel="Muscle Tenderness" field="MS24"/></span>
 				<br /><br />Comments:  <div class="secondary"><obs field="MS2_comment" conceptId="161011" answerConceptId="1128" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 		</tr>
@@ -1992,25 +2028,50 @@ var valuestring = parseFloat(this.id) + listValueString;
 <span id="TestsRefs">
 
 <section headerLabel="Tests and Referrals">
-	<table id="two-wide">
+	<table>
 		<tr>
-			<td class="checkboxGroup">
-				<h4>Tests Ordered: </h4>
-			</td>
+<h4> Tests Ordered</h4>
+<td><repeat>
+				<template>
+ 				<table>
+					<tr id="{n}-toggleContainer" style="display:none;">
+					
+							<td class="nested-td">
+<obs id="{n}-list" field="LAB_{n}" conceptId="1271" answerClasses="KMRI_Labs" showCommentField="true" style="dropdown"/>
+							</td>
+							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+						</tr>
+					</table>
+				</template>
+                                <render n="201"/>
+				<render n="202"/>
+				<render n="203"/>
+				<render n="204"/>
+				<render n="205"/>
+				<render n="206"/>
+				<render n="207"/>
+				<render n="208"/>
+				<render n="209"/>
+				<render n="210"/>
+				</repeat></td>
 
 
 
 
+<!--     another for radiology,  n=301-310     -->
+</tr><tr>
+<td>
 
 					<h4>Referrals Made:</h4>
-<td>
+
 	<repeat>
 				<template>
  				<table>
 					<tr id="{n}-toggleContainer" style="display:none;">
 					
 							<td class="nested-td">
-							Referrals made:<obs id="{n}-list" field="REFER_{n}" conceptId="1272" showCommentField="true" style="dropdown"/>
+							Referral:<obs id="{n}-list" field="REFER_{n}" conceptId="1272" style="dropdown"/><br/>
+                                                        Location: <obs id="{n}-list" field="REFER_loc{n}" conceptId = "1272" answerClasses="KMRI_Locations" style="dropdown" showCommentField="true" />
 							</td>
 							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 						</tr>
@@ -2039,7 +2100,7 @@ var valuestring = parseFloat(this.id) + listValueString;
 
 <br />
 
-Reportable Diagnoses:
+<b>Reportable Diagnoses:</b>
             
 <obsgroup groupingConceptId="161602">
 				<repeat>
@@ -2047,7 +2108,7 @@ Reportable Diagnoses:
  				<table>
 					<tr id="{n}-toggleContainer" style="display:none;">
 							<td class="nested-td">
-							<obs id="{n}-list" field="REPDIAG_{n}" conceptId="161602" answerClasses="RequiredDiagnosis" showCommentField="true" style="dropdown"/>
+							<obs id="{n}-list" field="REPDIAG_{n}" conceptId="6042" answerClasses="RequiredDiagnosis" showCommentField="true" style="dropdown"/>
 							</td>
 							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 						</tr>
@@ -2099,7 +2160,36 @@ Reportable Diagnoses:
 				<render n="44"/>
 				</repeat>
 		</obsgroup>
-<span id="test"> </span>
+
+<span id="test"> 
+
+<b> Diagnoses: </b>
+<repeat>
+				<template>
+ 				<table>
+					<tr id="{n}-toggleContainer" style="display:none;">
+							<td class="nested-td">
+							<obs id="{n}-list" field="DIAG_{n}" conceptId="6042" answerClasses="RequiredDiagnosis, Diagnosis, Finding, Anatomy, Question, ConvSet, Misc, Symptom, Symptom/Finding, Specimen, Aggregate Measurement, Indicator, Health Care Monitoring Topics, Radiology/Imaging Procedure, Chief Complaint" showCommentField="true" style="autocomplete"/>
+							</td>
+							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+						</tr>
+					</table>
+				</template>
+				<render n="401"/>
+				<render n="402"/>
+				<render n="403"/>
+				<render n="404"/>
+				<render n="405"/>
+				<render n="406"/>
+				<render n="407"/>
+				<render n="408"/>
+				<render n="409"/>
+				<render n="410"/>
+
+				</repeat>
+
+
+</span>
 
 
         <div id="patid" style="display:none;"><lookup expression="patient.id"/></div> 
@@ -2121,6 +2211,8 @@ Reportable Diagnoses:
 		<obs id="addedDiagnosisCount" conceptId="161649" />
                 <obs id="addedSurgeryCount" conceptId="161648" />
                 <obs id="addedReferralsCount" conceptId="161652"/>
+                <obs id="addedDiagCount" conceptId="161737"/>
+                <obs id="addedLabsCount" conceptId="161738"/>
 	</span>
 
 	<!-- TRAVIS' FUNCTION -->
@@ -2138,6 +2230,8 @@ window.open(url );
                 displayRows(addedDiagnosisCount,"addedDiagnosisCount.value",1);
                 displayRows(addedSurgeryCount,"addedSurgeryCount.value",45);
                 displayRows(addedReferralsCount,"addedReferralsCount.value",101);
+                displayRows(addedLabsCount,"addedLabsCount.value",201);
+                displayRows(addedDiagCount,"addedDiagCount.value",401);
 
 	});
 	}
@@ -2149,7 +2243,7 @@ window.open(url );
 
 		$j(document).ready(function(){
              // if this is in View, don't want any addEntry or remove Entry buttons 
-                     for (i=1;300>=i;++i) {
+                     for (i=1;500>=i;++i) {
                           $j('#' + i + '-removeEntry').toggle(false);
                           $j('#' + i + '-addEntry').toggle(false);
                      };
