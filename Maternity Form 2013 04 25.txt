@@ -153,8 +153,12 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					     var correctedAddButtonId = parseFloat(this.id) + 1;
 
                                             // determine what count we need to change                                     
-                                            if (correctedAddButtonId> 64) {
-                                                valuestring = 'addedPregnancyCount.value';
+                                            if (correctedAddButtonId> 400) {
+                                                valuestring = 'addedDiagCount.value';
+                                            } else if (correctedAddButtonId > 200) {
+                                                valuestring = 'addedLabsCount.value';
+                                            } else if (correctedAddButtonId > 100) {
+                                                valuestring = 'addedReferralCount.value';
                                             } else if (correctedAddButtonId > 54) {
                                                 valuestring = 'addedUltrasoundCount.value';
                                             } else if (correctedAddButtonId > 44) {
@@ -186,7 +190,16 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					
                                         // update the right count - 1 - 44 reportable diagnoses 45 -54 surgery
                                         var whichBlock = 1;
-                                        if (correctedRemoveButtonId > 64) {
+                                        if (correctedRemoveButtonId > 400) {
+                                            setValue('addedDiagCount.value', Number(getValue('addedDiagCount.value')) - 1);
+                                            whichBlock = 7;
+                                        } else if (correctedRemoveButtonId > 200) {
+                                            setValue('addedLabsCount.value', Number(getValue('addedLabsCount.value')) - 1);
+                                            whichBlock = 6;
+                                        } else if (correctedRemoveButtonId > 100) {
+                                            setValue('addedReferralCount.value', Number(getValue('addedReferralCount.value')) - 1);
+                                            whichBlock = 5;
+                                        } else if (correctedRemoveButtonId > 64) {
                                             setValue('addedPregnancyCount.value', Number(getValue('addedPregnancyCount.value')) - 1);
                                             whichBlock = 4;
                                         } else if (correctedRemoveButtonId > 54) {
@@ -207,7 +220,10 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
                                         if ( ((correctedRemoveButtonId == getValue('addedDiagnosisCount.value')) &amp;&amp; (whichBlock == 1) )
                                        ||   ((correctedRemoveButtonId == getValue('addedSurgeryCount.value'))   &amp;&amp; (whichBlock == 2) ) 
                                        ||   ((correctedRemoveButtonId == getValue('addedUltrasoundCount.value'))   &amp;&amp; (whichBlock == 3) ) 
-                                       ||   ((correctedRemoveButtonId == getValue('addedPregnancyCount.value'))   &amp;&amp; (whichBlock == 4) )  ){
+                                       ||   ((correctedRemoveButtonId == getValue('addedPregnancyCount.value'))   &amp;&amp; (whichBlock == 4) )  
+                                       ||   ((correctedRemoveButtonId == getValue('addedReferralCount.value'))   &amp;&amp; (whichBlock == 5) ) 
+                                       ||   ((correctedRemoveButtonId == getValue('addedLabsCount.value'))   &amp;&amp; (whichBlock == 6) )  
+                                       ||   ((correctedRemoveButtonId == getValue('addedDiagCount.value'))   &amp;&amp; (whichBlock == 7) )  ){
 					     $j('#' + correctedRemoveButtonId + '-addEntry').toggle(true); 
                                         };
                                         $j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
@@ -224,6 +240,9 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
                 setValue('addedSurgeryCount.value', removeBlanks(45,10,"-list.value",2,false));
                 setValue('addedUltrasoundCount.value', removeBlanks(55,10,"-list.value",2,false));
                 setValue('addedPregnancyCount.value', removeBlanks(65,10,"-list.value",11,true));
+                setValue('addedReferralCount.value', removeBlanks(100,10,"-list.value",3,true));
+                setValue('addedLabsCount.value', removeBlanks(200,10,"-list.value",2,true));
+                setValue('addedDiagCount.value', removeBlanks(400,10,"-list.value",2,true));
                 return true;
          }); 
 				
@@ -558,7 +577,7 @@ window.open(url );
 		                        CHIEF COMPLAINT: <obs field="PC_cc" conceptId="5219" answerClasses="Chief Complaint" style="autocomplete" />
 					<br/>
 					Comments: 
-					<div class="secondary"><obs conceptId="160531" style="textarea" rows="8" cols="75"/></div>
+					<div class="secondary"><obs field="PC_text" conceptId="160531" style="textarea" rows="8" cols="75"/></div>
 				</td>
 			</tr>
 		</table>
@@ -569,47 +588,60 @@ window.open(url );
 		<section headerLabel="OBGYN Hx">
 		<table style="width:100%;"><tr><td style="width:50%;">
 					<table id="two-wide">
-	
-						<tr>
+							<tr>
 							<td class="nested-label">LMP: </td>
-							<td class="nested-td">  <obs conceptId="1427"/></td>
+							<td class="nested-td">  <obs field="OB_LMP" conceptId="1427"/></td>
 
 						</tr>
 						<tr>
 							<td class="nested-label">EDD: </td>
-							<td class="nested-td">  <obs conceptId="5596" allowFutureDates="true"/></td>
+							<td class="nested-td">  <obs field="OB_EDD" conceptId="5596" allowFutureDates="true"/></td>
 
 				 
 						</tr>
 						<tr>
 							<td class="nested-label">Estimated Gestational age (in weeks): </td>
-							<td class="nested-td"> <obs conceptId="1438"/></td>
+							<td class="nested-td"> <obs field="OB_gest" conceptId="1438"/></td>
                                                  </tr>
                                                  <tr>
                                                         <td class="nested-label">Calculated from: </td>
-							<td class="nested-td"> <obs conceptId="160697"/></td>
+							<td class="nested-td"> <obs field="OB_gestcalc" conceptId="160697"/></td>
 						</tr>
 				</table>
 				</td>
-				<td style="width:50%;">
+                               
+                                 <td style="width:50%;">
 				<table id="two-wide">
 						<tr>
-		
 						<td class="nested-label">Blood Type: </td>
-						<td class="nested-td">  <obs conceptId="300"/></td>
+						<td class="nested-td">  <obs field="Blood_type" conceptId="300"/></td>
 						</tr>
 						<tr>
 						<td class="nested-label">Group B Strep Carrier?:</td>
-						<td class="nested-td">  <obs conceptId="112698" style="checkbox"/></td>
+						<td class="nested-td">  <obs conceptId="1628" field="group_b" answerConceptId="112698" style="checkbox" answerLabel=""/></td>
 						</tr>
 				</table>
 		
 				</td>
 				</tr>
+                                 <td style="two-wide">
+				<table id="two-wide" class="checkboxGroup">
+                                <td class="nested-td" id="checkboxRadio">            
+                                     <br/>                                              
+                                     <obs field="GENERAL_weightGain" conceptId="159614" answerConceptId="122887" answerLabel="Weight Gain" style="checkbox"/>
+				</td>
+                                <td class="nested-td" id="checkboxRadio">
+                                     <br/>
+                                     <obs field="GENERAL_weightLoss" conceptId="159614" answerConceptId="832" answerLabel="Weight Loss" style="checkbox"/>
+				</td>
+</table>
+</td>
+
+
 				</table>
 		 <br />
 		<br />
-		Had ultrasound this pregnancy? <obs answerConceptIds="1066,1065" answerLabels="No,Yes" conceptId="159617" style="checkbox"></obs><br />
+		Had ultrasound this pregnancy? <obs field="US_thispreg" answerConceptIds="1066,1065" answerLabels="No,Yes" conceptId="159617" style="checkbox"/><br />
 		If yes, <br />
 		<table>
 			<obsgroup groupingConceptId="159617">
@@ -652,7 +684,7 @@ window.open(url );
 											G (Gravida - Number of Times Pregnant): 
 										</td>
 										<td class="nested-td">
-											<obs conceptId="5624"/>
+											<obs field="OBHX_gravida" conceptId="5624"/>
 										</td>
 									</tr>
 									<tr>
@@ -660,7 +692,7 @@ window.open(url );
 											T (Number of Full Term Pregnancies):
 										</td>
 										<td class="nested-td">
-											<obs conceptId="160080"/>
+											<obs field="OBHX_fullterm" conceptId="160080"/>
 										</td>
 									</tr>
 									<tr>
@@ -668,7 +700,7 @@ window.open(url );
 											P (Parity - Number of Deliveries): 
 										</td>
 										<td class="nested-td">
-											<obs conceptId="1053"/>
+											<obs field="OBHX_parity" conceptId="1053"/>
 										</td>
 									</tr>
 									<tr>
@@ -676,7 +708,7 @@ window.open(url );
 											A (Number of Abortions - Induced or Spontaneous):
 										</td>
 										<td class="nested-td">
-											<obs conceptId="1823"/>
+											<obs field="OBHX_abortions" conceptId="1823"/>
 										</td>
 									</tr>
 									<tr>
@@ -684,7 +716,7 @@ window.open(url );
 											History of Spontaneous Abortion: 
 										</td>
 										<td class="nested-td">
-											<obs conceptId="50" commentFieldLabel="Number:" style="checkbox"/>
+											<obs field="OBHX_spontaneous" conceptId="1628" answerConceptId="50" answerLabel="" commentFieldLabel="Number:" style="checkbox"/>
 										</td>
 									</tr>
 									<tr>
@@ -692,7 +724,7 @@ window.open(url );
 											History of Therapeutic Abortion: 
 										</td>
 										<td class="nested-td">
-											<obs conceptId="116353" commentFieldLabel="Number:" style="checkbox"/>
+											<obs field="OBHX_therapeutic" conceptId="1628" answerConceptId="116353"  answerLabel="" commentFieldLabel="Number:" style="checkbox"/>
 										</td>
 									</tr>
 									<tr>
@@ -700,7 +732,7 @@ window.open(url );
 											History of Other Induced Abortion: 
 										</td>
 										<td class="nested-td">
-											<obs conceptId="117280" commentFieldLabel="Number:" style="checkbox"/>
+											<obs field="OBHX_otherabor" conceptId="1628" answerConceptId="117280"  answerLabel="" commentFieldLabel="Number:" style="checkbox"/>
 										</td>
 									</tr>
 									<tr>
@@ -708,7 +740,7 @@ window.open(url );
 											L (Living Children): 
 										</td>
 										<td class="nested-td">
-											<obs conceptId="1825"/>
+											<obs field="OBHX_livingchild" conceptId="1825"/>
 										</td>
 									</tr>
 								</table>
@@ -786,12 +818,12 @@ window.open(url );
                         <table style="width:100%">               
 				<tr>
                                        	<td>
-						<obs conceptId="160661" labelText="Number of Ectopic Pregnancies: "/>  
+						<obs field="OB_ectopic" conceptId="160661" labelText="Number of Ectopic Pregnancies: "/>  
 					</td>
                                 </tr>                             
                                 <tr>   
                                       	<td>  Comments:<br/>
-						<obs conceptId="161011" answerConceptId="160661" style="textarea" rows="5" cols="50"/> 
+						<obs field="OB_ectcomment" conceptId="161011" style="textarea" rows="5" cols="100"/> 
 				        </td>
                                 </tr>
                        </table>
@@ -807,37 +839,37 @@ window.open(url );
                                                                 <table id="disabled" style="width:100%">               
 								<tr>
                                                                        	<td>
-										<obs answerConceptId="116995" conceptId="156660" style="checkbox"> </obs> Cervitis
+										<obs field="STI_cervitis" answerConceptId="116995" conceptId="1628" style="checkbox" answerLabel="Cervitis"/> 
 									</td>
 									<td>
-										<obs answerConceptId="902" conceptId="156660" style="checkbox"> </obs> PID
+										<obs field="STI_PID" answerConceptId="902" conceptId="1628" style="checkbox" answerLabel="PID"/> 
 									</td>
 									<td>
-										<obs answerConceptId="153872" conceptId="156660" style="checkbox"> </obs> GUD
+										<obs field="STI_GUD" answerConceptId="153872" conceptId="1628" style="checkbox" answerLabel="GUD"> </obs>
 									</td>
 									<td>
-										<obs answerConceptId="139505" conceptId="156660" style="checkbox"> </obs> Genital Warts
+										<obs field="STI_genwarts" answerConceptId="139505" conceptId="1628" style="checkbox" answerLabel="Genital Warts"/>
 									</td>
 									<td>
-										<obs answerConceptId="117829" conceptId="156660" style="checkbox"> </obs> Herpes
+										<obs field="STI_herpes" answerConceptId="117829" conceptId="1628" style="checkbox" answerLabel="Herpes"/>
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<obs answerConceptId="112493" conceptId="156660" style="checkbox"> </obs> Syphilis
+										<obs field="STI_syphilis" answerConceptId="112493" conceptId="1628" style="checkbox" answerLabel="Syphilis"/> 
 									</td>
 									<td>
-										<obs answerConceptId="120733" conceptId="156660" style="checkbox"> </obs> Chlamydia
+										<obs field="STI_chlamydia" answerConceptId="120733" conceptId="1628" style="checkbox" answerLabel="Chlamydia"/>
 									</td>
 									<td>
-										<obs answerConceptId="117767" conceptId="156660" style="checkbox"> </obs> Gonorrhea
+										<obs field="STI_gonorrhea" answerConceptId="117767" conceptId="1628" style="checkbox" answerLabel="Gonorrhea"/>
 									</td>
 									<td>
-										<obs answerConceptId="684" conceptId="156660" style="checkbox"> </obs> Trichomonas
+										<obs field="STI_trichomonas" answerConceptId="684" conceptId="1628" style="checkbox" answerLabel="Trichomonas"/>
 									</td>
 									<td>
-										<obs answerConceptId="145762" conceptId="156660" style="checkbox"> </obs> Chancroid
-									</td>
+										<obs field="STI_chancroid" answerConceptId="145762" conceptId="1628" style="checkbox" answerLabel="Chancroid"/>
+ 									</td>
 								</tr>
 							</table>
 						<br />
@@ -892,15 +924,15 @@ window.open(url );
 			</tr>
 		</table>
 <br/>
-		Comments: <div class="secondary"><obs conceptId="161011" answerConceptId="1576" style="textarea" rows="5" cols="50" /></div>
+		Comments: <div class="secondary"><obs field="STI_comments" conceptId="161011" style="textarea" rows="5" cols="100" /></div>
 		
 		<br />
 		<h4>Vaccination Hx</h4>
-		<obs answers="1,2,3,4,5" conceptId="160055" answerLabels="#1,#2,#3,#4,#5" labelText="Tetanus given to date: DOSE" style="radio" />
+		<obs field="VAC_doses" answers="1,2,3,4,5" conceptId="160055" answerLabels="#1,#2,#3,#4,#5" labelText="Tetanus given to date: DOSE" style="radio" />
 		<br />
-		<obs answerConceptIds="1065,1066" conceptId="54" answerLabels="Yes,No" labelText="Tetanus given today?" />
+		<obs field="VAC_tettoday" answerConceptIds="1065,1066" conceptId="54" answerLabels="Yes,No" labelText="Tetanus given today?" />
 		<br />
-		<obs answerConceptIds="1065,1066" conceptId="160682" answerLabels="Yes,No" labelText="Tetanus complete?" />
+		<obs field="VAC_tetcomplete" answerConceptIds="1065,1066" conceptId="160682" answerLabels="Yes,No" labelText="Tetanus complete?" />
 		<br />
 		<br />
 		
@@ -922,27 +954,6 @@ window.open(url );
 						</td>
 					</tr>
 					<tr>
-						
-
-
-						<td class="nested-td">
-
-							<div class="enableDisable">
-								<div id="trigger">
-									<obs field="GENERAL_weightLoss" conceptId="1633" answerConceptId="832" answerLabel="Weight loss" style="checkbox"/> Weight Loss
-								</div>
-								<div id="disabled" class="secondary">
-									<span class="duration">
-										How much? <obs field="GENERAL_weightLossAmount" conceptId="5089" answerConceptId="1633"/> kg
-									</span>
-									<br/>
-									<span class="duration">
-										Over how long? <obs field="GENERAL_weightLossTime" conceptId="1731"/><obs field="GENERAL_weightLossTimeUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
-									</span>
-								</div>
-							</div>
-						</td>
-
 					</tr>
 				</table>
 			</td>			
@@ -960,7 +971,7 @@ window.open(url );
 							Briefly describe reason(s) for hospitalizations:
 
 							<div class="secondary">
-								<obs field="HOSPITAL_reasons" conceptId="161011" answerConceptId="1655" style="textarea" cols="50" rows="5"/>
+								<obs field="HOSPITAL_reasons" conceptId="161011" style="textarea" cols="50" rows="5"/>
 							</div>
 						</div>
 					</div>
@@ -973,19 +984,19 @@ window.open(url );
 				<table>
 					<tr>
 						<td class="nested-td" colspan="1">
-							<obs field="EXPOSURE_hiv" conceptId="1633" answerConceptId="822" style="checkbox" answerLabel=""/> HIV
+							<obs field="EXPOSURE_hiv" conceptId="1628" answerConceptId="822" style="checkbox" answerLabel="HIV"/>
 						   </td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_tb" conceptId="1633" answerConceptId="124068"  style="checkbox"/> TB
+							<obs field="EXPOSURE_tb" conceptId="1628" answerConceptId="124068"  style="checkbox" answerLabel="TB"/>
 						</td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_other" conceptId="1633" answerConceptId="151056" style="checkbox"/> Other sickness
+							<obs field="EXPOSURE_other" conceptId="1628" answerConceptId="151056" style="checkbox" answerLabel="Other sickness"/>
 						</td>			
                                     		<td class="nested-td">
-							<obs field="EXPOSURE_animal" conceptId="1633" answerConceptId="121605"  style="checkbox"/> Animals
+							<obs field="EXPOSURE_animal" conceptId="1628" answerConceptId="121605"  answerLabel="Animals" style="checkbox"/>
 						</td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_travel" conceptId="1633" answerConceptId="124153" style="checkbox"/> Travel
+							<obs field="EXPOSURE_travel" conceptId="1628" answerConceptId="124153" answerLabel="Travel" style="checkbox"/>
 						</td>
 </tr>
 </table>
@@ -993,7 +1004,7 @@ window.open(url );
                                                         <obs field="Exposure_water" conceptId="1511" labelText="Water Source:"/>
 				<br/>
 				Details: 
-				<div class="secondary"><obs field="EXPOSURE_details" conceptId="161011" answerConceptId="118713" style="textarea" rows="5" cols="75"/></div>				
+				<div class="secondary"><obs field="EXPOSURE_details" conceptId="161011" style="textarea" rows="5" cols="100"/></div>				
 			</td>
 			<td>
 				<h4>Tuberculosis Status:</h4>
@@ -1033,26 +1044,6 @@ window.open(url );
 								<obs field="TB_contact" conceptId="124068" answerConceptId="1065" style="checkbox" answerLabel="Tuberculosis contact in household"/> 
 							</td>
 						</tr>
-						<tr>
-							<td class="nested-td">
-
-								<div class="enableDisable">
-									<div id="trigger">
-										<obs field="TB_pc" conceptId="1633" answerConceptId="5957" answerLabel="Productive cough" style="checkbox"/> Productive Cough
-									</div>
-
-									<div id="disabled" class="secondary">
-										<obs field="TB_hemo" conceptId="1633" answerConceptId="138905" answerLabel="Hemoptysis" style="checkbox"/> Hemoptysis
-										<br/>
-										<obs field="TB_sputum" conceptId="1633" answerConceptId="125998" answerLabel="Sputum" style="checkbox"/> Sputum
-									</div> 
-								</div>
-							</td>
-							<td class="nested-td">
-
-								<obs field="TB_chronic" conceptId="1633" answerConceptId="145455" answerLabel="Chronic cough (longer than 3 weeks)" style="checkbox"/> Chronic cough (longer than 3 weeks)
-							</td>
-						</tr>
 					</table>
 			</td>
 		</tr>
@@ -1066,7 +1057,7 @@ window.open(url );
 					<tr id="{n}-toggleContainer" style="display:none;">
 					
 							<td class="nested-td">
-							<obs id="{n}-list" field="SURGERIES_{n}" conceptId="6042" answerClasses="Surgeries" showCommentField="true"/>
+							<obs id="{n}-list" field="SURGERIES_{n}" conceptId="1651" answerClasses="Surgeries" showCommentField="true"/>
 							</td>
 							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 						</tr>
@@ -1098,75 +1089,75 @@ window.open(url );
 							<table>
 									<tr>
 										<td class="nested-td">
-											<obs field="HIS_thyroid" conceptId="1633" answerConceptId="118976" style="checkbox"/> Thyroid Disorder
+											<obs field="HIS_thyroid" conceptId="1628" answerConceptId="118976" style="checkbox" answerLabel="Thyroid Disorder"/>
 										</td>
 										<td class="nested-td">
-											<obs field="HIS_diabetes" conceptId="1633" answerConceptId="119481" style="checkbox"/> Diabetes 
+											<obs field="HIS_diabetes" conceptId="1628" answerConceptId="119481" style="checkbox" answerLabel="Diabetes"/>  
 										</td>
 										<td class="nested-td">
-											<obs field="HIS_pap" conceptId="1633" answerConceptId="154451" style="checkbox"/> Abnormal PAP Smear
+											<obs field="HIS_pap" conceptId="1628" answerConceptId="154451" style="checkbox" answerLabel="Abnormal PAP Smear"/> 
 										</td>										
 									</tr>
 									<tr>
 										<td class="nested-td">
-											<obs field="HIS_hyper" conceptId="1633" answerConceptId="156639" style="checkbox"/> Hypertension
+											<obs field="HIS_hyper" conceptId="1628" answerConceptId="156639" style="checkbox" answerLabel="Hypertension"/>
 										</td>
 										<td class="nested-td">
-											<obs field="HIS_jaundice" conceptId="1633" answerConceptId="136443" style="checkbox"/> Jaundice
+											<obs field="HIS_jaundice" conceptId="1628" answerConceptId="136443" style="checkbox" answerLabel="Jaundice"/>
 										</td>
 										<td class="nested-td">
-											<obs field="HIS_uti" conceptId="1633" answerConceptId="111633" style="checkbox"/> UTI
-										</td>
-									</tr>
-									<tr>
-										<td class="nested-td">
-											<obs field="HIS_thromb" conceptId="1633" answerConceptId="124800" style="checkbox"/> Thromboembolic Disease
-										</td>
-										<td class="nested-td">
-											<obs field="HIS_seizure" conceptId="1633" answerConceptId="1625" style="checkbox"/> Seizure Disorder
-										</td>
-										<td class="nested-td">
-											<obs field="HIS_history" conceptId="1633" answerConceptId="1871" style="checkbox"/> History of Blood Transfusion
+											<obs field="HIS_uti" conceptId="1628" answerConceptId="111633" style="checkbox" answerLabel="UTI"/>
 										</td>
 									</tr>
 									<tr>
 										<td class="nested-td">
-											<obs field="HIS_congen" conceptId="1633" answerConceptId="151524" style="checkbox"/> Congenital Anomalies in Newborns
+											<obs field="HIS_thromb" conceptId="1628" answerConceptId="124800" style="checkbox" answerLabel="Thromboembolic Disease"/> 
 										</td>
 										<td class="nested-td">
-											<obs field="HIS_anemia" conceptId="1633" answerConceptId="156625" style="checkbox"/> Anemia
+											<obs field="HIS_seizure" conceptId="1628" answerConceptId="1625" style="checkbox" answerLabel="Seizure Disorder"/>
 										</td>
 										<td class="nested-td">
-											<obs field="HIS_disorder" conceptId="1633" answerConceptId="119283" style="checkbox"/> Breast Disorder
-										</td>
-									</tr>
-									<tr>
-										<td class="nested-td">
-											<obs field="HIS_hd" conceptId="1633" answerConceptId="139071" style="checkbox"/> Heart Disease
-										</td>
-										<td class="nested-td">
-											<obs field="HIS_asthma" conceptId="1633" answerConceptId="139212" style="checkbox"/> Asthma
-										</td>
-										<td class="nested-td">
-											<obs field="HIS_mhp" conceptId="1633" answerConceptId="151282" style="checkbox"/> Mental Health Problems
+											<obs field="HIS_history" conceptId="1628" answerConceptId="1871" style="checkbox" answerLabel="History of Blood Transfusion"/> 
 										</td>
 									</tr>
 									<tr>
 										<td class="nested-td">
-											<obs field="HIS_pwa" conceptId="1633" answerConceptId="144464" style="checkbox"/> Problems with Anesthesia
+											<obs field="HIS_congen" conceptId="1628" answerConceptId="151524" style="checkbox" answerLabel="Congenital Anomalies in Newborns"/> 
 										</td>
 										<td class="nested-td">
-											<obs field="HIS_poms" conceptId="1633" answerConceptId="152487" style="checkbox"/> Multiples on Maternal Side
+											<obs field="HIS_anemia" conceptId="1628" answerConceptId="156625" style="checkbox" answerLabel="Anemia"/> 
 										</td>
 										<td class="nested-td">
-											<obs field="HIS_allergies" conceptId="1633" answerConceptId="141760" style="checkbox"/> Drug Allergies
+											<obs field="HIS_disorder" conceptId="1628" answerConceptId="119283" style="checkbox" answerLabel="Breast Disorder"/> 
+										</td>
+									</tr>
+									<tr>
+										<td class="nested-td">
+											<obs field="HIS_hd" conceptId="1628" answerConceptId="139071" style="checkbox" answerLabel="Heart Disease"/> 
+										</td>
+										<td class="nested-td">
+											<obs field="HIS_asthma" conceptId="1628" answerConceptId="139212" style="checkbox" answerLabel="Asthma"/> 
+										</td>
+										<td class="nested-td">
+											<obs field="HIS_mhp" conceptId="1628" answerConceptId="151282" style="checkbox" answerLabel="Mental Health Problems"/> 
+										</td>
+									</tr>
+									<tr>
+										<td class="nested-td">
+											<obs field="HIS_pwa" conceptId="1628" answerConceptId="144464" style="checkbox" answerLabel="Problems with Anesthesia"/> 
+										</td>
+										<td class="nested-td">
+											<obs field="HIS_poms" conceptId="1628" answerConceptId="152487" style="checkbox" answerLabel="Multiples on Maternal Side"/> 
+										</td>
+										<td class="nested-td">
+											<obs field="HIS_allergies" conceptId="1628" answerConceptId="141760" style="checkbox" answerLabel="Drug Allergies"/> 
 										</td>
 									</tr>
 									
 							</table>
 							Comments:
                                                         <br/>
-                                                        <obs conceptId="161011" answerConceptId="1633" style="textarea" rows="5" cols="50" />
+                                                        <obs field="HIS_text" conceptId="161011" style="textarea" rows="5" cols="50" />
 						</td>		
 					</tr>
 				</table>
@@ -1264,8 +1255,9 @@ window.open(url );
 
 					</tr></table>
 					<table><tr>
-<td class="nested-label">Substance Use:</td>	<td class="nested-td"><obs field="SUBSTANCE_illicit_1" conceptId="112603" style="checkbox"/></td>
-<td class="nested-label">Other(Specify):</td>	<td class="nested-td"><obs field="SUBSTANCE_illicit_2" conceptId="161011" answerConceptId="112603"/></td>
+                                                 <td class="nested-label">Substance Use:</td>	
+                                                 <td class="nested-td"><obs field="SUBSTANCE_illicit_1" conceptId="112603" style="checkbox"/></td>
+                                                 <td class="nested-td"><obs field="SUBSTANCE_illicit_2" conceptId="112603" answerConceptId="5622" style="checkbox" labelText="Or Other:" commentFieldLabel="Specify:" answerLabel=""/></td>
 					</tr></table><table>
 					<div class="checkboxGroup">
 						<tr id="checkboxRadio">
@@ -1328,34 +1320,26 @@ window.open(url );
 							<obs field="EDUCATION_unknown" conceptId="1712" answerConceptId="1067" answerLabel="Unknown"/>
 						</td>
 					</tr>
+                                        <tr id="checkboxRadio">
 						<td class="nested-td">
 							<obs field="EDUCATION_primary" conceptId="1712" answerConceptId="1713" answerLabel="Primary education"/>
 						</td>
-		
-		
+
 						<td class="nested-td">
 							<obs field="EDUCATION_secondary" conceptId="1712" answerConceptId="1714" answerLabel="Secondary education"/>
 						</td>
-			
-					
+                                         </tr>
+                                         <tr id="checkboxRadio">
 						<td class="nested-td">
 							<obs field="EDUCATION_ug" conceptId="1712" answerConceptId="159785" answerLabel="Polytechnic/College/Undergraduate education"/>
 						</td>
-					
-					<tr id="checkboxRadio">
-						<td class="nested-td">
+					       <td class="nested-td">
 							<obs field="EDUCATION_special" conceptId="1712" answerConceptId="160293" answerLabel="Special education received"/>
 						</td>
-						<td class="nested-td">
-							<div class="enableDisable">
-
-								<div id="trigger">
-									<obs field="EDUCATION_other" conceptId="1712" answerConceptId="5622" answerLabel="Other"/>
-								</div>
-								<div id="disabled" class="secondary">
-                                                                    <obs conceptId="161011" answerConceptId="1712" style="textarea" rows="3" cols="20" labelText="Specify :"/>
-								</div>
-							</div>
+                                        </tr>
+					<tr id="checkboxRadio">
+						<td class="nested-td" colspan="4">
+							<obs field="EDUCATION_other" conceptId="1712" answerConceptId="5622" answerLabel="Other" commentFieldLabel="Specify:"/>							
 						</td>
 					</tr>
 				</table>		
@@ -1368,7 +1352,7 @@ window.open(url );
 					<h4> Employment: </h4>
 
 					<div id="trigger">
-						<obs field="EMPLOY_outside" conceptId="1065" answerConceptId="5608" labelText="Patient is employed outside the home" style="checkbox"/>
+						<obs field="EMPLOY_outside" answerConceptId="1065" conceptId="5608" labelText="Patient is employed outside the home" style="checkbox" answerLabel=""/>
 					</div>
 					<div id="disabled" style="padding-left:0px">
 <tr>
@@ -1397,9 +1381,9 @@ window.open(url );
 				<!--<div class="enableDisable">-->
 						<h4> Barriers to Heathcare: </h4>
 							<span id="checkboxAll">
-								<obs answerConceptId="1066" conceptId="159766" style="checkbox" answerLabel="No"> </obs></span>
+								<obs field="Barriers_ no" answerConceptId="1066" conceptId="159766" style="checkbox" answerLabel="No"> </obs></span>
 							<span id="checkboxCheckbox" class="enableDisable">
-							<span id="trigger"><obs answerConceptId="1065" conceptId="159766" style="checkbox" answerLabel="Yes"> </obs></span>
+							<span id="trigger"><obs field="Barriers_ yes" answerConceptId="1065" conceptId="159766" style="checkbox" answerLabel="Yes"> </obs></span>
 							<span id="disabled"> -- If yes, check all that apply:<br /><br />
 							<table>
 							<tr>
@@ -1495,15 +1479,7 @@ window.open(url );
 								<obs field="FP_injection" conceptId="374" answerConceptId="5279" answerLabel="Injectable Hormones (progesterone derivative)"/>
 							</td>
 							<td class="nested-td">
-								<div class="enableDisable">
-
-									<div id="trigger">
-										<obs field="FP_other" conceptId="374" answerConceptId="5622" answerLabel="Other"/>
-									</div>
-									<div id="disabled" class="secondary">
-                                                                            <obs conceptId="161011" answerConceptId="374" style="textarea" rows="3" cols="20" labelText="Specify :"/>
-									</div>
-								</div>
+               						<obs field="FP_other" conceptId="374" answerConceptId="5622" answerLabel="Other" commentFieldLabel="Specify:"/>
 							</td>
 						</tr>
 					</table>
@@ -1544,7 +1520,7 @@ window.open(url );
 							Syphilis Contact:
 						</td>
 						<td class="nested-td" style="padding-right: 0px;">
-							<obs field="SA_syph" conceptId="110339" style="checkbox"/>
+							<obs field="SA_syph" answerConceptId="110339" answerLabel="" conceptId="1628" style="checkbox"/>
 						</td>
 					</tr>
 					<tr>
@@ -1552,10 +1528,15 @@ window.open(url );
 							Gonorrhea Contact: 
 						</td>
 						<td class="nested-td" style="padding-right: 0px;">
-							<obs field="SA_gono" conceptId="110341" style="checkbox"/>
+							<obs field="SA_gono" answerConceptId="110341" answerLabel="" conceptId="1628" style="checkbox"/>
 						</td>
-                                                 <td class="nested-td">
-							<obs field="HIV_hiv" conceptId="822" style="checkbox"/> HIV
+                                        </tr>
+                                        <tr>
+ 						<td class="nested-label">
+							HIV Contact: 
+						</td>
+                                                <td class="nested-td">
+							<obs field="HIV_hiv" answerConceptId="822"  answerLabel=""  conceptId="1628" style="checkbox"/>
 						</td>
 					</tr>
 				</table>
@@ -1572,7 +1553,7 @@ window.open(url );
 		<table style="width:100%">
 			<tr>
 				<td colspan="3">
-					<obs labelText="" style="textarea" cols="150" conceptId="1354" />
+ 					<obs field="MED_text" labelText="" style="textarea" cols="150" conceptId="1354" />
 				</td>
 			</tr>
 			<tr>
@@ -1597,19 +1578,21 @@ window.open(url );
 					<h4>Vitals</h4>
 					<table id="two-wide">
 						<tr>
-							<td class="nested-label">Temp</td><td class="nested-td"><obs conceptId="5088" />[C&#176;]</td>
+							<td class="nested-label">Temp</td><td class="nested-td"><obs field="PE_vitals" conceptId="5088" />[C&#176;]</td>
 						</tr>
 						<tr>
-							<td class="nested-label">HR</td><td class="nested-td"><obs conceptId="5087" />rate/min </td>
+							<td class="nested-label">HR</td><td class="nested-td"><obs field="PE_HR" conceptId="5087" />rate/min </td>
 						</tr>
 						<tr>
-							<td class="nested-label">BP</td><td class="nested-td"><obs conceptId="5085" />/<obs conceptId="5086" /></td>
+							<td class="nested-label">BP</td><td class="nested-td"><obs field="PE_BP" conceptId="5085" />/<obs conceptId="5086" /></td>
 						</tr>
 						<tr>
-							<td class="nested-label">Wt</td><td class="nested-td"><obs conceptId="5089" />kg</td>
+							<td class="nested-label">Wt</td><td class="nested-td"><obs field="PE_Wt" conceptId="5089" />kg</td>
 						</tr>
 						<tr>
-							<td class="nested-label">Height</td><td class="nested-td"><obs conceptId="5090" />cm </td>
+							<td class="nested-label">Pre-pregnancy Wt</td><td class="nested-td"><obs field="PE_Wt" conceptId="160696" />kg</td>
+						</tr><tr>
+							<td class="nested-label">Height</td><td class="nested-td"><obs field="PE_height" conceptId="5090" />cm </td>
 						</tr>
 					</table>
 			</td>
@@ -1698,25 +1681,25 @@ window.open(url );
 							<table class="checkboxGroup">
 								<tr id="checkboxAll">
 									<td class="nested-td">
-										<obs answerConceptId="1115" answerLabel="Normal" conceptId="159780"/>
+										<obs field="Breast_normal" answerConceptId="1115" answerLabel="Normal" conceptId="159780"/>
 									</td>
 								</tr>
 					
 								<tr id="checkboxCheckbox">
 									<td class="nested-td">
-										<obs answerConceptId="134615" answerLabel="Mastitis" conceptId="159780"  />
+										<obs field="breast_mastitis" answerConceptId="134615" answerLabel="Mastitis" conceptId="159780"  />
 									</td>
 									<td class="nested-td">
-										<obs answerConceptId="146931" answerLabel="Lump" conceptId="159780"  />
+										<obs field="breast_lump" answerConceptId="146931" answerLabel="Lump" conceptId="159780"  />
 									</td>
 									<td class="nested-td">
-										<obs answerConceptId="140103" answerLabel="Cracked nipples" conceptId="159780"  />
+										<obs field="breast_cracked" answerConceptId="140103" answerLabel="Cracked nipples" conceptId="159780"  />
 									</td>
 								</tr>
 								<tr>
 									<td class="nested-td" colspan="3">
-										<obs labelText="Other:" conceptId="161011" answerConceptId="159780" />
-															</td>
+										<obs field="breast_text" labelText="Other:" conceptId="161011" answerConceptId="159780" />
+									</td>
 								</tr>
 							</table>
 					
@@ -1726,31 +1709,31 @@ window.open(url );
 			</td>
 			<td style="width:50%;vertical-align: top;">
 				<h4>RS (Respiratory)</h4>
-				<table>
-					<tr>
-						<td class="checkboxGroup nested-td">
-						
-						<span id="checkboxAll"><obs field="RS_normal" answerConceptId="1115" answerLabel="Normal" conceptId="1123"/></span>
+				<table class="checkboxGroup">
+					<tr id="checkboxAll"><td class="nested-td">				
+						<obs field="RS_normal" answerConceptId="1115" answerLabel="Normal" conceptId="1123"/>
 						<br />
-						<span id="checkboxCheckbox">
-							<obs field="RS_abnormal" answerConceptId="1116" answerLabel="Abnormal (see comment)" conceptId="1123"/>
-						</span>
-						</td>	
-<td class="nested-td">
-
-								<div class="enableDisable">
-									<div id="trigger">
-										<obs field="wha_prod" conceptId="1633" answerConceptId="5957" style="checkbox"/> Productive Cough
-									</div>
-
-									<div id="disabled" class="secondary">
-										<obs field="wha_hemop" conceptId="1633" answerConceptId="138905" style="checkbox"/> Hemoptysis
-										<br/>
-										<obs field="wha_sput" conceptId="1633" answerConceptId="125998"  style="checkbox"/> Sputum
-									</div>
-								</div>
-							</td>														
-					</tr>
+                                        </td></tr>
+                                         <tr id="checkboxCheckbox">
+                                              <td class="nested-td">
+						   <obs field="RS_abnormal" answerConceptId="1116" answerLabel="Abnormal (see comment)" conceptId="1123"/>
+					      </td>	
+                                              <td class="nested-td">
+						   <div class="enableDisable">
+						         <div id="trigger">
+							     <obs field="wha_prod" conceptId="1628" answerConceptId="5957" style="checkbox" answerLabel=""/> Productive Cough
+						         </div>
+						         <div id="disabled" class="secondary">
+							     <obs field="wha_hemop" conceptId="1628" answerConceptId="138905" answerLabel="Hemoptysis" style="checkbox"/>
+							     <br/>
+							     <obs field="wha_sput" conceptId="1628" answerConceptId="125998"  answerLabel="Sputum" style="checkbox"/>
+						        </div>
+						   </div>
+					    </td>
+					    <td class="nested-td">
+						<obs field="TB_chronic" conceptId="1628" answerConceptId="145455" answerLabel="Chronic cough (longer than 3 weeks)" style="checkbox"/>
+					   </td>
+                                      </tr>										
 				</table>
 			</td>
 
@@ -1762,19 +1745,19 @@ window.open(url );
 				<table>
 					<tr>
 						<td class="nested-td">
-						
-						
 							<table class="checkboxGroup">
-								<tr id="checkboxAll">
+								<tr class="nested-td" id="checkboxRadio">
+                                                                        <td class="nested-td">
+										<obs field="GE_notdone" answerConceptId="1118" answerLabel="Not Done" conceptId="1126"  />
+                                                                        </td>
+						                </tr>
+                                                                <tr id="checkboxRadio">
 									<td class="nested-td">
 										<obs field="GE_normal" answerConceptId="1115" answerLabel="Normal" conceptId="1126"/>
 									</td>
-                                                                 	<td class="nested-td">
-										<obs field="GE_notdone" answerConceptId="1118" answerLabel="Not Done" conceptId="1126"  />
-									</td>
-								</tr>
+                                                                </tr>
 					
-								<tr id="checkboxCheckbox">
+								<tr id="checkboxRadio">
 									<td class="nested-td">
 										<obs field="GE_ulcer" answerConceptId="864" answerLabel="Ulcer" conceptId="1126"  />
 									</td>
@@ -1803,29 +1786,19 @@ window.open(url );
                                                 </tr>
                                                 <tr>
 							<td class="nested-td"><obs conceptId="1440" labelText="Fetal HR " />bpm</td>
-						</tr>
-						<tr>
-							Uterine Exam Findings: <br/> <obs conceptId="160967" rows="5" cols="50" style="textarea"/>
-						</tr>
-					
+						</tr>				
 					</table>
 			</td>
-
-
 		</tr>	
 		<tr>
-			
 			<td style="width:50%;">
-					<h4>Presentation:</h4>
+					<h4>Fetal Orientation (breech, cephalic, etc):</h4>
 					<table>
 						<tr>
-							<td class="nested-td"><obs answerConceptId="160091" answerLabel="Cephalic" conceptId="160090"  />
-</td>
+							<td class="nested-td"><obs conceptId="161011" style="textarea" rows="5" cols="50"/>
+                          </td>
 						</tr>
-						<tr>
-							<td class="nested-td"><obs labelText="Other-Specify:" conceptId="160704"  /></td>
-						</tr>
-					
+										
 					</table>
 			</td>
 			<td style="width:50%;vertical-align: top;">
@@ -1855,32 +1828,32 @@ window.open(url );
 					<obs field="BPE_weightgain" answerConceptId="1380" conceptId="1912" style="checkbox" answerLabel="Weight gain/Nutrition"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_mode" answerConceptId="160685" conceptId="160683" style="checkbox" answerLabel="Mode of delivery"> </obs>
+					<obs field="BPE_mode" answerConceptId="160685" conceptId="1912" style="checkbox" answerLabel="Mode of delivery"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_contra" answerConceptId="160686" conceptId="160683" style="checkbox" answerLabel="Contraception"> </obs>
+					<obs field="BPE_contra" answerConceptId="160686" conceptId="1912" style="checkbox" answerLabel="Contraception"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_lab" answerConceptId="160687" conceptId="160683" style="checkbox" answerLabel="Signs of labour"> </obs>
+					<obs field="BPE_lab" answerConceptId="160687" conceptId="1912" style="checkbox" answerLabel="Signs of labour"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_prom" answerConceptId="160688" conceptId="160683" style="checkbox" answerLabel="PROM/APH"> </obs>
+					<obs field="BPE_prom" answerConceptId="160688" conceptId="1912" style="checkbox" answerLabel="PROM/APH"> </obs>
 				</td>
 				</tr><tr>
 				<td>
-					<obs field="BPE_sa" answerConceptId="159612" conceptId="160683" style="checkbox" answerLabel="Sexual activity"> </obs>
+					<obs field="BPE_sa" answerConceptId="159612" conceptId="1912" style="checkbox" answerLabel="Sexual activity"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_uom" answerConceptId="160689" conceptId="160683" style="checkbox" answerLabel="Use of medications"> </obs>
+					<obs field="BPE_uom" answerConceptId="160689" conceptId="1912" style="checkbox" answerLabel="Use of medications"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_work" answerConceptId="160690" conceptId="160683" style="checkbox" answerLabel="Work"> </obs>
+					<obs field="BPE_work" answerConceptId="160690" conceptId="1912" style="checkbox" answerLabel="Work"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_fm" answerConceptId="160691" conceptId="160683" style="checkbox" answerLabel="Fetal Movement"> </obs>
+					<obs field="BPE_fm" answerConceptId="160691" conceptId="1912" style="checkbox" answerLabel="Fetal Movement"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_if" answerConceptId="160692" conceptId="160683" style="checkbox" answerLabel="Infant Feeding"> </obs>
+					<obs field="BPE_if" answerConceptId="160692" conceptId="1912" style="checkbox" answerLabel="Infant Feeding"> </obs>
 				</td>
 			</tr>
 		</table>
@@ -1895,11 +1868,11 @@ window.open(url );
 			<tr>
 				<td colspan="2">
 					Indicate preferred infant feeding option: <br />
-					<table style="width:100%"><tr>
-					<td class="nested-td"><obs field="FE_bf" answerConceptId="5526" answerLabel="Exclusive breast feeding" conceptId="985" style="checkbox" /></td>
-					<td class="nested-td"><obs field="FE_bm" answerConceptId="1173" answerLabel="Expressed breast milk" conceptId="985" style="checkbox" /></td>
-					<td class="nested-td"><obs field="FE_f" answerConceptId="5254" answerLabel="Formula" conceptId="985" style="checkbox" /></td>
-					<td class="nested-td"><obs field="FE_am" answerConceptId="968" answerLabel="Animal milk" conceptId="985" style="checkbox" /></td>
+					<table style="width:100%" class="checkboxGroup"><tr>
+					<td class="nested-td"><obs field="FE_bf" id="checkboxRadio" answerConceptId="5526" answerLabel="Exclusive breast feeding" conceptId="985" style="checkbox" /></td>
+					<td class="nested-td"><obs field="FE_bm"  id="checkboxRadio" answerConceptId="1173" answerLabel="Expressed breast milk" conceptId="985" style="checkbox" /></td>
+					<td class="nested-td"><obs field="FE_f"  id="checkboxRadio" answerConceptId="5254" answerLabel="Formula" conceptId="985" style="checkbox" /></td>
+					<td class="nested-td"><obs field="FE_am"  id="checkboxRadio" answerConceptId="968" answerLabel="Animal milk" conceptId="985" style="checkbox" /></td>
 					</tr>
 					</table>
 				</td>
@@ -1928,8 +1901,8 @@ window.open(url );
 				<td>
 					If yes, where? <br />
 					<table><tr>
-					<td class="nested-td" style="width:50%"><obs answerConceptId="1274" answerLabel="MTRH" conceptId="159757"  /></td>
-					<td class="nested-td" style="width:50%">Other: <obs conceptId="160696"  /></td>
+					<td class="nested-td" style="width:50%"><obs answerClasses="KMRI_Locations" style="dropdown" commentFieldLabel="Other: " conceptId="159757"  /></td>
+
 					</tr></table>
 				</td>
 				</tr><tr>
@@ -1942,7 +1915,7 @@ window.open(url );
 					</tr><tr>
 					<td class="nested-td" style="width:33%"><obs field="NO_hw" answerConceptId="159743" answerLabel="Health worker's attitude" conceptId="159700"  /></td>
 					<td class="nested-td" style="width:33%"><obs field="NO_cost" answerConceptId="159710" answerLabel="Cost" conceptId="159700"  /></td>
-					<td class="nested-td" style="width:33%">Other<obs conceptId="160694"  style="checkbox"/></td>
+					<td class="nested-td" style="width:33%"><obs conceptId="159700"  answerConceptId="5622" style="checkbox" answerLabel="Other" labelText=""/></td>
 					
 					</tr></table>
 				</td>
@@ -1960,208 +1933,93 @@ window.open(url );
 		</section>
 	</span>
 <span id="TestsRefs">
+
 <section headerLabel="Tests and Referrals">
-	<table id="two-wide">
+	<table>
 		<tr>
-			<td class="checkboxGroup">
-				<h4>Tests Ordered: </h4>
-				<table class="checkboxGroup">
-					<tr id="checkboxAll">
-						<td class="nested-td">
-							<obs field="TO_none" answerConceptId="1107" conceptId="1271" style="checkbox" answerLabel="None"> </obs>
-						</td>
-					</tr>
-					<tr id="checkboxCheckbox">
-						<!--<table id="two-wide">
-							<tr>-->
-								<td class="nested-td">
-									<obs field="TO_cbc" answerConceptId="1019" conceptId="1271" style="checkbox" answerLabel="Complete Blood Count"> </obs>
-								</td>
-								<td class="nested-td">
-									<obs field="TO_alt" answerConceptId="654" conceptId="1271" style="checkbox" answerLabel="ALT"> </obs>
-								</td>
-								<td class="nested-td">
-									<obs field="TO_ast" answerConceptId="653" conceptId="1271" style="checkbox" answerLabel="AST"> </obs>
-								</td>
-								<td class="nested-td">
-									<obs field="TO_cxr" answerConceptId="12" conceptId="1271" style="checkbox" answerLabel="CXR"> </obs>
-								</td>
-							</tr>
-							<tr id="checkboxCheckbox">
-								<td class="enableDisable" colspan="4" cellspacing="0" cellpadding="0">
-									<div id="trigger" cellspacing="0" cellpadding="0">
-										<obs field="TO_rad" answerConceptId="160554" conceptId="1271" style="checkbox" answerLabel="Radiology Test (Specify):"> </obs>
-									</div>
-									<div id="disabled">
-										<obs field="TO_ab" answerConceptId="101" conceptId="160554" style="checkbox" answerLabel="Abdomen"> </obs>   
-										<obs field="TO_skull" answerConceptId="386" conceptId="160554" style="checkbox" answerLabel="Skull"> </obs>
-										<obs field="TO_spine" answerConceptId="390" conceptId="160554" style="checkbox" answerLabel="Spine"> </obs>
-										<obs field="TO_pevlis" answerConceptId="392" conceptId="160554" style="checkbox" answerLabel="Pelvis"> </obs>
-										<obs field="TO_shoulder" answerConceptId="394" conceptId="160554" style="checkbox" answerLabel="Shoulder"> </obs>
-										<br />
-										<obs field="TO_la" answerConceptId="1232" conceptId="160554" style="checkbox" answerLabel="Left Arm"> </obs>
-										<obs field="TO_ra" answerConceptId="1233" conceptId="160554" style="checkbox" answerLabel="Right Arm"> </obs>
-										<obs field="TO_ll" answerConceptId="1234" conceptId="160554" style="checkbox" answerLabel="Left Leg"> </obs>
-										<obs field="TO_rl" answerConceptId="1235" conceptId="160554" style="checkbox" answerLabel="Right Leg"> </obs>
-										<obs field="TO_hand" answerConceptId="382" conceptId="160554" style="checkbox" answerLabel="Hand"> </obs>
-										<obs field="TO_foot" answerConceptId="384" conceptId="160554" style="checkbox" answerLabel="Foot"> </obs>
-
-
-										<br />Type of Radiology:<obs field="TO_types" answerConceptIds="160604,160605,160606,160607" conceptId="160603"  answerLabels="MRI,Ultrasound,X-Ray,CT Scan"> </obs>
-									</div>
-
-								</td>
-							</tr>
-							<tr id="checkboxCheckbox">
-								<td class="nested-td">
-									<obs field="TO_cd4" answerConceptId="5497" conceptId="1271" style="checkbox" answerLabel="CD4 Count Assay"> </obs>
-								</td>    
-								<td class="nested-td">
-									<obs field="TO_creat" answerConceptId="790" conceptId="1271" style="checkbox" answerLabel="Creatinine"> </obs>
-								</td> 
-								<td class="nested-td">
-									<obs field="TO_hivelisa" answerConceptId="1042" conceptId="1271" style="checkbox" answerLabel="HIV ELISA"> </obs>
-								</td> 
-								<td class="nested-td">
-									<obs field="TO_afb" answerConceptId="307" conceptId="1271" style="checkbox" answerLabel="Sputum for AFB"> </obs>
-								</td>
-							</tr>
-							<tr id="checkboxCheckbox">
-								<td class="nested-td">
-									<obs field="TO_syph" answerConceptId="299" conceptId="1271" style="checkbox" answerLabel="Syphilis Testing"> </obs>
-								</td>
-								<td class="nested-td">
-									<obs field="TO_elec" answerConceptId="5473" conceptId="1271" style="checkbox" answerLabel="Electrolytes"> </obs>
-								</td>
-								<td class="nested-td">
-									<obs field="TO_hivviral" answerConceptId="1305" conceptId="1271" style="checkbox" answerLabel="HIV Viral Load"> </obs>
-								</td>
-								<td class="nested-td">
-									<obs field="TO_preg" answerConceptId="45" conceptId="1271" style="checkbox" answerLabel="Pregnancy Test"> </obs>
-								</td>
-							</tr>
-							<tr id="checkboxCheckbox" >
-								<td class="enableDisable" colspan="4">
-									<div id="trigger"><obs field="TO_other" answerConceptId="5622" conceptId="1271" style="checkbox" answerLabel="Other (Specify):"> </obs></div>
-									<div id="disabled">
-										<obs  conceptId="160555"> </obs>
-									</div>
-								</td>
-							</tr>
-							<!-- </table> -->
-					</table>
-				</td>
-
-
-
-
-				<td class="checkboxGroup">
-					<h4>Referrals Made:</h4>
-					<table class="checkboxGroup">
-						<tr id="checkboxAll">
+<h4> Tests Ordered</h4>
+<td><repeat>
+				<template>
+ 				<table>
+					<tr id="{n}-toggleContainer" style="display:none;">
+					
 							<td class="nested-td">
-								<obs field="REF_none" answerConceptId="1107" conceptId="1272" style="checkbox" answerLabel="None"> </obs>
+<obs id="{n}-list" field="LAB_{n}" conceptId="1271" answerClasses="KMRI_Labs" showCommentField="true" style="dropdown"/>
 							</td>
+							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 						</tr>
-						<tr id="checkboxCheckbox">
-							<!--<td class="nested-td">
-								<table>
-									<tr>-->
-										<td class="nested-td">
-											<obs field="REF_sws" answerConceptId="5486" conceptId="1272" style="checkbox" answerLabel="Social Work Services"> </obs>
-										</td>
-										<td class="nested-td">
-											<obs field="REF_psc" answerConceptId="5490" conceptId="1272" style="checkbox" answerLabel="Psychosocial Support"> </obs>
-										</td>
-										<td class="nested-td">
-											<obs field="REF_dsc" answerConceptId="1167" conceptId="1272" style="checkbox" answerLabel="Disclosure Counselling"> </obs>
-										</td>
-										<td class="nested-td">
-											<obs field="REF_fps" answerConceptId="5483" conceptId="1272" style="checkbox" answerLabel="Family Planning Services"> </obs>
-										</td>
-									</tr>
-									<tr id="checkboxCheckbox">
-										<td class="nested-td">
-											<obs field="REF_rph" answerConceptId="1851" conceptId="1272" style="checkbox" answerLabel="Reproductive Health"> </obs>
-										</td>
-										<td class="nested-td">
-											<obs field="REF_tbd" answerConceptId="5487" conceptId="1272" style="checkbox" answerLabel="TB treatment/DOT program"> </obs>
-										</td>
-										<td class="nested-td">
-											<obs field="REF_ns" answerConceptId="5484" conceptId="1272" style="checkbox" answerLabel="Nutritional Support"> </obs>
-										</td>
-										<td class="nested-td">
-											<obs field="REF_ac" answerConceptId="5488" conceptId="1272" style="checkbox" answerLabel="Adherence councilling"> </obs>
-										</td>
-									</tr>
-									<tr>
-										<td class="nested-td">
-											<obs field="REF_acc" answerConceptId="1288" conceptId="1272" style="checkbox" answerLabel="Alcohol counseling/ support groups"> </obs>
-										</td>
-										<td class="nested-td">
-											<obs field="REF_mhs" answerConceptId="5489" conceptId="1272" style="checkbox" answerLabel="Mental Health Services"> </obs>
-										</td>
-										<td class="nested-td" colspan="2">
-													<obs field="REF_mtct" answerConceptId="1776" conceptId="1272" style="checkbox" answerLabel="Prevention of Mother to Child Transmission"> </obs>
-										</td>
-									</tr>
-									<!--</table>-->
-								<tr>
-									<td class="nested-td" colspan="4">
-										<div id="checkboxCheckbox" class="enableDisable">
-											<div id="trigger"><obs field="REF_other" answerConceptId="5622" conceptId="1272" style="checkbox" answerLabel="Other Referral (Specify):"> </obs></div>
-											<div id="disabled">
-												<obs  field="REF_specify" conceptId="160556"  style="checkbox"> </obs>
-											</div>
-										</div>
-										<div id="checkboxCheckbox" class="enableDisable">
-											<div id="trigger"><obs answerConceptId="5488" field="REF_ipc"  conceptId="1272" style="checkbox" answerLabel="Inpatient Care/Hospitalization"> </obs></div>
-											<div id="disabled">(
-												<obs field="REF_mtrh" answerConceptId="1274" conceptId="1273" style="checkbox" answerLabel="MTRH"> </obs>
-												<obs field="REF_lhc" answerConceptId="1275" conceptId="1273" style="checkbox" answerLabel="Local Health Center/Hospital"> </obs>
-												<obs field="REF_off" answerConceptId="5622" conceptId="1273" style="checkbox" answerLabel="Other Facility:"> </obs>
-												<obs field="REF_otherspecify"  conceptId="160557"  style="checkbox"> </obs> )
-											</div>
-										</div>
-									</td>
-								</tr>
-
-								<!--</td>
-						</tr>-->
 					</table>
-				</td>
+				</template>
+                                <render n="201"/>
+				<render n="202"/>
+				<render n="203"/>
+				<render n="204"/>
+				<render n="205"/>
+				<render n="206"/>
+				<render n="207"/>
+				<render n="208"/>
+				<render n="209"/>
+				<render n="210"/>
+				</repeat></td>
+
+
+
+
+<!--     another for radiology,  n=301-310     -->
+</tr><tr>
+<td>
+
+					<h4>Referrals Made:</h4>
+
+	<repeat>
+				<template>
+ 				<table>
+					<tr id="{n}-toggleContainer" style="display:none;">
+					
+							<td class="nested-td">
+							Referral:<obs id="{n}-list" field="REFER_{n}" conceptId="1272" style="dropdown"/>
+                                                        Location: <obs id="{n}-list" field="REFER_loc{n}" conceptId = "1272" answerClasses="KMRI_Locations" style="dropdown" showCommentField="true" />
+							</td>
+							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+						</tr>
+					</table>
+				</template>
+                                <render n="101"/>
+				<render n="102"/>
+				<render n="103"/>
+				<render n="104"/>
+				<render n="105"/>
+				<render n="106"/>
+				<render n="107"/>
+				<render n="108"/>
+				<render n="109"/>
+				<render n="110"/>
+				</repeat>
+</td>
 			</tr>
 		</table>
+
 		</section>
 </span>
+
 <span id="S11">	
 	<section headerLabel="Impressions">
-	<!--
-	*** Commented out impressions for now
-Diagnostic Impressions:
-<input type="button" onclick="openImpressions()" value="Manage Impressions"/>
--->
 
 <br />
 
-Reportable Diagnoses:
-	<table>
-		<obsgroup groupingConceptId="1284">
-		<tr valign="top">
-			<td>
+<b>Reportable Diagnoses:</b>
+            
+<obsgroup groupingConceptId="161602">
 				<repeat>
 				<template>
-				<div id="{n}-toggleContainer" style="display:none;" class="secondary">
-					<table>
-						<tr>
-							<td>
-								<obs field="rd{n}" id="{n}-list" conceptId="6042" answerConceptIds="120295,150452,121629,117152,121605,121005,116543,892,122604,160148,78,119481,142412,111491,79,136677,152,117086,155,140832,117399,149745,116128,160152,115122,134561,134369,77,149197,160204,114120,114100,114088,5258,80,126582,112992,124957,112141,141,111633,123112,122759" answerLabels="Abortion,Accidents - Fractures/Injuries etc,Aneamia,Bilharzia,Bites - Animal/Snake/etc,Brucellosis,Burns,Chicken Pox,Cholera,Confirmed Malaria,Dental Disorders,Diabetes,Diarrhoea,Dis. of Puerperium &amp; Childbirth,Dis. of the skin (incl. wounds),Dracunculosis,Dysentery,Ear Infections,Epilepsy,Eye Infections,Hypertension,Infectious Hepatitis,Malaria,Malaria in pregnancy,Malnutrition,Measles,Meningococcal Meningitis,Mental Disorders,New AIDS Cases,Other Dis. of Repiratory System,Plague,Pneumonia,Poisoning,Poliomyelitis (AFP),Rheumatism/Joint Pains etc.,Sexual Assault,Sexually Transmitted Infections,Tetanus,Tuberculosis,Typhoid fever,Urinary Tract Infection,Viral Haemorrhagic Fever,Yellow Fever" />
-
+ 				<table>
+					<tr id="{n}-toggleContainer" style="display:none;">
+							<td class="nested-td">
+							<obs id="{n}-list" field="REPDIAG_{n}" conceptId="6042" answerClasses="RequiredDiagnosis" showCommentField="true" style="dropdown"/>
 							</td>
-							<td><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 						</tr>
 					</table>
-				</div>
 				</template>
 				<render n="1"/>
 				<render n="2"/>
@@ -2207,15 +2065,43 @@ Reportable Diagnoses:
 				<render n="42"/>
 				<render n="43"/>
 				<render n="44"/>
+				</repeat>
+		</obsgroup>
+
+<span id="test"> 
+
+<b> Diagnoses: </b>
+<repeat>
+				<template>
+ 				<table>
+					<tr id="{n}-toggleContainer" style="display:none;">
+							<td class="nested-td">
+							<obs id="{n}-list" field="DIAG_{n}" conceptId="1284" answerClasses="Diagnosis" showCommentField="true" style="autocomplete"/>
+							</td>
+							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+						</tr>
+					</table>
+				</template>
+				<render n="401"/>
+				<render n="402"/>
+				<render n="403"/>
+				<render n="404"/>
+				<render n="405"/>
+				<render n="406"/>
+				<render n="407"/>
+				<render n="408"/>
+				<render n="409"/>
+				<render n="410"/>
 
 				</repeat>
-			</td>
-</tr>
-		</obsgroup>
-	</table>
-	<div id="patid" style="display:none;"><lookup expression="patient.id"/></div>
+
+
+</span>
+
+
+        <div id="patid" style="display:none;"><lookup expression="patient.id"/></div> 
 <br />
-	Comments:  <div class="secondary"> <!-- <obs field="RD_comments" conceptId="160537" style="textarea" rows="5" cols="50"></obs> --> </div>		
+	Comments:  <div class="secondary"> <obs field="REPORTABLE_comments" conceptId="161011"  style="textarea" rows="5" cols="50"></obs></div>		
 
 	<br />
 
@@ -2233,6 +2119,9 @@ Reportable Diagnoses:
 			<obs id="addedSurgeryCount" conceptId="161648" />
 			<obs id="addedUltrasoundCount" conceptId="161650" />
 			<obs id="addedPregnancyCount" conceptId="161651" />
+                        <obs id="addedReferralCount" conceptId="161652"/>
+                        <obs id="addedDiagCount" conceptId="161737"/>
+                        <obs id="addedLabsCount" conceptId="161738"/>
         	</span>
 
 	<!-- TRAVIS' FUNCTION -->
@@ -2246,11 +2135,15 @@ window.open(url );
 	$j(document).ready(function() {
                 //
                 // find the count of the number of reported diagnoses that exist
-                //		
+                //	NOTE addedDiagnosisCount is Reportable Diagnosis, addedDiagCount is Diagnosis!!
+                //	
                 displayRows(addedDiagnosisCount,"addedDiagnosisCount.value",1);
                 displayRows(addedSurgeryCount,"addedSurgeryCount.value",45);
                 displayRows(addedUltrasoundCount,"addedUltrasoundCount.value",55);
                 displayRows(addedPregnancyCount,"addedPregnancyCount.value",65);
+                displayRows(addedReferralCount,"addedReferralCount.value",101);
+                displayRows(addedLabsCount,"addedLabsCount.value",201);
+                displayRows(addedDiagCount,"addedDiagCount.value",401);
 
 	});
 	}
@@ -2262,7 +2155,7 @@ window.open(url );
 
 		$j(document).ready(function(){
              // if this is in View, don't want any addEntry or remove Entry buttons 
-                     for (i=1;74>=i;++i) {
+                     for (i=1;500>=i;++i) {
                           $j('#' + i + '-removeEntry').toggle(false);
                           $j('#' + i + '-addEntry').toggle(false);
                      };
