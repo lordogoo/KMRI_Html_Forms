@@ -588,7 +588,7 @@ $j(document).ready(function(){
 	<section headerLabel="Review of Systems">
 	<table id="two-wide">
 		<tr>
-			<td class="checkboxGroup" colspan="2">
+			<td colspan="2">
 				<h4>General: </h4>
 				<table class="checkboxGroup" style="width:auto;">
 					<tr id="checkboxAll">
@@ -620,7 +620,7 @@ $j(document).ready(function(){
 							<obs field="R_pain" id="pain" conceptId="1069" answerConceptId="114403" answerLabel="Pain" style="checkbox"/>
 						</td>
 					</tr>
-<tr id="checkboxCheckbox">
+<tr>
 <td class="nested-td">
 
 							<div class="enableDisable">
@@ -628,17 +628,26 @@ $j(document).ready(function(){
 									<obs field="GENERAL_weightGain" conceptId="5544" answerConceptId="122887" answerLabel="Weight gain" style="checkbox"/> Weight Gain
 								</div>
 								<div id="disabled" class="secondary">
-									<span class="duration">
-										How much? <obs field="GENERAL_weightGainAmount" conceptId="5089" answerConceptId="5544"/> kg
-									</span>
-									<br/>
-									<span class="duration">
-										Over how long? <obs field="GENERAL_weightGainLength" conceptId="1731"/><obs field="GENERAL_weightGainLengthUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
-									</span>
+									Details: <obs field="WG_1" conceptId="161011" />
 								</div>
 							</div>
 						</td>
 </tr>
+<tr class="checkboxGroup">
+						<td class="nested-td">
+
+							<div class="enableDisable">
+								<div id="trigger">
+									<span id="checkboxCheckbox"><obs field="GENERAL_weightLoss" conceptId="1628" answerConceptId="832" answerLabel="Weight loss" style="checkbox"/> Weight Loss</span>
+								</div>
+								<div id="disabled" class="secondary">
+									Details: <obs field="WL_1" conceptId="161011" /><br/>
+<obs field="WL_2" conceptId="1858" answerConceptIds="5332,5333" answerLabels="Weight loss 10% or more,Weight loss less than 10%" style="radio" />
+								</div>
+							</div>
+						</td>
+
+					</tr>
 				</table>
 				<br/>
 				Comments: 
@@ -700,7 +709,7 @@ $j(document).ready(function(){
 							</div>
 							<div id="disabled" class="secondary">
 								<span class="duration">
-									Duration: <obs field="GI_diarrheaDuration" conceptId="1731"/><obs field="GI_diarrheaDurationUnits" conceptId="5984" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+									Duration: <obs field="GI_diarrheaDuration" conceptId="1731"/><obs field="GI_diarrheaDurationUnits" conceptId="5984" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
 								</span>
 							</div>
 						</td>
@@ -712,7 +721,7 @@ $j(document).ready(function(){
 							</div>
 							<div id="disabled" class="secondary">
 								<span class="duration">
-									Duration: <obs field="GI_constipationDuration" conceptId="1731"/><obs field="GI_constipationDurationUnits" conceptId="1732" />
+									Duration: <obs field="GI_constipationDuration" conceptId="1731"/><obs field="GI_constipationDurationUnits" conceptId="1732" answerConceptIds="1072,1073,1074,1734" />
 								</span>
 							</div>
 						</td>
@@ -739,7 +748,7 @@ $j(document).ready(function(){
 							</div>
 							<div id="disabled" class="secondary">
 								<span class="duration">
-									Duration: <obs field="CP_coughDuration" conceptId="1731"/><obs field="CP_coughDuration" conceptId="1732" />
+									Duration: <obs field="CP_coughDuration" conceptId="1731"/><obs field="CP_coughDuration" conceptId="1732" answerConceptIds="1822,1072,1073,1074,1734" />
 								</span>
 
 								<div class="enableDisable">
@@ -767,7 +776,7 @@ $j(document).ready(function(){
 								</div>
 								<div class="secondary">
 									<span class="duration">
-										Duration: <obs field="CP_shortDuration" conceptId="1731"/><obs field="CP_shortDurationUnits" conceptId="5962" />
+										Duration: <obs field="CP_shortDuration" conceptId="1731"/><obs field="CP_shortDurationUnits" conceptId="5962" answerConceptIds="1822,1072,1073,1074,1734" />
 									</span>
 								</div>
 							</div>
@@ -791,9 +800,9 @@ $j(document).ready(function(){
 									<td class="nested-label">
 										Duration: 
 									</td>
-									<td class="nested-td">
+									<td class="nested-td" colspan="3">
 										<span class="duration">
-											<obs field="CP_chestPainDuration" conceptId="1731"/><obs field="CP_chestPainDurationUnits" conceptId="5971" />
+											<obs field="CP_chestPainDuration" conceptId="1731"/><obs field="CP_chestPainDurationUnits" conceptId="5971" answerConceptIds="1822,1072,1073,1074,1734" />
 										</span>
 									</td>
 								</tr>
@@ -839,7 +848,7 @@ $j(document).ready(function(){
 											<obs field="CP_chestRadiating" conceptId="909" answerConceptId="127949" answerLabel="Radiating"/>
 										</div>
 										<div id="disabled" class="secondary">
-											<obs field="CP_chestRadiatingType" conceptId="909" answerConceptIds="5168,5169" answerLabels="Radiates to neck, Radiates to axillia"/>
+											<obs field="CP_chestRadiatingType" conceptId="909" answerConceptIds="5168,5169" answerLabels="Radiates to neck, Radiates to axilla"/>
 										</div>	
 									</td>
 								</tr>
@@ -870,7 +879,7 @@ $j(document).ready(function(){
 						</td>
 					</tr>
 					<tr id="checkboxCheckbox">
-						<td class="nested-td">
+                                                <td class="nested-td">
 							<obs field="HEENT_vd" conceptId="1070" answerConceptId="5953" answerLabel="Vision difficulties" style="checkbox"/>
 						</td>
 						<td class="nested-td">
@@ -879,7 +888,9 @@ $j(document).ready(function(){
 						<td class="nested-td">
 							<obs field="HEENT_oto" conceptId="1070" answerConceptId="873" answerLabel="Otorrhea" style="checkbox"/>
 						</td>
-						<td class="nested-td">
+                                                </tr>
+                                                <tr id="checkboxCheckbox">
+                                    		<td class="nested-td">
 							<obs field="HEENT_rhino" conceptId="1070" answerConceptId="115403" answerLabel="Rhinorrhea" style="checkbox"/>
 						</td>
 						<td class="nested-td">
@@ -887,8 +898,10 @@ $j(document).ready(function(){
 						</td>
 						<td class="nested-td">
 							<obs field="HEENT_os" conceptId="1070" answerConceptId="5244" answerLabel="Oral Sores" style="checkbox"/>
-						</td>
-						<td class="nested-td">
+						</td> 
+                                                </tr>
+                                                <tr id="checkboxCheckbox">
+                                    		<td class="nested-td">
 							<obs field="HEENT_oc" conceptId="1070" answerConceptId="5334" answerLabel="Oral Candidiasis" style="checkbox"/>
 						</td>
 					</tr>
@@ -899,14 +912,14 @@ $j(document).ready(function(){
 			</td>
 			<td>
 				<h4>Genitourinary: </h4>
-				<table class="checkboxGroup">
+			
+					<includeIf velocityTest="$patient.gender == 'F' ">
+	                                <table class="checkboxGroup">
 					<tr id="checkboxAll">
 						<td class="nested-td">
 							<obs field="GU_noComplaints" conceptId="1080" answerConceptId="664" answerLabel="No complaints" style="checkbox"/>
 						</td>
 					</tr>
-					<includeIf velocityTest="$patient.gender == 'F' ">
-
 					<tr id="checkboxCheckbox">
 						<obsgroup groupingConceptId="5993">
 						<td class="nested-td">
@@ -921,8 +934,10 @@ $j(document).ready(function(){
 								</div>
 							</div>
 						</td>
-						</obsgroup>
-						<td class="nested-td">
+                                                </obsgroup>
+					  </tr>		
+                                          <tr>
+                                             	<td class="nested-td">
 							<table>
 								<tr>
 									<td class="nested-label">
@@ -930,30 +945,33 @@ $j(document).ready(function(){
 									</td>
 									<td class="nested-td">
 										<table>
-											<tr>
+											<tr id="checkboxRadio">
 												<td class="nested-td">
 													<obs field="GU_regular" conceptId="160596" answerConceptId="1115" answerLabel="Regular" style="checkbox"/>
 												</td>
 												<td class="nested-td">
 													<obs field="GU_irregular" conceptId="160596" answerConceptId="1116" answerLabel="Irregular" style="checkbox"/>
 												</td>
-											</tr>
-											<tr>
+
 												<td class="nested-td">
 													<obs field="GU_amenorrhea" conceptId="160575" answerConceptId="148989" answerLabel="Amenorrhea" style="checkbox"/>
 												</td>
+												<td class="nested-td">
+													<obs field="GU_postmeno" conceptId="160575" answerConceptId="113928" answerLabel="Post-menopausal" style="checkbox"/>
+												</td>
+</tr>
+<tr>
 												<td class="nested-td">
 													<obs field="GU_Oligomenorrhea" conceptId="160575" answerConceptId="114997" answerLabel="Oligomenorrhea" style="checkbox"/>
 												</td>
 												<td class="nested-td">
 													<obs field="GU_Dysmenorrhea" conceptId="160575" answerConceptId="118794" answerLabel="Dysmenorrhea" style="checkbox"/>
 												</td>
+
 												<td class="nested-td">
 													<obs field="GU_meno" conceptId="160575" answerConceptId="5990" answerLabel="Menopausal" style="checkbox"/>
 												</td>
-												<td class="nested-td">
-													<obs field="GU_postmeno" conceptId="160575" answerConceptId="113928" answerLabel="Post-menopausal" style="checkbox"/>
-												</td>
+
 											</tr>
 										</table>
 									</td>
@@ -962,17 +980,18 @@ $j(document).ready(function(){
 						</td>
 					</tr>
 
-					<tr id="checkboxCheckbox">
-						<td class="nested-label">
-							Last menstrual period: 
-						</td>
-						<td class="nested-td">
-							<obs field="GU_lastPeriod" conceptId="1427"/>
-						</td>
-					</tr>
+					</table>
+                                        Last menstrual period: <obs field="GU_lastPeriod" conceptId="1427"/>
 					</includeIf>
 
 					<includeIf velocityTest="$patient.gender == 'M' ">
+	                                <table class="checkboxGroup">
+					<tr id="checkboxAll">
+						<td class="nested-td">
+							<obs field="GU_noComplaints" conceptId="1080" answerConceptId="664" answerLabel="No complaints" style="checkbox"/>
+						</td>
+					</tr>
+			
 					<tr id="checkboxCheckbox">
 						<obsgroup groupingConceptId="123529">
 						<td class="nested-td">
@@ -982,7 +1001,7 @@ $j(document).ready(function(){
 								</div>
 								<div class="secondary" id="disabled">
 									<span class="duration">
-										Duration: <obs field="GU_urethralDuration" conceptId="1731"/><obs field="GU_urethralDuration" conceptId="5996" />
+										Duration: <obs field="GU_urethralDuration" conceptId="1731"/><obs field="GU_urethralDurationUnits" conceptId="5996" />
 									</span>
 								</div>
 							</div>
@@ -994,8 +1013,9 @@ $j(document).ready(function(){
 							<obs field="GU_circumcised" conceptId="145096" labelText="Circumcised" style="checkbox"/>
 						</td>
 					</tr>
+                                        </table>
 					</includeIf>
-				</table>
+				<br/>
 				<br/>
 				Comments: 
 				<div class="secondary"><obs field="GU_comments" conceptId="161011" answerconceptId="160542" style="textarea" rows="5" cols="50"/></div>
@@ -1089,29 +1109,7 @@ $j(document).ready(function(){
 							<obs field="GENERAL_hivStatus" conceptId="1169" labelText="HIV status: " defaultValue="1067" answerConceptIds="703,664,1067" answerLabels="Positive,Negative,Unknown"/>
 						</td>
 					</tr>
-					<tr>
-						
-
-
-						<td class="nested-td">
-
-							<div class="enableDisable">
-								<div id="trigger">
-									<obs field="GENERAL_weightLoss" conceptId="1633" answerConceptId="832" answerLabel="Weight loss" style="checkbox"/> Weight Loss
-								</div>
-								<div id="disabled" class="secondary">
-									<span class="duration">
-										How much? <obs field="GENERAL_weightLossAmount" conceptId="5089" answerConceptId="1633"/> kg
-									</span>
-									<br/>
-									<span class="duration">
-										Over how long? <obs field="GENERAL_weightLossTime" conceptId="1731"/><obs field="GENERAL_weightLossTimeUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
-									</span>
-								</div>
-							</div>
-						</td>
-
-					</tr>
+					
 				</table>
 			</td>			
 			<td>
@@ -1141,27 +1139,25 @@ $j(document).ready(function(){
 				<table>
 					<tr>
 						<td class="nested-td">
-							<obs field="EXPOSURE_hiv" conceptId="1633" answerConceptId="822" style="checkbox"/> HIV
+							<obs field="EXPOSURE_hiv" conceptId="1628" answerConceptId="822" style="checkbox"/> HIV
 						</td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_tb" conceptId="1633" answerConceptId="124068"  style="checkbox"/> TB
+							<obs field="EXPOSURE_tb" conceptId="1628" answerConceptId="124068"  style="checkbox"/> TB
 						</td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_other" conceptId="1633" answerConceptId="151056" style="checkbox"/> Other sickness
+							<obs field="EXPOSURE_other" conceptId="1628" answerConceptId="151056" style="checkbox"/> Other sickness
 						</td>						
 						<td class="nested-td">
-							<obs field="EXPOSURE_animal" conceptId="1633" answerConceptId="121605"  style="checkbox"/> Animals
+							<obs field="EXPOSURE_animal" conceptId="1628" answerConceptId="121605"  style="checkbox"/> Animals
 						</td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_travel" conceptId="1633" answerConceptId="124153" style="checkbox"/> Travel
+							<obs field="EXPOSURE_travel" conceptId="1628" answerConceptId="124153" style="checkbox"/> Travel
 						</td>
 </tr>
 <tr>
-                                                <td class="nested-td">
-                                                        <obs field="Exposure_water" conceptId="1511" labelText="Water Source:"/>
-						</td>
-					</tr>
-				</table>
+                                	</tr>
+				</table> 
+                                <obs field="Exposure_water" conceptId="1511" labelText="Water Source:"/>
 				<br/>
 				Details: 
 				<div class="secondary"><obs field="EXPOSURE_details" conceptId="161011" answerConceptId="118713" style="textarea" rows="5" cols="75"/></div>				
@@ -1209,19 +1205,19 @@ $j(document).ready(function(){
 
 								<div class="enableDisable">
 									<div id="trigger">
-										<obs field="TB_pc" conceptId="1633" answerConceptId="5957" answerLabel="Productive cough" style="checkbox"/> Productive Cough
+										<obs field="TB_pc" conceptId="1628" answerConceptId="5957" answerLabel="Productive cough" style="checkbox"/> Productive Cough
 									</div>
 
 									<div id="disabled" class="secondary">
-										<obs field="TB_hemo" conceptId="1633" answerConceptId="138905" answerLabel="Hemoptysis" style="checkbox"/> Hemoptysis
+										<obs field="TB_hemo" conceptId="1628" answerConceptId="138905" answerLabel="Hemoptysis" style="checkbox"/> Hemoptysis
 										<br/>
-										<obs field="TB_sputum" conceptId="1633" answerConceptId="125998" answerLabel="Sputum" style="checkbox"/> Sputum
+										<obs field="TB_sputum" conceptId="1628" answerConceptId="125998" answerLabel="Sputum" style="checkbox"/> Sputum
 									</div> 
 								</div>
 							</td>
 							<td class="nested-td">
 
-								<obs field="TB_chronic" conceptId="1633" answerConceptId="145455" answerLabel="Chronic cough (longer than 3 weeks)" style="checkbox"/> Chronic cough (longer than 3 weeks)
+								<obs field="TB_chronic" conceptId="1628" answerConceptId="145455" answerLabel="Chronic cough (longer than 3 weeks)" style="checkbox"/> Chronic cough (longer than 3 weeks)
 							</td>
 						</tr>
 					</table>
@@ -1237,7 +1233,7 @@ $j(document).ready(function(){
 					<tr id="{n}-toggleContainer" style="display:none;">
 					
 							<td class="nested-td">
-							<obs id="{n}-list" field="SURGERIES_{n}" conceptId="6042" answerClasses="Surgeries" showCommentField="true"/>
+							<obs id="{n}-list" field="SURGERIES_{n}" conceptId="1628" answerClasses="Surgeries" showCommentField="true"/>
 							</td>
 							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 						</tr>
@@ -1267,53 +1263,69 @@ $j(document).ready(function(){
 						<td class="nested-td">
 							<table>
 								<tr>
-									<td class="nested-label">
-										G : 
-									</td>
-									<td class="nested-td">
-										<obs field="FEMALE_g" conceptId="5624"/>
-									</td>
-								</tr>
-								<tr>
-									<td class="nested-label">
-										T :
-									</td>
-									<td class="nested-td">
-										<obs field="FEMALE_T" conceptId="160080"/>
-									</td>
-								</tr>
-								<tr>
-									<td class="nested-label">
-										P : 
-									</td>
-									<td class="nested-td">
-										<obs field="FEMALE_p" conceptId="1053"/>
-									</td>
-								</tr>
-								<tr>
-									<td class="nested-label">
-										SA :
-									</td>
-									<td class="nested-td">
-										<obs field="FEMALE_SA" conceptId="161645"/>
-									</td>
-								</tr>
-								<tr>
-									<td class="nested-label">
-										TA : 
-									</td>
-									<td class="nested-td">
-										<obs field="FEMALE_ta" conceptId="161644" style="numeric"/>
-									</td>
-								</tr>
-								<tr>
-									<td class="nested-label">
-										L : 
-									</td>
-									<td class="nested-td">
-										<obs field="FEMALE_L" conceptId="1825"/>
-									</td>
-								</tr>
+										<td class="nested-label">
+											G (Gravida - Number of Times Pregnant): 
+										</td>
+										<td class="nested-td">
+											<obs field="G" conceptId="5624"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="nested-label">
+											T (Number of Full Term Pregnancies):
+										</td>
+										<td class="nested-td">
+											<obs field="T" conceptId="160080"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="nested-label">
+											P (Parity - Number of Deliveries): 
+										</td>
+										<td class="nested-td">
+											<obs field="P" conceptId="1053"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="nested-label">
+											A (Number of Abortions - Induced or Spontaneous):
+										</td>
+										<td class="nested-td">
+											<obs field="A" conceptId="1823"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="nested-label">
+											History of Spontaneous Abortion: 
+										</td>
+										<td class="nested-td">
+											<obs field="hsa" conceptId="50" commentFieldLabel="Number:" style="checkbox"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="nested-label">
+											History of Therapeutic Abortion: 
+										</td>
+										<td class="nested-td">
+											<obs field="hta" conceptId="116353" commentFieldLabel="Number:" style="checkbox"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="nested-label">
+											History of Other Induced Abortion: 
+										</td>
+										<td class="nested-td">
+											<obs field="hoa" conceptId="117280" commentFieldLabel="Number:" style="checkbox"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="nested-label">
+											L (Living Children): 
+										</td>
+										<td class="nested-td">
+											<obs field="l" conceptId="1825"/>
+										</td>
+									</tr>
 							</table>
 						</td>
 						<td class="nested-td">
@@ -1433,7 +1445,7 @@ $j(document).ready(function(){
 							Number of children under 5 years old living with you now:
 						</td>
 						<td class="nested-td">
-							<obs field="HOUSEHOLD_childrenNow" conceptId="5676"/>
+							<obs field="HOUSEHOLD_children5Now" conceptId="5676"/>
 						</td>
 					</tr>
 					</excludeIf>
@@ -1545,7 +1557,7 @@ $j(document).ready(function(){
 									<obs field="EDUCATION_other" conceptId="1712" answerConceptId="5622" answerLabel="Other"/>
 								</div>
 								<div id="disabled" class="secondary">
-                                                                    <obs conceptId="161011" answerConceptId="1712" style="textarea" rows="3" cols="20" labelText="Specify :"/>
+                                                                    <obs field="EDUCATION_Specify" conceptId="161011" answerConceptId="1712" style="textarea" rows="3" cols="20" labelText="Specify :"/>
 								</div>
 							</div>
 						</td>
@@ -1554,34 +1566,32 @@ $j(document).ready(function(){
 			</td>
 			<td>
 
-<table>
+
 				<div class="enableDisable">
 
 					<h4> Employment: </h4>
-
-					<div id="trigger">
+                                        <table>
+                                        <div id="trigger">
+                                                <tr>
 						<obs field="EMPLOY_outside" conceptId="1065" answerConceptId="5608" labelText="Patient is employed outside the home" style="checkbox"/>
+                                                </tr>
 					</div>
-					<div id="disabled" style="padding-left:0px">
-<tr>
-								<td class="nested-label" style="padding-left:0px">
-									Occupation:
-								</td>
+                                        <div id="disabled" style="padding-left:0px">
+                                                     <tr>
 								<td class="nested-td">
-									<obs field="EMPLOY_occupation" conceptId="1542" showCommentField="true"/>
-</td></tr>
-<tr class="secondary">
-
+									Occupation: <obs field="EMPLOY_occupation" conceptId="1542" showCommentField="true"/>
+                                                                </td>
+                                                     </tr>
+                                                     <tr class="secondary">
 								<td class="nested-td">
 									Relevant Past Employment History:
 									<obs field="EMPLOY_comments" conceptId="1542"/>
 								</td>
-</tr>
-
+                                                     </tr>
 					
 					</div>
-		</div>
-</table>
+		</table></div>
+
 			</td>
 		</tr>
 	</table>
@@ -1639,7 +1649,7 @@ $j(document).ready(function(){
 										<obs field="FP_other" conceptId="374" answerConceptId="5622" answerLabel="Other"/>
 									</div>
 									<div id="disabled" class="secondary">
-                                                                            <obs conceptId="161011" answerConceptId="374" style="textarea" rows="3" cols="20" labelText="Specify :"/>
+                                                                            <obs field="FP_specify" conceptId="161011" answerConceptId="374" style="textarea" rows="3" cols="20" labelText="Specify :"/>
 									</div>
 								</div>
 							</td>
@@ -1692,8 +1702,11 @@ $j(document).ready(function(){
 						<td class="nested-td" style="padding-right: 0px;">
 							<obs field="SA_gono" conceptId="110341" style="checkbox"/>
 						</td>
+						<td class="nested-label">
+							HIV Contact: 
+						</td>
                                                  <td class="nested-td">
-							<obs field="HIV_hiv" conceptId="822" style="checkbox"/> HIV
+							<obs field="HIV_hiv" conceptId="822" style="checkbox"/> 
 						</td>
 					</tr>
 				</table>
@@ -1763,8 +1776,8 @@ $j(document).ready(function(){
 	<hr />
 	<table id="two-wide" style="width:100%;">
 		<tr><td style="width:50%;"><h4>General Exam</h4>
-				<obs answerConceptId="5201" conceptId="1119" style="checkbox" answerLabel="Temporal wasting"> </obs><br /><br />
-				Comments: <div class="secondary"><obs conceptId="161011" answerConceptId="1119" style="textarea" rows="5" cols="50"></obs></div>
+				<obs field="SKIN_TW" answerConceptId="5201" conceptId="1119" style="checkbox" answerLabel="Temporal wasting"> </obs><br /><br />
+				Comments: <div class="secondary"><obs field="GEX_COMMENTS" conceptId="161011" answerConceptId="1119" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 			<td class="checkboxGroup" style="width:50%;">
 				<h4>Skin</h4>
@@ -1788,11 +1801,13 @@ $j(document).ready(function(){
 			</td>
 		</tr>
 		<tr>
-			<td class="checkboxGroup" style="width:50%;">
+<td style="width:50%;">
+<table>
+			<tr class="checkboxGroup"><td style="border-style:none;">
 				<h4>Lymph Nodes</h4>
 				<span id="checkboxAll"><obs field="LN_normal" answerConceptId="1115" conceptId="1121" style="checkbox" answerLabel="Normal"> </obs></span>
 				<span id="checkboxCheckbox" class="enableDisable">
-					<span id="trigger"><obs field="LN_abnormal" answerConceptId="1116" conceptId="1121" style="checkbox" answerLabel="Abnormal"> </obs></span>
+					<span id="trigger"><obs field="LN_abnormal" answerConceptId="1116" conceptId="1121" style="checkbox" answerLabel="Abnormal"> </obs></span><br/>
 					<span id="disabled">
 						<obs field="LN_sub" answerConceptId="504" conceptId="1121" style="checkbox" answerLabel="submandibular"> </obs>
 						<obs field="LN_cerv" answerConceptId="643" conceptId="1121" style="checkbox" answerLabel="cervical"> </obs>
@@ -1801,9 +1816,27 @@ $j(document).ready(function(){
 						<obs field="LN_axil" answerConceptId="5112" conceptId="1121" style="checkbox" answerLabel="axillary"> </obs>
 						<obs field="LN_epit" answerConceptId="160679" conceptId="1121" style="checkbox" answerLabel="epitrochlear"> </obs>
 					</span>
-				</span><br /><br /> 
-				Comments: <div class="secondary"><obs field="LN_comments" conceptId="161011" answerConceptId="1121"  style="textarea" rows="5" cols="50"></obs></div>
-			</td>
+				</span><br />
+				</td>
+			</tr>
+<tr class="checkboxGroup"><td style="border-style:none;">
+<span id="checkboxRadio">
+Characteristic: <obs field="LYMPH_1" conceptId="160398" answerConceptId="160405" answerLabel="Soft" /> 
+<obs field="LYMPH_2" conceptId="160398" answerConceptId="160399" answerLabel="Firm" />   
+<obs field="LYMPH_3" conceptId="160398" answerConceptId="160400" answerLabel="Rubbery" /> 
+<obs field="LYMPH_4" conceptId="160398" answerConceptId="160401" answerLabel="Hard" /> 
+</span>
+</td>
+</tr>
+<tr class="checkboxGroup"><td style="border-style:none;">
+<span id="checkboxRadio">
+Mobility: <obs field="LYMPH_5" conceptId="160378" answerConceptId="160376" answerLabel="Fixed" /> 
+<obs field="LYMPH_6" conceptId="160378" answerConceptId="160377" answerLabel="Mobile" /> 
+</span></td>
+</tr>
+</table>
+Comments: <div class="secondary"><obs field="LN_comments" conceptId="161011" answerConceptId="1121"  style="textarea" rows="5" cols="50"></obs></div>
+</td>
 			<td class="checkboxGroup"  style="width:50%;">
 				<h4>HEENT</h4>
 				<span id="checkboxAll"><obs field="PEHEENT_normal" answerConceptId="1115" conceptId="1122" style="checkbox" answerLabel="Normal"> </obs></span>
@@ -2055,11 +2088,44 @@ $j(document).ready(function(){
 				<render n="210"/>
 				</repeat></td>
 
+</tr>
+
+<tr>
+<h4> Radiology Ordered</h4>
+<td><repeat>
+				<template>
+ 				<table>
+					<tr id="{n}-toggleContainer" style="display:none;">
+					
+							<td class="nested-td">
+<obs id="{n}-list" field="LAB_{n}" conceptId="1271" answerClasses="KMRI_Labs" showCommentField="true" style="dropdown"/>
+							</td>
+							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+						</tr>
+					</table>
+				</template>
+                                <render n="201"/>
+				<render n="202"/>
+				<render n="203"/>
+				<render n="204"/>
+				<render n="205"/>
+				<render n="206"/>
+				<render n="207"/>
+				<render n="208"/>
+				<render n="209"/>
+				<render n="210"/>
+				</repeat></td>
+
+</tr>
 
 
 
-<!--     another for radiology,  n=301-310     -->
-</tr><tr>
+
+
+
+
+
+<tr>
 <td>
 
 					<h4>Referrals Made:</h4>
@@ -2070,7 +2136,7 @@ $j(document).ready(function(){
 					<tr id="{n}-toggleContainer" style="display:none;">
 					
 							<td class="nested-td">
-							Referral:<obs id="{n}-list" field="REFER_{n}" conceptId="1272" style="dropdown"/><br/>
+							Referral:<obs id="{n}-list" field="REFER_{n}" conceptId="1272" style="dropdown"/>
                                                         Location: <obs id="{n}-list" field="REFER_loc{n}" conceptId = "1272" answerClasses="KMRI_Locations" style="dropdown" showCommentField="true" />
 							</td>
 							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
@@ -2169,7 +2235,7 @@ $j(document).ready(function(){
  				<table>
 					<tr id="{n}-toggleContainer" style="display:none;">
 							<td class="nested-td">
-							<obs id="{n}-list" field="DIAG_{n}" conceptId="6042" answerClasses="RequiredDiagnosis, Diagnosis, Finding, Anatomy, Question, ConvSet, Misc, Symptom, Symptom/Finding, Specimen, Aggregate Measurement, Indicator, Health Care Monitoring Topics, Radiology/Imaging Procedure, Chief Complaint" showCommentField="true" style="autocomplete"/>
+							<obs id="{n}-list" field="DIAG_{n}" conceptId="1284" answerClasses="Diagnosis" showCommentField="true" style="autocomplete"/>
 							</td>
 							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 						</tr>
@@ -2200,7 +2266,7 @@ $j(document).ready(function(){
 
 	<div>
 		Next scheduled Appointment Date?
-		<obs  conceptId="5096" allowFutureDates="true"> </obs>
+		<obs field="nextappointmentdate" conceptId="5096" allowFutureDates="true"> </obs>
 	</div>
 	</section>
 
@@ -2208,11 +2274,11 @@ $j(document).ready(function(){
 
 	<!-- Hidden concepts for add/remove sections -->
 	<span id="testspan" style="display:none;">
-		<obs id="addedDiagnosisCount" conceptId="161649" />
-                <obs id="addedSurgeryCount" conceptId="161648" />
-                <obs id="addedReferralsCount" conceptId="161652"/>
-                <obs id="addedDiagCount" conceptId="161737"/>
-                <obs id="addedLabsCount" conceptId="161738"/>
+		<obs field="ugh1" id="addedDiagnosisCount" conceptId="161649" />
+                <obs field="ugh2" id="addedSurgeryCount" conceptId="161648" />
+                <obs field="ugh3" id="addedReferralsCount" conceptId="161652"/>
+                <obs field="ugh4" id="addedDiagCount" conceptId="161737"/>
+                <obs field="ugh5" id="addedLabsCount" conceptId="161738"/>
 	</span>
 
 	<!-- TRAVIS' FUNCTION -->
