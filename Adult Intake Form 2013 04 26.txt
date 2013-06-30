@@ -628,7 +628,15 @@ $j(document).ready(function(){
 									<obs field="GENERAL_weightGain" conceptId="5544" answerConceptId="122887" answerLabel="Weight gain" style="checkbox"/> Weight Gain
 								</div>
 								<div id="disabled" class="secondary">
+<<<<<<< HEAD
 									Details: <obs field="WG_1" conceptId="161011" />
+=======
+									How much? <obs field="GENERAL_weightGainAmount" conceptId="5089" answerConceptId="5544"/> kg
+									<br/>
+									<span class="duration">
+										Over how long? <obs field="GENERAL_weightGainLength" conceptId="1731"/><obs field="GENERAL_weightGainLengthUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
+									</span>
+>>>>>>> b40237e89c994bcd5d1903214d509ca5da6ebb31
 								</div>
 							</div>
 						</td>
@@ -936,7 +944,11 @@ $j(document).ready(function(){
 						</td>
                                                 </obsgroup>
 					  </tr>		
+<<<<<<< HEAD
                                           <tr>
+=======
+                                          <tr id="checkboxCheckbox">
+>>>>>>> b40237e89c994bcd5d1903214d509ca5da6ebb31
                                              	<td class="nested-td">
 							<table>
 								<tr>
@@ -967,7 +979,12 @@ $j(document).ready(function(){
 												<td class="nested-td">
 													<obs field="GU_Dysmenorrhea" conceptId="160575" answerConceptId="118794" answerLabel="Dysmenorrhea" style="checkbox"/>
 												</td>
+<<<<<<< HEAD
 
+=======
+                                                                                           </tr>
+                                                                                           <tr>
+>>>>>>> b40237e89c994bcd5d1903214d509ca5da6ebb31
 												<td class="nested-td">
 													<obs field="GU_meno" conceptId="160575" answerConceptId="5990" answerLabel="Menopausal" style="checkbox"/>
 												</td>
@@ -1109,7 +1126,31 @@ $j(document).ready(function(){
 							<obs field="GENERAL_hivStatus" conceptId="1169" labelText="HIV status: " defaultValue="1067" answerConceptIds="703,664,1067" answerLabels="Positive,Negative,Unknown"/>
 						</td>
 					</tr>
+<<<<<<< HEAD
 					
+=======
+					<tr>
+						
+
+
+						<td class="nested-td">
+
+							<div class="enableDisable">
+								<div id="trigger">
+									<obs field="GENERAL_weightLoss" conceptId="1633" answerConceptId="832" answerLabel="Weight loss" style="checkbox"/> Weight Loss
+								</div>
+								<div id="disabled" class="secondary">
+										How much? <obs field="GENERAL_weightLossAmount" conceptId="5089" answerConceptId="1633"/> kg
+									<br/>
+									<span class="duration">
+										Over how long? <obs field="GENERAL_weightLossTime" conceptId="1731"/><obs field="GENERAL_weightLossTimeUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
+									</span>
+								</div>
+							</div>
+						</td>
+
+					</tr>
+>>>>>>> b40237e89c994bcd5d1903214d509ca5da6ebb31
 				</table>
 			</td>			
 			<td>
