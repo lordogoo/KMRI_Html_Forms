@@ -138,7 +138,11 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
   $j('#401-removeEntry').remove();
 				$j('#410-addEntry').remove();
 
+  $j('#301-removeEntry').remove();
+				$j('#310-addEntry').remove();
 
+  $j('#501-removeEntry').remove();
+				$j('#510-addEntry').remove();
 
 
 
@@ -163,8 +167,12 @@ $j(document).ready(function(){
 			     var correctedAddButtonId = parseFloat(this.id) + 1;
 
                                             // determine the right count to update
-                                           if ((this.id > 400)) {
+                                          if ((this.id > 500)) {
+                                                valuestring = 'addedRadCount.value';
+                                            } else if ((this.id > 400)) {
                                                 valuestring = 'addedDiagCount.value';
+                                            } else if ((this.id > 300)) {
+                                                valuestring = 'addedUsCount.value';
                                             } else if (this.id > 200) {
  valuestring='addedLabsCount.value';
 } else if ((this.id > 100)) {
@@ -199,9 +207,15 @@ $j(document).ready(function(){
 					
                                         // update the right count - 1 - 44 reportable diagnoses 45 -54 surgery
                                         var whichBlock = 1;
-                                           if (correctedRemoveButtonId > 400) {
+                                           if (correctedRemoveButtonId > 500) {
+                                           setValue('addedRadCount.value', Number(getValue('addedRadCount.value')) -1);
+                                           whichBlock = 7;
+                                        }  else   if (correctedRemoveButtonId > 400) {
                                            setValue('addedDiagCount.value', Number(getValue('addedDiagCount.value')) -1);
                                            whichBlock = 6;
+                                        }  else   if (correctedRemoveButtonId > 300) {
+                                           setValue('addedUsCount.value', Number(getValue('addedUsCount.value')) -1);
+                                           whichBlock = 4;
                                         } else   if (correctedRemoveButtonId > 200) {
                                            setValue('addedLabsCount.value', Number(getValue('addedLabsCount.value')) -1);
                                            whichBlock = 5;
@@ -224,6 +238,8 @@ $j(document).ready(function(){
                                        ||   ((correctedRemoveButtonId == getValue('addedSurgeryCount.value'))   &amp;&amp; (whichBlock == 2)) 
                                        || ((correctedRemoveButtonId == getValue('addedReferralsCount.value'))   &amp;&amp; (whichBlock == 3))
                                        || ((correctedRemoveButtonId == getValue('addedLabsCount.value'))   &amp;&amp; (whichBlock == 5))
+                                       || ((correctedRemoveButtonId == getValue('addedUsCount.value'))   &amp;&amp; (whichBlock == 4))
+                                       || ((correctedRemoveButtonId == getValue('addedRadCount.value'))   &amp;&amp; (whichBlock == 7))
                                        || ((correctedRemoveButtonId == getValue('addedDiagCount.value'))   &amp;&amp; (whichBlock == 6))
 ) {
 					     $j('#' + correctedRemoveButtonId + '-addEntry').toggle(true); 
@@ -242,6 +258,8 @@ $j(document).ready(function(){
                 setValue('addedReferralsCount.value', removeBlanks(101,10,"-list.value",2,false));
                 setValue('addedLabsCount.value', removeBlanks(201,10,"-list.value",1,false));
                 setValue('addedDiagCount.value', removeBlanks(401,10,"-list.value",1,false));
+                setValue('addedRadCount.value', removeBlanks(501,10,"-list.value",1,false));
+                setValue('addedUsCount.value', removeBlanks(301,10,"-list.value",1,false));
                 return true;
          }); 
      
@@ -628,15 +646,15 @@ $j(document).ready(function(){
 									<obs field="GENERAL_weightGain" conceptId="5544" answerConceptId="122887" answerLabel="Weight gain" style="checkbox"/> Weight Gain
 								</div>
 								<div id="disabled" class="secondary">
-<<<<<<< HEAD
+
 									Details: <obs field="WG_1" conceptId="161011" />
-=======
+
 									How much? <obs field="GENERAL_weightGainAmount" conceptId="5089" answerConceptId="5544"/> kg
 									<br/>
 									<span class="duration">
 										Over how long? <obs field="GENERAL_weightGainLength" conceptId="1731"/><obs field="GENERAL_weightGainLengthUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
 									</span>
->>>>>>> b40237e89c994bcd5d1903214d509ca5da6ebb31
+
 								</div>
 							</div>
 						</td>
@@ -925,9 +943,20 @@ $j(document).ready(function(){
 	                                <table class="checkboxGroup">
 					<tr id="checkboxAll">
 						<td class="nested-td">
-							<obs field="GU_noComplaints" conceptId="1080" answerConceptId="664" answerLabel="No complaints" style="checkbox"/>
+							<obs field="GU_noComplaints" conceptId="1080" answerConceptId="664" answerLabel="Normal" style="checkbox"/>
 						</td>
 					</tr>
+<tr id="checkboxCheckbox">
+	                                           <td class="nested-td">
+							<obs field="GU_nc" conceptId="1080" answerConceptId="118771" answerLabel="Dysuria" style="checkbox"/>
+						</td>
+						<td class="nested-td">
+							<obs field="GU_he" conceptId="1080" answerConceptId="840" answerLabel="Hematuria" style="checkbox"/>
+                                                  </td>
+                                                  <td class="nested-td">
+							<obs field="GU_ren" conceptId="1080" answerConceptId="6033" answerLabel="Renal disease" style="checkbox"/>
+						</td>
+</tr>
 					<tr id="checkboxCheckbox">
 						<obsgroup groupingConceptId="5993">
 						<td class="nested-td">
@@ -944,11 +973,7 @@ $j(document).ready(function(){
 						</td>
                                                 </obsgroup>
 					  </tr>		
-<<<<<<< HEAD
-                                          <tr>
-=======
                                           <tr id="checkboxCheckbox">
->>>>>>> b40237e89c994bcd5d1903214d509ca5da6ebb31
                                              	<td class="nested-td">
 							<table>
 								<tr>
@@ -979,12 +1004,7 @@ $j(document).ready(function(){
 												<td class="nested-td">
 													<obs field="GU_Dysmenorrhea" conceptId="160575" answerConceptId="118794" answerLabel="Dysmenorrhea" style="checkbox"/>
 												</td>
-<<<<<<< HEAD
 
-=======
-                                                                                           </tr>
-                                                                                           <tr>
->>>>>>> b40237e89c994bcd5d1903214d509ca5da6ebb31
 												<td class="nested-td">
 													<obs field="GU_meno" conceptId="160575" answerConceptId="5990" answerLabel="Menopausal" style="checkbox"/>
 												</td>
@@ -1033,9 +1053,9 @@ $j(document).ready(function(){
                                         </table>
 					</includeIf>
 				<br/>
-				<br/>
-				Comments: 
-				<div class="secondary"><obs field="GU_comments" conceptId="161011" answerconceptId="160542" style="textarea" rows="5" cols="50"/></div>
+				<br/><table>
+				<td class="nested-td">Comments: 
+				<div class="secondary"><obs field="GU_comments" conceptId="161011" answerconceptId="161011" style="textarea" rows="5" cols="50"/></div></td></table>
 			</td>
 		</tr>
 		<tr>
@@ -1076,39 +1096,66 @@ $j(document).ready(function(){
 				<table class="checkboxGroup">
 					<tr id="checkboxAll">
 						<td class="nested-td">
-							<obs field="CNS_noComplaints" conceptId="1082" answerConceptId="664" answerLabel="No complaints" style="checkbox"/>
+							<obs field="CNS_nc" conceptId="1082" answerConceptId="664" answerLabel="No complaints" style="checkbox"/>
 						</td>
 					</tr>
 					<tr id="checkboxCheckbox">
 						<td class="nested-td">
 							<obs field="CNS_pares" conceptId="1082" answerConceptId="6004" answerLabel="Paresthesia" style="checkbox"/>
 						</td>
-						<td class="nested-td"> 
-							<obs field="CNS_focal" conceptId="1082" answerConceptId="6005" answerLabel="Focal weakness" style="checkbox"/>
+						<td class="nested-td">
+							<obs field="CNS_fw" conceptId="1082" answerConceptId="6005" answerLabel="Focal weakness" style="checkbox"/>
 						</td>
 						<td class="nested-td">
-							<obs field="CNS_seizures" conceptId="1082" answerConceptId="206" answerLabel="Seizures" style="checkbox"/>
-						</td>
-
-					</tr>
-					<tr id="checkboxCheckbox">
-						<td class="nested-td">
-							<obs field="CNS_depression" conceptId="1082" answerConceptId="207" answerLabel="Depression" style="checkbox"/>
+							<obs field="CNS_se" conceptId="1082" answerConceptId="206" answerLabel="Seizures" style="checkbox"/>
 						</td>
 						<td class="nested-td">
-							<obs field="CNS_confusion" conceptId="1082" answerConceptId="120345" answerLabel="Confusion" style="checkbox"/>
-						</td>
-						<td class="nested-td">
-							<obs field="CNS_memory" conceptId="1082" answerConceptId="6037" answerLabel="Memory problems" style="checkbox"/>
+							<obs field="CNS_h" conceptId="1082" answerConceptId="139084" answerLabel="Headache" style="checkbox"/>
 						</td>
 					</tr>
-
 				</table>
 				<br/>
 				Comments: 
-				<div class="secondary"><obs field="CNS_comments" conceptId="161011" answerconceptId="160544" style="textarea" rows="5" cols="50"/></div>
+				<div class="secondary"><obs field="CNS_comments" conceptId="161011" answerConceptId="160544" style="textarea" rows="5" cols="50"/></div>
 			</td>
 		</tr>
+<tr>
+<td>
+				<h4>Psychiatric</h4>
+				<table class="checkboxGroup">
+					<tr id="checkboxAll">
+						<td class="nested-td">
+							<obs field="PSY_nc" conceptId="159891" answerConceptId="664" answerLabel="No complaints" style="checkbox"/>
+						</td>
+					</tr>
+					<tr id="checkboxCheckbox">
+						<td class="nested-td">
+							<obs field="PSY_dep" conceptId="159891" answerConceptId="119537" answerLabel="Depression" style="checkbox"/>
+						</td>
+						<td class="nested-td">
+							<obs field="PSY_conf" conceptId="159891" answerConceptId="120345" answerLabel="Confusion" style="checkbox"/>
+						</td>
+						<td class="nested-td">
+							<obs field="PSY_mem" conceptId="159891" answerConceptId="6037" answerLabel="Memory problems" style="checkbox"/>
+						</td>
+					</tr>
+					<tr id="checkboxCheckbox">
+						<td class="nested-td">
+							<obs field="PSY_mi" conceptId="159891" answerConceptId="77" answerLabel="Mental illness" style="checkbox"/>
+						</td>
+						<td class="nested-td">
+							<obs field="PSY_anx" conceptId="159891" answerConceptId="121543" answerLabel="Anxiety" style="checkbox"/>
+						</td>
+						<td class="nested-td">
+							<obs field="PSY_psych" conceptId="159891" answerConceptId="113517" answerLabel="Psychosis" style="checkbox"/>
+						</td>
+					</tr>
+				</table>
+				<br/>
+				Comments: 
+				<div class="secondary"><obs field="PSY_comments" conceptId="161011" answerConceptId="160654" style="textarea" rows="5" cols="50"/></div>
+			</td>
+</tr>
 	</table>
 	</section>
 </span>
@@ -1126,10 +1173,7 @@ $j(document).ready(function(){
 							<obs field="GENERAL_hivStatus" conceptId="1169" labelText="HIV status: " defaultValue="1067" answerConceptIds="703,664,1067" answerLabels="Positive,Negative,Unknown"/>
 						</td>
 					</tr>
-<<<<<<< HEAD
-					
-=======
-					<tr>
+		<tr>
 						
 
 
@@ -1150,7 +1194,6 @@ $j(document).ready(function(){
 						</td>
 
 					</tr>
->>>>>>> b40237e89c994bcd5d1903214d509ca5da6ebb31
 				</table>
 			</td>			
 			<td>
@@ -1180,19 +1223,19 @@ $j(document).ready(function(){
 				<table>
 					<tr>
 						<td class="nested-td">
-							<obs field="EXPOSURE_hiv" conceptId="1628" answerConceptId="822" style="checkbox"/> HIV
+							<obs field="EXPOSURE_hiv" conceptId="1628" answerConceptId="822" style="checkbox" answerLabel="HIV"/> 
 						</td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_tb" conceptId="1628" answerConceptId="124068"  style="checkbox"/> TB
+							<obs field="EXPOSURE_tb" conceptId="1628" answerConceptId="124068"  style="checkbox" answerLabel="TB"/>
 						</td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_other" conceptId="1628" answerConceptId="151056" style="checkbox"/> Other sickness
+							<obs field="EXPOSURE_other" conceptId="1628" answerConceptId="151056" style="checkbox" answerLabel="Other sickness"/> 
 						</td>						
 						<td class="nested-td">
-							<obs field="EXPOSURE_animal" conceptId="1628" answerConceptId="121605"  style="checkbox"/> Animals
+							<obs field="EXPOSURE_animal" conceptId="1628" answerConceptId="121605"  style="checkbox" answerLabel="Animals"/> 
 						</td>
 						<td class="nested-td">
-							<obs field="EXPOSURE_travel" conceptId="1628" answerConceptId="124153" style="checkbox"/> Travel
+							<obs field="EXPOSURE_travel" conceptId="1628" answerConceptId="124153" style="checkbox" answerLabel="Travel"/> 
 						</td>
 </tr>
 <tr>
@@ -1817,7 +1860,20 @@ $j(document).ready(function(){
 	<hr />
 	<table id="two-wide" style="width:100%;">
 		<tr><td style="width:50%;"><h4>General Exam</h4>
+<table>
+<tr>
+<td class="nested-td">
 				<obs field="SKIN_TW" answerConceptId="5201" conceptId="1119" style="checkbox" answerLabel="Temporal wasting"> </obs><br /><br />
+</td>
+<td class="nested-td">
+							<obs field="SH_pallor" answerConceptId="5245" conceptId="1119" style="checkbox" answerLabel="Pallor"/>
+						</td>
+	<td class="nested-td">
+							<obs field="SH_jaundice" answerConceptId="136443" conceptId="1119" style="checkbox" answerLabel="Jaundice"/>
+						</td>
+</tr>
+</table>
+
 				Comments: <div class="secondary"><obs field="GEX_COMMENTS" conceptId="161011" answerConceptId="1119" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 			<td class="checkboxGroup" style="width:50%;">
@@ -1833,8 +1889,7 @@ $j(document).ready(function(){
 								<obs field="SKIN_rashType" answerConceptIds="522,520,521,128047,123198,118731,123468,160639" conceptId="1120" style="checkbox" answerLabels="Maculopapular,Macule(s),Papule(s),Pustules,Vesicle,Eczema,Urticaria,Bulla(e)"> </obs>
 							</span>
 						</span>
-						<obs field="SKIN_kap" answerConceptId="507" conceptId="1120" style="checkbox" answerLabel="Kaposi sarcoma"> </obs> 
-						<obs field="SKIN_jaundice" answerConceptId="136443" conceptId="1120" style="checkbox" answerLabel="Jaundice"> </obs>			
+						<obs field="SKIN_kap" answerConceptId="507" conceptId="1120" style="checkbox" answerLabel="Kaposi sarcoma"> </obs> 		
 <obs field="SKIN_ulcer" answerConceptId="112934" conceptId="1120" style="checkbox" answerLabel="Ulcer"> </obs>						
 					</span>
 				</span>
@@ -2104,8 +2159,9 @@ Comments: <div class="secondary"><obs field="LN_comments" conceptId="161011" ans
 <section headerLabel="Tests and Referrals">
 	<table>
 		<tr>
-<h4> Tests Ordered</h4>
-<td><repeat>
+
+<td>
+<h4> Tests Ordered</h4><repeat>
 				<template>
  				<table>
 					<tr id="{n}-toggleContainer" style="display:none;">
@@ -2132,35 +2188,64 @@ Comments: <div class="secondary"><obs field="LN_comments" conceptId="161011" ans
 </tr>
 
 <tr>
-<h4> Radiology Ordered</h4>
-<td><repeat>
+<td>
+<h4> Ultrasounds Ordered</h4><repeat>
 				<template>
  				<table>
-					<tr id="{n}-toggleContainer" style="display:none;">
-					
+				    <tr id="{n}-toggleContainer" style="display:none;">
 							<td class="nested-td">
-<obs id="{n}-list" field="LAB_{n}" conceptId="1271" answerClasses="KMRI_Labs" showCommentField="true" style="dropdown"/>
+<obs id="{n}-list" field="ULTRA1_{n}" conceptId="1271" answerConceptIds="845,161291,852,159618,161283,161282,161278,161285,161274,161276,161275,161277,161288,161289,161290,161279,161284,161286,161287" answerLabels="Abdomen, Abdomen (Limited), Liver, Obstetric, Pelvis, Pelvis (Limited), Pelvis (Transvaginal), Head and Neck, Bilateral Lower Extremity Veins, Left Lower Extremity Veins, Right Lower Extremity Veins, Extremity, Chest, Left Breast, Right Breast, Scrotum and Testicle, Guided Paracentesis, Aspiration and Pericardial Space, Percutaneous Drainage of Cavity" showCommentField="true" style="dropdown"/>
 							</td>
-							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
-						</tr>
+							
+<td class="nested-td"> Results of Ultrasound: <obs id = "{n}-list" field="ULTRA2_{n}" conceptId="1392" style="textarea" rows="2" cols="25"/></td>
+<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+</tr>
 					</table>
 				</template>
-                                <render n="201"/>
-				<render n="202"/>
-				<render n="203"/>
-				<render n="204"/>
-				<render n="205"/>
-				<render n="206"/>
-				<render n="207"/>
-				<render n="208"/>
-				<render n="209"/>
-				<render n="210"/>
+                                <render n="301"/>
+				<render n="302"/>
+				<render n="303"/>
+				<render n="304"/>
+				<render n="305"/>
+				<render n="306"/>
+				<render n="307"/>
+				<render n="308"/>
+				<render n="309"/>
+				<render n="310"/>
 				</repeat></td>
 
 </tr>
 
 
+<tr>
+<td>
+<h4> Radiology Ordered</h4><repeat>
+				<template>
+ 				<table>
+					<tr id="{n}-toggleContainer" style="display:none;">
+					
+							<td class="nested-td">
+<obs id="{n}-list" field="RADIOLOGY1_{n}" conceptId="1271" answerConceptIds="161251,161272,161273,161294,161295,161296,161297,161298,161299,161300,161301,161302,161303,161304,161305,161306,161307,161308,161263,161264,161265,161266,161267,161268,161269,161270,161271,161317,161318,161319,161320,161321,161322,161323,161324,161325,161326,161327,161328,161329,161330,161331,161332,161333,161334,161335,161336,161337,161338,161339,161340,161341,161342,161343,161344,161345,161346,161347,161348,161349,161350,161351,161352" answerLabels="Chest (2 view PA/LAT),
+Chest (4 view PA/LAT with right and left oblique),Chest (1 view AP),Chest (bilateral oblique),Chest (2 view and apical lordotic),Chest (apical lordotic),Left clavicle (2 view),Right clavicle (2 view),Bilateral clavicles (2 view),Cervical spine (2 or 3 view),Left elbow (2 view),Right elbow (2 view),Bilateral elbows (2 view),Facial bones (3 view),Left femur (2 view),Right femur (2 view),Bilateral femurs (2 view),161263 Abdomen (1 view),Abdomen (2 view AP supine and lateral decubitus),Bilateral acromioclavicular joints,Left ankle (2 view),Right ankle (2 view),Bilateral ankles (2 view),Left calcaneus (2 view),Right calcaneus (2 view),Bilateral calcaneus (2 view),Right wrist (2 view),Left wrist (2 view),Retrograde Pyelogram,Thoracic spine (2 view),Left foot (2 view),Right foot (2 view),Bilateral feet (2 view),Left forearm (2 view),Right forearm (2 view) ,Bilateral forearms (2 view),Right lower leg (2 view),Left hand (2 view),Left lower leg (2 view),Right hand (2 view),Bilateral hands (2 view),Left hip (2 view),Right hip (2 view),Bilateral hips (2 view),Thoracic and lumbar spine (2 view),Spine (1 view),Left upper arm (2 view),Right upper arm (2 view),Skull (4 view),Bilateral upper arms (2 view),Sinuses (3 view),Right shoulder (2 view),Left shoulder (2 view),Right ribs (2 view),Left ribs (2 view),Pelvis (1 view),Mandible Panorex,Lumbar spine (2 or 3 view),Right knee (1 or 2 view) ,Left knee (1 or 2 view),Bilateral ribs (2 view),Bilateral knees (2 view)" showCommentField="true" style="dropdown"/>
+							</td>
+							
+<td class="nested-td"> Results of Radiology: <obs id = "{n}-list" field="RADIOLOGY2_{n}" conceptId="1392" style="textarea" rows="2" cols="25"/></td><td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+</tr>
+					</table>
+				</template>
+                                <render n="501"/>
+				<render n="502"/>
+				<render n="503"/>
+				<render n="504"/>
+				<render n="505"/>
+				<render n="506"/>
+				<render n="507"/>
+				<render n="508"/>
+				<render n="509"/>
+				<render n="510"/>
+				</repeat></td>
 
+</tr>
 
 
 
@@ -2320,6 +2405,8 @@ Comments: <div class="secondary"><obs field="LN_comments" conceptId="161011" ans
                 <obs field="ugh3" id="addedReferralsCount" conceptId="161652"/>
                 <obs field="ugh4" id="addedDiagCount" conceptId="161737"/>
                 <obs field="ugh5" id="addedLabsCount" conceptId="161738"/>
+                <obs field="ugh6" id="addedRadCount" conceptId="162006"/>
+                <obs field="ugh7" id="addedUsCount" conceptId="161650"/>
 	</span>
 
 	<!-- TRAVIS' FUNCTION -->
@@ -2339,6 +2426,8 @@ window.open(url );
                 displayRows(addedReferralsCount,"addedReferralsCount.value",101);
                 displayRows(addedLabsCount,"addedLabsCount.value",201);
                 displayRows(addedDiagCount,"addedDiagCount.value",401);
+                displayRows(addedUsCount,"addedUsCount.value",301);
+                displayRows(addedRadCount,"addedRadCount.value",501);
 
 	});
 	}
@@ -2350,7 +2439,7 @@ window.open(url );
 
 		$j(document).ready(function(){
              // if this is in View, don't want any addEntry or remove Entry buttons 
-                     for (i=1;500>=i;++i) {
+                     for (i=1;600>=i;++i) {
                           $j('#' + i + '-removeEntry').toggle(false);
                           $j('#' + i + '-addEntry').toggle(false);
                      };
