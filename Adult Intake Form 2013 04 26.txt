@@ -1341,17 +1341,17 @@ $j(document).ready(function(){
 		<tr>
 
 			<td colspan="2">
+				<table> 
+					<tr> 
+						<td class="nested-td">
 				<h4>Female Specific:</h4>
 				<table>
-					<tr>
-						<td class="nested-td">
-							<table>
-								<tr>
+									<tr>
 										<td class="nested-label">
 											G (Gravida - Number of Times Pregnant): 
 										</td>
 										<td class="nested-td">
-											<obs field="G" conceptId="5624"/>
+											<obs field="OBHX_gravida" conceptId="5624"/>
 										</td>
 									</tr>
 									<tr>
@@ -1359,7 +1359,7 @@ $j(document).ready(function(){
 											T (Number of Full Term Pregnancies):
 										</td>
 										<td class="nested-td">
-											<obs field="T" conceptId="160080"/>
+											<obs field="OBHX_fullterm" conceptId="160080"/>
 										</td>
 									</tr>
 									<tr>
@@ -1367,7 +1367,7 @@ $j(document).ready(function(){
 											P (Parity - Number of Deliveries): 
 										</td>
 										<td class="nested-td">
-											<obs field="P" conceptId="1053"/>
+											<obs field="OBHX_parity" conceptId="1053"/>
 										</td>
 									</tr>
 									<tr>
@@ -1375,7 +1375,7 @@ $j(document).ready(function(){
 											A (Number of Abortions - Induced or Spontaneous):
 										</td>
 										<td class="nested-td">
-											<obs field="A" conceptId="1823"/>
+											<obs field="OBHX_abortions" conceptId="1823"/>
 										</td>
 									</tr>
 									<tr>
@@ -1383,7 +1383,7 @@ $j(document).ready(function(){
 											History of Spontaneous Abortion: 
 										</td>
 										<td class="nested-td">
-											<obs field="hsa" conceptId="50" commentFieldLabel="Number:" style="checkbox"/>
+											<obs field="OBHX_spontaneous" conceptId="1628" answerConceptId="50" answerLabel="" commentFieldLabel="Number:" style="checkbox"/>
 										</td>
 									</tr>
 									<tr>
@@ -1391,7 +1391,7 @@ $j(document).ready(function(){
 											History of Therapeutic Abortion: 
 										</td>
 										<td class="nested-td">
-											<obs field="hta" conceptId="116353" commentFieldLabel="Number:" style="checkbox"/>
+											<obs field="OBHX_therapeutic" conceptId="1628" answerConceptId="116353"  answerLabel="" commentFieldLabel="Number:" style="checkbox"/>
 										</td>
 									</tr>
 									<tr>
@@ -1399,7 +1399,7 @@ $j(document).ready(function(){
 											History of Other Induced Abortion: 
 										</td>
 										<td class="nested-td">
-											<obs field="hoa" conceptId="117280" commentFieldLabel="Number:" style="checkbox"/>
+											<obs field="OBHX_otherabor" conceptId="1628" answerConceptId="117280"  answerLabel="" commentFieldLabel="Number:" style="checkbox"/>
 										</td>
 									</tr>
 									<tr>
@@ -1407,10 +1407,10 @@ $j(document).ready(function(){
 											L (Living Children): 
 										</td>
 										<td class="nested-td">
-											<obs field="l" conceptId="1825"/>
+											<obs field="OBHX_livingchild" conceptId="1825"/>
 										</td>
 									</tr>
-							</table>
+								</table>
 						</td>
 						<td class="nested-td">
 							<table>
@@ -1431,7 +1431,7 @@ $j(document).ready(function(){
 												</div>
 											</div>
 										</div>
-									</td>
+									</td></tr><tr>
 									<td class="nested-td">
 
 										<obs field="FEMALE_bf" conceptId="5632" labelText="Is the patient breast feeding?" answerConceptIds="1065,1066" answerLabels="Yes,No" style="radio"/>
@@ -1454,12 +1454,13 @@ $j(document).ready(function(){
 									</td>
 								</tr>
 							</table>
-						</td>
-					</tr>
-				</table>
 			</td>
 		</tr>
-		</includeIf>
+		</table>
+		
+</td>
+</tr>
+</includeIf>
 	</table>
 	</section>
 </span>
@@ -2197,7 +2198,7 @@ Comments: <div class="secondary"><obs field="LN_comments" conceptId="161011" ans
 <obs id="{n}-list" field="ULTRA1_{n}" conceptId="1271" answerConceptIds="845,161291,852,159618,161283,161282,161278,161285,161274,161276,161275,161277,161288,161289,161290,161279,161284,161286,161287" answerLabels="Abdomen, Abdomen (Limited), Liver, Obstetric, Pelvis, Pelvis (Limited), Pelvis (Transvaginal), Head and Neck, Bilateral Lower Extremity Veins, Left Lower Extremity Veins, Right Lower Extremity Veins, Extremity, Chest, Left Breast, Right Breast, Scrotum and Testicle, Guided Paracentesis, Aspiration and Pericardial Space, Percutaneous Drainage of Cavity" showCommentField="true" style="dropdown"/>
 							</td>
 							
-<td class="nested-td"> Results of Ultrasound: <obs id = "{n}-list" field="ULTRA2_{n}" conceptId="1392" style="textarea" rows="2" cols="25"/></td>
+<td class="nested-td"> Results of Ultrasound: <obs id = "{n}-list" field="ULTRA2_{n}" conceptId="1392" style="textarea" rows="1" cols="25"/></td>
 <td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 </tr>
 					</table>
@@ -2229,7 +2230,7 @@ Comments: <div class="secondary"><obs field="LN_comments" conceptId="161011" ans
 Chest (4 view PA/LAT with right and left oblique),Chest (1 view AP),Chest (bilateral oblique),Chest (2 view and apical lordotic),Chest (apical lordotic),Left clavicle (2 view),Right clavicle (2 view),Bilateral clavicles (2 view),Cervical spine (2 or 3 view),Left elbow (2 view),Right elbow (2 view),Bilateral elbows (2 view),Facial bones (3 view),Left femur (2 view),Right femur (2 view),Bilateral femurs (2 view),161263 Abdomen (1 view),Abdomen (2 view AP supine and lateral decubitus),Bilateral acromioclavicular joints,Left ankle (2 view),Right ankle (2 view),Bilateral ankles (2 view),Left calcaneus (2 view),Right calcaneus (2 view),Bilateral calcaneus (2 view),Right wrist (2 view),Left wrist (2 view),Retrograde Pyelogram,Thoracic spine (2 view),Left foot (2 view),Right foot (2 view),Bilateral feet (2 view),Left forearm (2 view),Right forearm (2 view) ,Bilateral forearms (2 view),Right lower leg (2 view),Left hand (2 view),Left lower leg (2 view),Right hand (2 view),Bilateral hands (2 view),Left hip (2 view),Right hip (2 view),Bilateral hips (2 view),Thoracic and lumbar spine (2 view),Spine (1 view),Left upper arm (2 view),Right upper arm (2 view),Skull (4 view),Bilateral upper arms (2 view),Sinuses (3 view),Right shoulder (2 view),Left shoulder (2 view),Right ribs (2 view),Left ribs (2 view),Pelvis (1 view),Mandible Panorex,Lumbar spine (2 or 3 view),Right knee (1 or 2 view) ,Left knee (1 or 2 view),Bilateral ribs (2 view),Bilateral knees (2 view)" showCommentField="true" style="dropdown"/>
 							</td>
 							
-<td class="nested-td"> Results of Radiology: <obs id = "{n}-list" field="RADIOLOGY2_{n}" conceptId="1392" style="textarea" rows="2" cols="25"/></td><td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+<td class="nested-td"> Results of Radiology: <obs id = "{n}-list" field="RADIOLOGY2_{n}" conceptId="1392" style="textarea" rows="1" cols="25"/></td><td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 </tr>
 					</table>
 				</template>

@@ -9,53 +9,260 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 
 <script type="text/javascript">
 
+        function isBlank(listValueString,numListElements,allBlank) {
+                var numCheck = 1;
+                if (allBlank) {numCheck = numListElements};
+                var thisListValueString = listValueString;
+                if (numListElements > 1) {
+                    thisListValueString = thisListValueString + "_1";
+                };
+                var i = 1;
+                while (numCheck >= i) {
+                         if (getValue(thisListValueString) != '' ) {
+                            return false;
+                         };
+                         i++;
+                         thisListValueString = listValueString + "_" + i;
+                };
+                return true;                      
+        };
+
+        function removeBlanks(startRow,numberRows,listValueString,numListElements,allBlank) {
+                //
+                //function shuffles all non-blank rows from array item start to start+number-1 to the beginning
+                // startRow is the first row in the array 
+                // numberRows is the number of rows in this block
+                // numListElements is the number of elements in each row
+                // if numListElements is more than one allBlank TRUE means to ensure all elements are blank otherwise checks just the first
+                //
+           
+                var i = startRow;
+                var nonBlankCount = 0;
+                var lastRow = startRow +numberRows - 1;
+                var baseListValueString = listValueString;
+                if (numListElements > 1) {
+                    baseListValueString = baseListValueString + "_1";
+                };
+
+                while (lastRow >= i) {
+        	      
+                      // keep going if nonblank 
+                      if (!isBlank((i+listValueString),numListElements,allBlank)) {
+                          i++;
+                          nonBlankCount ++;
+                      } else {
+                          // found blank line, find next non-blank 
+                             var j = i + 1;
+                             while ((lastRow >= j) &amp;&amp; (isBlank((j+listValueString),numListElements,allBlank))) {
+                                   j++;
+                             };
+                             // if we have found a nonblank, move the nonblanks down
+                             var newStart = j;
+                             while (!isBlank((j+listValueString),numListElements,allBlank) &amp;&amp; (lastRow >= j)) {
+                                 //move all of the elements in this row
+                                 for (k=1; numListElements >=k; k++) {
+                                       var thisListElement = listValueString + "_" + k;
+                                       if ( (k==1) &amp;&amp; (numListElements == 1) ) {
+                                             thisListElement = listValueString;
+                                       };
+                                       var moveValuestring = getValue(j + thisListElement);
+                                       setValue(i + thisListElement, moveValuestring);
+                                       setValue(j + thisListElement,'');
+                                 };
+                                 nonBlankCount++;
+                                 i++;
+                                 j++;                               
+                             };   
+                             if (j > lastRow) {
+                                i = j;
+                             };                            
+                      };                
+                };
+                return nonBlankCount;
+        };   //end function       
+
+        function displayRows(countConcept,countConceptValue,startRow) {
+                //
+                // find the count of the number of surgeries that exist
+                //		
+		var addedCount = $j(countConcept).html(); 
+                var regex = /(&lt;([^>]+)>)/ig;
+		if (addedCount != null){
+     		    var addedInt = addedCount.replace(regex, "");
+		    addedCount = Number(addedInt);
+		};
+                //set to the first if there are none added so far
+		if (addedCount == null || addedCount == '' || addedCount== 0){
+                        // if we are in edit mode need to get count a different way
+                        addedCount = getValue(countConceptValue);
+                        if (addedCount == 0) {
+                            addedCount = 1;
+                        };
+		};
+                // make sure all of the ones we have display	
+		for(i=1; addedCount>=i; i++){
+                        var rowNumber = startRow + i - 1;
+			var dynString = "#" + rowNumber + "-toggleContainer";
+			$j(dynString).show();
+		};
+		
+                //
+                // click for the number of entries that exist so that they show up
+                //
+		for(i=1; addedCount>i; i++){
+	              rowNumber = startRow + i - 1;		
+                      dynString = "#" + rowNumber + "-addEntry";
+		      $j(dynString).click();				
+		};
+       }
+
 	if(jQuery){
 
 		$j(document).ready(function(){
-				$j('#1-removeEntry').remove();
-				$j('#43-addEntry').remove();
+                                //don't need an add button on the 44 entry because they can only add 44
+				$j('#44-addEntry').remove();
+                                $j('#1-removeEntry').remove();
 
-				$j('#44-removeEntry').remove();
-				$j('#87-addEntry').remove();
-				});
-		$j(document).ready(function(){
-				$j('button.addEntry').live("click", function(){
-					var valuestring = parseFloat(this.id) + '-list.value';
-					if (getValue(valuestring) != ''){
-					var correctedAddButtonId = parseFloat(this.id) + 1;
+                               //don't need a button on 54 surgeries because they can only add 10
+				$j('#54-addEntry').remove();
+  $j('#45-removeEntry').remove();
 
-					if (correctedAddButtonId >= 44){
-						setValue('resolvedCountConcept.value', getValue('resolvedCountConcept.value') + 1);
-					}
-					else { 
-						setValue('addedCountConcept.value', getValue('addedCountConcept.value') + 1);
-					}
+                               //This one is for referrals
+  $j('#101-removeEntry').remove();
+				$j('#110-addEntry').remove();
 
-					var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
-					$j(contentAddId).toggle(true);
-					$j('#' + this.id).toggle(false); $j('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+
+  $j('#201-removeEntry').remove();
+				$j('#210-addEntry').remove();
+
+  $j('#401-removeEntry').remove();
+				$j('#410-addEntry').remove();
+
+  $j('#301-removeEntry').remove();
+				$j('#310-addEntry').remove();
+
+  $j('#501-removeEntry').remove();
+				$j('#510-addEntry').remove();
+
+
+
+                               });
+
+
+
+$j(document).ready(function(){
+  $j('button.addEntry').live("click", function(){
+
+    var rowNumber = parseFloat(this.id);
+
+    varListValueString = '-list.value';
+    if (rowNumber > 44) {
+        listValueString = '-list.value_1';
+    }
+
+ valuestring = parseFloat(this.id) + listValueString;
+                                        //the second element of this or fails so if it makes it through the first 
+                                        //the form crashes - left it here in case there's a case where this is nec
+					if (getValue(valuestring) != '' ){
+			     var correctedAddButtonId = parseFloat(this.id) + 1;
+
+                                            // determine the right count to update
+                                          if ((this.id > 500)) {
+                                                valuestring = 'addedRadCount.value';
+                                            } else if ((this.id > 400)) {
+                                                valuestring = 'addedDiagCount.value';
+                                            } else if ((this.id > 300)) {
+                                                valuestring = 'addedUsCount.value';
+                                            } else if (this.id > 200) {
+ valuestring='addedLabsCount.value';
+} else if ((this.id > 100)) {
+                                                valuestring = 'addedReferralsCount.value';
+                                            } else if (this.id > 44) {
+                                                valuestring = 'addedSurgeryCount.value';
+                                            } else {
+                                                valuestring = 'addedDiagnosisCount.value';
+                                            };
+
+                                            //once we have the right count string, get the current count and increment if we have added
+                                            var currentCount = getValue(valuestring);
+                                            if (correctedAddButtonId>currentCount){
+                                                currentCount = correctedAddButtonId;
+                                                setValue(valuestring, currentCount);
+                                            };
+
+                                             // turn on the next button, toggle off the previous and turn on the remove button on this one 
+				     	     var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+					     $j(contentAddId).toggle(true);
+					     $j('#' + this.id).toggle(false);
+                                             $j('#' + parseFloat(this.id) + '-removeEntry').toggle(true);
 					}
-					return false;
-					});
-				});
-		$j(document).ready(function(){
+				
+                                        return false;
+  });
+});
+
+                      	$j(document).ready(function(){
 				$j('button.removeEntry').live("click", function(){
 					var correctedRemoveButtonId = parseFloat(this.id) - 1;
-					if (correctedRemoveButtonId >= 44){
-						setValue('resolvedCountConcept.value', getValue('resolvedCountConcept.value') - 1);
-					}
-					else { 
-						setValue('addedCountConcept.value', getValue('addedCountConcept.value') - 1);
-					}
-
+					
+                                        // update the right count - 1 - 44 reportable diagnoses 45 -54 surgery
+                                        var whichBlock = 1;
+                                           if (correctedRemoveButtonId > 500) {
+                                           setValue('addedRadCount.value', Number(getValue('addedRadCount.value')) -1);
+                                           whichBlock = 7;
+                                        }  else   if (correctedRemoveButtonId > 400) {
+                                           setValue('addedDiagCount.value', Number(getValue('addedDiagCount.value')) -1);
+                                           whichBlock = 6;
+                                        }  else   if (correctedRemoveButtonId > 300) {
+                                           setValue('addedUsCount.value', Number(getValue('addedUsCount.value')) -1);
+                                           whichBlock = 4;
+                                        } else   if (correctedRemoveButtonId > 200) {
+                                           setValue('addedLabsCount.value', Number(getValue('addedLabsCount.value')) -1);
+                                           whichBlock = 5;
+                                        } else  if (correctedRemoveButtonId > 100) {
+                                           setValue('addedReferralsCount.value', Number(getValue('addedReferralsCount.value')) -1);
+                                           whichBlock = 3;
+                                        } else if (correctedRemoveButtonId > 44) {
+                                             setValue('addedSurgeryCount.value', Number(getValue('addedSurgeryCount.value')) - 1);
+                                            whichBlock = 2;
+                                        } else {
+                                          setValue('addedDiagnosisCount.value', Number(getValue('addedDiagnosisCount.value')) - 1);
+                                        };
 					var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
 					$j(contentAddId).toggle(false);
 					$j( ':input:not(:button)', contentAddId).val([]);
-					$j('#' + correctedRemoveButtonId + '-addEntry').toggle(true); $j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+                                        //
+                                        // only need an addEntry button on the last diagnosis or last surgery 
+                                        //
+                                        if (    ((correctedRemoveButtonId == getValue('addedDiagnosisCount.value')) &amp;&amp; (whichBlock == 1) )
+                                       ||   ((correctedRemoveButtonId == getValue('addedSurgeryCount.value'))   &amp;&amp; (whichBlock == 2)) 
+                                       || ((correctedRemoveButtonId == getValue('addedReferralsCount.value'))   &amp;&amp; (whichBlock == 3))
+                                       || ((correctedRemoveButtonId == getValue('addedLabsCount.value'))   &amp;&amp; (whichBlock == 5))
+                                       || ((correctedRemoveButtonId == getValue('addedUsCount.value'))   &amp;&amp; (whichBlock == 4))
+                                       || ((correctedRemoveButtonId == getValue('addedRadCount.value'))   &amp;&amp; (whichBlock == 7))
+                                       || ((correctedRemoveButtonId == getValue('addedDiagCount.value'))   &amp;&amp; (whichBlock == 6))
+) {
+					     $j('#' + correctedRemoveButtonId + '-addEntry').toggle(true); 
+                                        };
+                                        $j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
 					return false;
 					});
 				});
+         //
+        // the main point of this function is to remove blank lines on submit
+        // it also resets the number of rows to only nonblanks
+         beforeSubmit.push(function() {
 
+                setValue('addedDiagnosisCount.value', removeBlanks(1,44,"-list.value",1,false));
+                setValue('addedSurgeryCount.value', removeBlanks(45,10,"-list.value",2,false));
+                setValue('addedReferralsCount.value', removeBlanks(101,10,"-list.value",2,false));
+                setValue('addedLabsCount.value', removeBlanks(201,10,"-list.value",1,false));
+                setValue('addedDiagCount.value', removeBlanks(401,10,"-list.value",1,false));
+                setValue('addedRadCount.value', removeBlanks(501,10,"-list.value",1,false));
+                setValue('addedUsCount.value', removeBlanks(301,10,"-list.value",1,false));
+                return true;
+         }); 
+     
 		/***********************************************************
 		  ==== Dylan's duration function ====
 		  ensures that a duration pair has both a quantity and units
@@ -116,18 +323,18 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					group.children("#disabled").find("select").attr("disabled",false);
 					group.children("#disabled").find("textarea").attr("disabled",false);
 					}
-   <ifMode mode="ENTER" include="true">
-            disableFn();
+                                               <ifMode mode="ENTER" include="true">
+						disableFn();
                                                 </ifMode>
                                                 <ifMode mode="VIEW" include="true">
-             disableFn();
-                                                 </ifMode>
+						disableFn();
+                                                </ifMode>
 					$j(this).children("#trigger").find(":checkbox:first").change(function(){
 						var checked = $j(this).attr("checked");
 						if(checked == true){
 						enableFn();
 						}else{
-						disableFn();
+                                                disableFn();
 						}
 						});
 				});
@@ -143,8 +350,6 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 						group.find("#checkboxAll,#checkboxRadio").find("input[type$='checkbox']").change();
 						}
 
-
-
 						group.find("#checkboxAll").find("input").click(
 							function(){
 							var flip;
@@ -155,14 +360,12 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 							}else{
 							flip = !checked;
 							}
-							if($j(this).attr("type") == "text") if(flip == false) flip = !flip; // this is so the user doesn't go to check the checkbox, then uncheck it when they hit the input.
+							if($j(this).attr("type") == "text") if(flip == false) flip = !flip; // this is so the user doesn't go to check the checkbox, then uncheck it when they 
 							uncheckAll();
 							$j(this).parents("#checkboxAll:first").find(":checkbox").attr("checked",flip);
 							$j(this).parents("#checkboxAll:first").find(":checkbox").change();
 							}
 							);
-
-
 
 						group.find("#checkboxRadio").find("input[type$='checkbox']").click(function(){
 								uncheckAll();
@@ -196,40 +399,6 @@ var url = "/openmrs/module/impressions/impressionList.list\?nw=1\u0026patientId=
 window.open(url );
 }
 
-	$j(function() {
-		
-		var addedCount = getValue('addedCountConcept.value');
-		var resolvedCount = getValue('resolvedCountConcept.value');
-
-		var regex = /(&lt;([^>]+)>)/ig;
-		var addedInt = addedCount.replace(regex, "");
-		var resolvedInt = resolvedCount.replace(regex, "");
-		addedCount = Number(addedInt);
-		resolvedCount = Number(resolvedInt);
-		if (addedCount == null || addedCount == '' || addedCount== 0){
-			addedCount=1;
-		};
-		if (resolvedCount == null || resolvedCount == ''|| resolvedCount == 0){
-			resolvedCount=1;
-		};
-		var dynString = "#1-toggleContainer";
-		$j(dynString).show();
-		for(i=1; addedCount >= i; i++){
-			var dynString = "#" + i + "-addEntry";
-			if (i != addedCount){
-				$j(dynString).click();
-			}	
-		};
-		var dynString = "#44-toggleContainer";
-		$j(dynString).show();
-		for(k=44; resolvedCount + 43 >= k; k++){
-			var dynString = "#" + k + "-addEntry";
-			if (k != resolvedCount + 43){
-				$j(dynString).click();
-			}		
-		};
-
-	});
 </script>
 
 
@@ -1788,11 +1957,13 @@ Highest level of education received:
 </span>
 
 <span id="TestsRefs">
+
 <section headerLabel="Tests and Referrals">
 	<table>
 		<tr>
-<h4> Tests Ordered</h4>
-<td><repeat>
+
+<td>
+<h4> Tests Ordered</h4><repeat>
 				<template>
  				<table>
 					<tr id="{n}-toggleContainer" style="display:none;">
@@ -1819,35 +1990,64 @@ Highest level of education received:
 </tr>
 
 <tr>
-<h4> Radiology Ordered</h4>
-<td><repeat>
+<td>
+<h4> Ultrasounds Ordered</h4><repeat>
 				<template>
  				<table>
-					<tr id="{n}-toggleContainer" style="display:none;">
-					
+				    <tr id="{n}-toggleContainer" style="display:none;">
 							<td class="nested-td">
-<obs id="{n}-list" field="LAB_{n}" conceptId="1271" answerClasses="KMRI_Labs" showCommentField="true" style="dropdown"/>
+<obs id="{n}-list" field="ULTRA1_{n}" conceptId="1271" answerConceptIds="845,161291,852,159618,161283,161282,161278,161285,161274,161276,161275,161277,161288,161289,161290,161279,161284,161286,161287" answerLabels="Abdomen, Abdomen (Limited), Liver, Obstetric, Pelvis, Pelvis (Limited), Pelvis (Transvaginal), Head and Neck, Bilateral Lower Extremity Veins, Left Lower Extremity Veins, Right Lower Extremity Veins, Extremity, Chest, Left Breast, Right Breast, Scrotum and Testicle, Guided Paracentesis, Aspiration and Pericardial Space, Percutaneous Drainage of Cavity" showCommentField="true" style="dropdown"/>
 							</td>
-							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
-						</tr>
+							
+<td class="nested-td"> Results of Ultrasound: <obs id = "{n}-list" field="ULTRA2_{n}" conceptId="1392" style="textarea" rows="1" cols="25"/></td>
+<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+</tr>
 					</table>
 				</template>
-                                <render n="201"/>
-				<render n="202"/>
-				<render n="203"/>
-				<render n="204"/>
-				<render n="205"/>
-				<render n="206"/>
-				<render n="207"/>
-				<render n="208"/>
-				<render n="209"/>
-				<render n="210"/>
+                                <render n="301"/>
+				<render n="302"/>
+				<render n="303"/>
+				<render n="304"/>
+				<render n="305"/>
+				<render n="306"/>
+				<render n="307"/>
+				<render n="308"/>
+				<render n="309"/>
+				<render n="310"/>
 				</repeat></td>
 
 </tr>
 
 
+<tr>
+<td>
+<h4> Radiology Ordered</h4><repeat>
+				<template>
+ 				<table>
+					<tr id="{n}-toggleContainer" style="display:none;">
+					
+							<td class="nested-td">
+<obs id="{n}-list" field="RADIOLOGY1_{n}" conceptId="1271" answerConceptIds="161251,161272,161273,161294,161295,161296,161297,161298,161299,161300,161301,161302,161303,161304,161305,161306,161307,161308,161263,161264,161265,161266,161267,161268,161269,161270,161271,161317,161318,161319,161320,161321,161322,161323,161324,161325,161326,161327,161328,161329,161330,161331,161332,161333,161334,161335,161336,161337,161338,161339,161340,161341,161342,161343,161344,161345,161346,161347,161348,161349,161350,161351,161352" answerLabels="Chest (2 view PA/LAT),
+Chest (4 view PA/LAT with right and left oblique),Chest (1 view AP),Chest (bilateral oblique),Chest (2 view and apical lordotic),Chest (apical lordotic),Left clavicle (2 view),Right clavicle (2 view),Bilateral clavicles (2 view),Cervical spine (2 or 3 view),Left elbow (2 view),Right elbow (2 view),Bilateral elbows (2 view),Facial bones (3 view),Left femur (2 view),Right femur (2 view),Bilateral femurs (2 view),161263 Abdomen (1 view),Abdomen (2 view AP supine and lateral decubitus),Bilateral acromioclavicular joints,Left ankle (2 view),Right ankle (2 view),Bilateral ankles (2 view),Left calcaneus (2 view),Right calcaneus (2 view),Bilateral calcaneus (2 view),Right wrist (2 view),Left wrist (2 view),Retrograde Pyelogram,Thoracic spine (2 view),Left foot (2 view),Right foot (2 view),Bilateral feet (2 view),Left forearm (2 view),Right forearm (2 view) ,Bilateral forearms (2 view),Right lower leg (2 view),Left hand (2 view),Left lower leg (2 view),Right hand (2 view),Bilateral hands (2 view),Left hip (2 view),Right hip (2 view),Bilateral hips (2 view),Thoracic and lumbar spine (2 view),Spine (1 view),Left upper arm (2 view),Right upper arm (2 view),Skull (4 view),Bilateral upper arms (2 view),Sinuses (3 view),Right shoulder (2 view),Left shoulder (2 view),Right ribs (2 view),Left ribs (2 view),Pelvis (1 view),Mandible Panorex,Lumbar spine (2 or 3 view),Right knee (1 or 2 view) ,Left knee (1 or 2 view),Bilateral ribs (2 view),Bilateral knees (2 view)" showCommentField="true" style="dropdown"/>
+							</td>
+							
+<td class="nested-td"> Results of Radiology: <obs id = "{n}-list" field="RADIOLOGY2_{n}" conceptId="1392" style="textarea" rows="1" cols="25"/></td><td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+</tr>
+					</table>
+				</template>
+                                <render n="501"/>
+				<render n="502"/>
+				<render n="503"/>
+				<render n="504"/>
+				<render n="505"/>
+				<render n="506"/>
+				<render n="507"/>
+				<render n="508"/>
+				<render n="509"/>
+				<render n="510"/>
+				</repeat></td>
 
+</tr>
 
 
 
@@ -1999,15 +2199,18 @@ Highest level of education received:
 
 	</span>
 
-	<!-- Hidden concepts for add/remove sections -->
+<!-- Hidden concepts for add/remove sections -->
 	<span id="testspan" style="display:none;">
 		<obs field="ugh1" id="addedDiagnosisCount" conceptId="161649" />
                 <obs field="ugh2" id="addedSurgeryCount" conceptId="161648" />
                 <obs field="ugh3" id="addedReferralsCount" conceptId="161652"/>
                 <obs field="ugh4" id="addedDiagCount" conceptId="161737"/>
                 <obs field="ugh5" id="addedLabsCount" conceptId="161738"/>
+                <obs field="ugh6" id="addedRadCount" conceptId="162006"/>
+                <obs field="ugh7" id="addedUsCount" conceptId="161650"/>
 	</span>
 
+	<!-- TRAVIS' FUNCTION -->
 <script type="text/javascript">
 function openImpressions(){
 var url = "/openmrs/module/impressions/impressionList.list\?nw=1\u0026patientId=" + document.getElementById('patid').innerHTML.trim();
@@ -2024,6 +2227,8 @@ window.open(url );
                 displayRows(addedReferralsCount,"addedReferralsCount.value",101);
                 displayRows(addedLabsCount,"addedLabsCount.value",201);
                 displayRows(addedDiagCount,"addedDiagCount.value",401);
+                displayRows(addedUsCount,"addedUsCount.value",301);
+                displayRows(addedRadCount,"addedRadCount.value",501);
 
 	});
 	}
@@ -2035,7 +2240,7 @@ window.open(url );
 
 		$j(document).ready(function(){
              // if this is in View, don't want any addEntry or remove Entry buttons 
-                     for (i=1;500>=i;++i) {
+                     for (i=1;600>=i;++i) {
                           $j('#' + i + '-removeEntry').toggle(false);
                           $j('#' + i + '-addEntry').toggle(false);
                      };
