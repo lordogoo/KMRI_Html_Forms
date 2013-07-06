@@ -105,7 +105,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 			var dynString = "#" + rowNumber + "-toggleContainer";
 			$j(dynString).show();
 		};
-		
+
                 //
                 // click for the number of entries that exist so that they show up
                 //
@@ -155,7 +155,7 @@ $j(document).ready(function(){
 
     var rowNumber = parseFloat(this.id);
 
-    varListValueString = '-list.value';
+    var listValueString = '-list.value';
     if (rowNumber > 44) {
         listValueString = '-list.value_1';
     }
@@ -196,7 +196,7 @@ $j(document).ready(function(){
 					     $j('#' + this.id).toggle(false);
                                              $j('#' + parseFloat(this.id) + '-removeEntry').toggle(true);
 					}
-				
+
                                         return false;
   });
 });
@@ -204,7 +204,7 @@ $j(document).ready(function(){
                       	$j(document).ready(function(){
 				$j('button.removeEntry').live("click", function(){
 					var correctedRemoveButtonId = parseFloat(this.id) - 1;
-					
+
                                         // update the right count - 1 - 44 reportable diagnoses 45 -54 surgery
                                         var whichBlock = 1;
                                            if (correctedRemoveButtonId > 500) {
@@ -664,7 +664,7 @@ $j(document).ready(function(){
 
 							<div class="enableDisable">
 								<div id="trigger">
-									<span id="checkboxCheckbox"><obs field="GENERAL_weightLoss" conceptId="1628" answerConceptId="832" answerLabel="Weight loss" style="checkbox"/> Weight Loss</span>
+									<span id="checkboxCheckbox"><obs field="GENERAL_weightLoss" conceptId="1628" answerConceptId="832" answerLabel="Weight loss" style="checkbox"/></span>
 								</div>
 								<div id="disabled" class="secondary">
 									Details: <obs field="WL_1" conceptId="161011" /><br/>
@@ -973,7 +973,7 @@ $j(document).ready(function(){
 						</td>
                                                 </obsgroup>
 					  </tr>		
-                                          <tr id="checkboxCheckbox">
+                                          <tr>
                                              	<td class="nested-td">
 							<table>
 								<tr>
@@ -981,7 +981,7 @@ $j(document).ready(function(){
 										Menstrual Cycle: 
 									</td>
 									<td class="nested-td">
-										<table>
+										<table id="checkboxGroup">
 											<tr id="checkboxRadio">
 												<td class="nested-td">
 													<obs field="GU_regular" conceptId="160596" answerConceptId="1115" answerLabel="Regular" style="checkbox"/>
@@ -997,6 +997,7 @@ $j(document).ready(function(){
 													<obs field="GU_postmeno" conceptId="160575" answerConceptId="113928" answerLabel="Post-menopausal" style="checkbox"/>
 												</td>
 </tr>
+</table><table>
 <tr>
 												<td class="nested-td">
 													<obs field="GU_Oligomenorrhea" conceptId="160575" answerConceptId="114997" answerLabel="Oligomenorrhea" style="checkbox"/>
@@ -1175,24 +1176,6 @@ $j(document).ready(function(){
 					</tr>
 		<tr>
 						
-
-
-						<td class="nested-td">
-
-							<div class="enableDisable">
-								<div id="trigger">
-									<obs field="GENERAL_weightLoss" conceptId="1633" answerConceptId="832" answerLabel="Weight loss" style="checkbox"/> Weight Loss
-								</div>
-								<div id="disabled" class="secondary">
-										How much? <obs field="GENERAL_weightLossAmount" conceptId="5089" answerConceptId="1633"/> kg
-									<br/>
-									<span class="duration">
-										Over how long? <obs field="GENERAL_weightLossTime" conceptId="1731"/><obs field="GENERAL_weightLossTimeUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
-									</span>
-								</div>
-							</div>
-						</td>
-
 					</tr>
 				</table>
 			</td>			
@@ -1958,7 +1941,8 @@ Comments: <div class="secondary"><obs field="LN_comments" conceptId="161011" ans
 						<obs field="PEHEENT_thrush" answerConceptId="5334" conceptId="1122" style="checkbox" answerLabel="Thrush"> </obs>
 						<obs field="PEHEENT_kaposi_sarcoma" answerConceptId="644" conceptId="1122" style="checkbox" answerLabel="Kaposi Sarcoma"> </obs>
 						<obs field="PEHEENT_poor" answerConceptId="147999" conceptId="1122" style="checkbox" answerLabel="Poor dentition"> </obs>
-                                                <obs field="PEHEENT_ulcers" answerConceptId="160614" conceptId="1122" style="checkbox" answerLabel="Ulcers and rash"> </obs><br /><b>Tonsils: </b>
+                                                <obs field="PEHEENT_ulcers" answerConceptId="160614" conceptId="1122" style="checkbox" answerLabel="Ulcers"> </obs>
+<br /><b>Tonsils: </b>
                                                 <obs field="PEHEENT_enlarged" answerConceptId="536" conceptId="1122" style="checkbox" answerLabel="Enlarged" />
                                                  <obs field="PEHEENT_erythe" answerConceptId="535" conceptId="1122" style="checkbox" answerLabel="Erythematous" />
                                                  <obs field="PEHEENT_exudate" answerConceptId="537" conceptId="1122" style="checkbox" answerLabel="Exudate" />
@@ -2294,14 +2278,13 @@ Chest (4 view PA/LAT with right and left oblique),Chest (1 view AP),Chest (bilat
 <br />
 
 <b>Reportable Diagnoses:</b>
-            
-<obsgroup groupingConceptId="161602">
+
 				<repeat>
 				<template>
  				<table>
 					<tr id="{n}-toggleContainer" style="display:none;">
 							<td class="nested-td">
-							<obs id="{n}-list" field="REPDIAG_{n}" conceptId="6042" answerClasses="RequiredDiagnosis" showCommentField="true" style="dropdown"/>
+							<obs id="{n}-list" field="REPDIAG_{n}" conceptId="1284" answerClasses="RequiredDiagnosis" showCommentField="true" style="dropdown"/>
 							</td>
 							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 						</tr>
@@ -2352,9 +2335,6 @@ Chest (4 view PA/LAT with right and left oblique),Chest (1 view AP),Chest (bilat
 				<render n="43"/>
 				<render n="44"/>
 				</repeat>
-		</obsgroup>
-
-<span id="test"> 
 
 <b> Diagnoses: </b>
 <repeat>
@@ -2380,12 +2360,6 @@ Chest (4 view PA/LAT with right and left oblique),Chest (1 view AP),Chest (bilat
 				<render n="410"/>
 
 				</repeat>
-
-
-</span>
-
-
-        <div id="patid" style="display:none;"><lookup expression="patient.id"/></div> 
 <br />
 	Comments:  <div class="secondary"> <obs field="REPORTABLE_comments" conceptId="161011"  style="textarea" rows="5" cols="50"></obs></div>		
 

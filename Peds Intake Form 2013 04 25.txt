@@ -155,7 +155,7 @@ $j(document).ready(function(){
 
     var rowNumber = parseFloat(this.id);
 
-    varListValueString = '-list.value';
+    var listValueString = '-list.value';
     if (rowNumber > 44) {
         listValueString = '-list.value_1';
     }
@@ -1408,6 +1408,36 @@ Gestational age at birth (in weeks):
 
 
 		</tr>
+<tr>
+<td colspan="2">
+				<h4> Surgeries: </h4>
+		                <obsgroup groupingConceptId="6042">
+				<repeat>
+				<template>
+ 				<table>
+					<tr id="{n}-toggleContainer" style="display:none;">
+					
+							<td class="nested-td">
+							<obs id="{n}-list" field="SURGERIES_{n}" conceptId="1628" answerClasses="Surgeries" showCommentField="true"/>
+							</td>
+							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+						</tr>
+					</table>
+				</template>
+				<render n="45"/>
+				<render n="46"/>
+				<render n="47"/>
+				<render n="48"/>
+				<render n="49"/>
+				<render n="50"/>
+				<render n="51"/>
+				<render n="52"/>
+				<render n="53"/>
+				<render n="54"/>
+				</repeat>
+		</obsgroup>
+			</td>
+</tr>
 		</table>
 		</section>	
 	</span>
@@ -2101,7 +2131,7 @@ Chest (4 view PA/LAT with right and left oblique),Chest (1 view AP),Chest (bilat
  				<table>
 					<tr id="{n}-toggleContainer" style="display:none;">
 							<td class="nested-td">
-							<obs id="{n}-list" field="REPDIAG_{n}" conceptId="6042" answerClasses="RequiredDiagnosis" showCommentField="true" style="dropdown"/>
+							<obs id="{n}-list" field="REPDIAG_{n}" conceptId="1284" answerClasses="RequiredDiagnosis" showCommentField="true" style="dropdown"/>
 							</td>
 							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 						</tr>
