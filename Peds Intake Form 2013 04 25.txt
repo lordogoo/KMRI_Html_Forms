@@ -7,6 +7,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 ==============================================================
 -->
 
+
 <script type="text/javascript">
 
         function isBlank(listValueString,numListElements,allBlank) {
@@ -105,7 +106,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 			var dynString = "#" + rowNumber + "-toggleContainer";
 			$j(dynString).show();
 		};
-		
+
                 //
                 // click for the number of entries that exist so that they show up
                 //
@@ -196,7 +197,7 @@ $j(document).ready(function(){
 					     $j('#' + this.id).toggle(false);
                                              $j('#' + parseFloat(this.id) + '-removeEntry').toggle(true);
 					}
-				
+
                                         return false;
   });
 });
@@ -204,7 +205,7 @@ $j(document).ready(function(){
                       	$j(document).ready(function(){
 				$j('button.removeEntry').live("click", function(){
 					var correctedRemoveButtonId = parseFloat(this.id) - 1;
-					
+
                                         // update the right count - 1 - 44 reportable diagnoses 45 -54 surgery
                                         var whichBlock = 1;
                                            if (correctedRemoveButtonId > 500) {
@@ -390,15 +391,6 @@ $j(document).ready(function(){
 		var id ="<lookup expression="patient.patientId"/>";
 		window.open('../growthchart/growthChart.htm?patientId=' + id, 'summaryWindow', 'toolbar=no,width=660,height=600,resizable=yes,scrollbars=yes').focus();
 	}
-</script>
-
-<!-- TRAVIS' FUNCTION -->
-<script type="text/javascript">
-function openImpressions(){
-var url = "/openmrs/module/impressions/impressionList.list\?nw=1\u0026patientId=" + document.getElementById('patid').innerHTML.trim();
-window.open(url );
-}
-
 </script>
 
 
@@ -656,41 +648,34 @@ window.open(url );
 			</table>
 			<table class="checkboxGroup">
 				<tr>
-							<td class="nested-td">
+<td class="nested-td">
 
 							<div class="enableDisable">
 								<div id="trigger">
 									<obs field="GENERAL_weightGain" conceptId="5544" answerConceptId="122887" answerLabel="Weight gain" style="checkbox"/> Weight Gain
 								</div>
 								<div id="disabled" class="secondary">
-									<span class="duration">
-										How much? <obs field="GENERAL_weightGainAmount" conceptId="5089" answerConceptId="5544"/> kg
-									</span>
-									<br/>
-									<span class="duration">
-										Over how long? <obs field="GENERAL_weightGainLength" conceptId="1731"/><obs field="GENERAL_weightGainLengthUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
-									</span>
+
+									Details: <obs field="WG_1" conceptId="161011" />
 								</div>
 							</div>
 						</td>
-							<td class="nested-td">
+</tr>
+<tr class="checkboxGroup">
+						<td class="nested-td">
 
 							<div class="enableDisable">
 								<div id="trigger">
-									<obs field="GENERAL_weightLoss" conceptId="1633" answerConceptId="832" answerLabel="Weight loss" style="checkbox"/> Weight Loss
+									<span id="checkboxCheckbox"><obs field="GENERAL_weightLoss" conceptId="1628" answerConceptId="832" answerLabel="Weight loss" style="checkbox"/></span>
 								</div>
 								<div id="disabled" class="secondary">
-									<span class="duration">
-										How much? <obs field="GENERAL_weightLossAmount" conceptId="5089" answerConceptId="1633"/> kg
-									</span>
-									<br/>
-									<span class="duration">
-										Over how long? <obs field="GENERAL_weightLossTime" conceptId="1731"/><obs field="GENERAL_weightLossTimeUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
-									</span>
+									Details: <obs field="WL_1" conceptId="161011" /><br/>
+<obs field="WL_2" conceptId="1858" answerConceptIds="5332,5333" answerLabels="Weight loss 10% or more,Weight loss less than 10%" style="radio" />
 								</div>
 							</div>
 						</td>
-						</tr>
+
+					</tr>
 				<tr>
 						<obsgroup groupingConceptId="160651">
 						<td class="enableDisable" colspan="2">
@@ -699,7 +684,7 @@ window.open(url );
 							</div>
 							<div id="disabled" class="secondary">
 								<span class="duration">
-									Duration: <obs field="G_retdd" conceptId="6018"/><obs field="G_retddu" conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
+									Duration: <obs field="G_retdd" conceptId="1731"/><obs field="G_retddu" conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
 								</span>
 							</div>
 						</td>
@@ -1031,18 +1016,18 @@ window.open(url );
 							<obs field="CP_history" conceptId="1071" answerConceptId="664" answerLabel="History of pneumonia (past 2 years)" style="checkbox"/>
 						</td>
 					</tr>
-<tr id="checkboxCheckbox">
-						<obsgroup groupingConceptId="160652">
-						<td class="enableDisable" colspan="2">
-							<div id="trigger"><obs field="CP_rb" conceptId="1071" answerConceptId="1188" answerLabel="Rapid breathing" style="checkbox"/></div>
-							<div id="disabled" class="secondary">
-								<span class="duration">
-									Duration: <obs field="CP_rbu" conceptId="1188"/><obs field="CP_rbud" conceptId="1732" answerConceptIds="1822,1072,1073,1074" answerLabels="Hours,Days,Weeks,Months" defaultValue="1072"/>
-								</span>
-							</div>
-						</td>
-						</obsgroup>
-					</tr>
+<tr>
+	<td class="enableDisable">
+		<div id="trigger">
+			<obs field="CP_rb" conceptId="1071" answerConceptId="1188" answerLabel="Rapid Breathing" style="checkbox"/>
+		</div>
+		<div id="disabled" class="secondary">
+			<span class="duration">
+				Duration: <obs field="CP_rbu" conceptId="1731"/><obs field="CP_rbud" conceptId="1732" answerConceptIds="1072,1073,1074,1734" />
+			</span>
+		</div>
+	</td>
+</tr>
 				</table>
 				Comments: 
 				<div class="secondary"><obs field="CP_secondaryWhatIsThisField" conceptId="161011" answerconceptId="160540" style="textarea" rows="5" cols="50"/></div>

@@ -648,13 +648,6 @@ $j(document).ready(function(){
 								<div id="disabled" class="secondary">
 
 									Details: <obs field="WG_1" conceptId="161011" />
-
-									How much? <obs field="GENERAL_weightGainAmount" conceptId="5089" answerConceptId="5544"/> kg
-									<br/>
-									<span class="duration">
-										Over how long? <obs field="GENERAL_weightGainLength" conceptId="1731"/><obs field="GENERAL_weightGainLengthUnits" conceptId="1732" answerConceptIds="1072,1073,1074" answerLabels="Days,Weeks,Months" defaultValue="1072"/>
-									</span>
-
 								</div>
 							</div>
 						</td>
@@ -731,7 +724,7 @@ $j(document).ready(function(){
 						<obsgroup groupingConceptId="142412">
 						<td class="enableDisable">
 							<div id="trigger">
-								<obs id="GI_diarrhea" field="GI_diarrhea" conceptId="1078" answerConceptId="142412" answerLabel="Diarrhea" style="checkbox"/>
+								<obs field="GI_diarrhea" conceptId="1078" answerConceptId="142412" answerLabel="Diarrhea" style="checkbox"/>
 							</div>
 							<div id="disabled" class="secondary">
 								<span class="duration">
@@ -743,7 +736,7 @@ $j(document).ready(function(){
 						<obsgroup groupingConceptId="996">
 						<td class="enableDisable">
 							<div id="trigger">
-								<obs id="GI_constipation" conceptId="1078" answerConceptId="996" answerLabel="Constipation" style="checkbox"/>
+								<obs field="GI_constipation" conceptId="1078" answerConceptId="996" answerLabel="Constipation" style="checkbox"/>
 							</div>
 							<div id="disabled" class="secondary">
 								<span class="duration">
@@ -1791,34 +1784,34 @@ $j(document).ready(function(){
 		<table style="width:100%;"><tr><td style="width:50%;">
 					<table id="two-wide">
 						<tr>
-							<td class="nested-label">BP</td><td class="nested-td"><obs conceptId="5085" />/<obs conceptId="5086" /></td>
+							<td class="nested-label">BP</td><td class="nested-td"><obs field="BP" conceptId="5085" />/<obs conceptId="5086" /></td>
 						</tr>
 						<tr>
-							<td class="nested-label">Pulse</td><td class="nested-td"><obs conceptId="5087" />rate/min </td>
+							<td class="nested-label">Pulse</td><td class="nested-td"><obs field="BP2" conceptId="5087" />rate/min </td>
 						</tr>
 						<tr>
-							<td class="nested-label">Resp Rate</td><td class="nested-td"><obs conceptId="5242" /></td>
+							<td class="nested-label">Resp Rate</td><td class="nested-td"><obs field="BP3" conceptId="5242" /></td>
 						</tr>
 						<tr>
-							<td class="nested-label">Temp</td><td class="nested-td"><obs conceptId="5088" />[C&#176;]</td>
+							<td class="nested-label">Temp</td><td class="nested-td"><obs field="BP4" conceptId="5088" />[C&#176;]</td>
 						</tr>
 						<tr>
-							<td class="nested-label">Level of consciousness:</td><td class="nested-td"><obs answerConceptIds="1066,1067,1065" answerLabels="Alert,Unknown,Impaired" conceptId="110434" style="checkbox"></obs></td>
+							<td class="nested-label">Level of consciousness:</td><td class="nested-td"><obs field="BP5" answerConceptIds="1066,1067,1065" answerLabels="Alert,Unknown,Impaired" conceptId="110434" style="checkbox"></obs></td>
 						</tr>
-						<tr><td class="nested-label">Glasgow Coma Scale</td><td class="nested-td"><obs conceptId="160347"> </obs></td>
+						<tr><td class="nested-label">Glasgow Coma Scale</td><td class="nested-td"><obs field="BP6" conceptId="160347"> </obs></td>
 
 						</tr>
 						<tr>
-							<td class="nested-label">SpO2</td><td class="nested-td"><obs conceptId="5092" />% </td>
+							<td class="nested-label">SpO2</td><td class="nested-td"><obs field="BP7" conceptId="5092" />% </td>
 						</tr>
 						<tr>
-							<td class="nested-label">Wt</td><td class="nested-td"><obs conceptId="5089" />kg</td>
+							<td class="nested-label">Wt</td><td class="nested-td"><obs field="BP8" conceptId="5089" />kg</td>
 						</tr>
 						<tr>
-							<td class="nested-label">Height</td><td class="nested-td"><obs conceptId="5090" />cm </td>
+							<td class="nested-label">Height</td><td class="nested-td"><obs field="BP9" conceptId="5090" />cm </td>
 						</tr>
 						<tr>
-							<td class="nested-label">Karnofsky Score</td><td class="nested-td"><obs conceptId="5283" />%</td>
+							<td class="nested-label">Karnofsky Score</td><td class="nested-td"><obs field="BP10" conceptId="5283" />%</td>
 						</tr>
 					</table>
 				</td><td style="width:50%;">
@@ -2066,7 +2059,7 @@ Comments: <div class="secondary"><obs field="LN_comments" conceptId="161011" ans
 
 					</span>
 				</span>
-				<br />Comments: <div field="ABDOMEN_comments" class="secondary"><obs conceptId="161011" answerConceptId="1125" style="textarea" rows="5" cols="50"></obs></div>
+				<br />Comments: <div field="ABDOMEN_comments" class="secondary"><obs field="abcomments" conceptId="161011" answerConceptId="1125" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 			<td class="checkboxGroup" style="width:50%;">
 				<h4>Urogenital</h4>
