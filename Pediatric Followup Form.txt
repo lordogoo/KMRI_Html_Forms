@@ -253,7 +253,6 @@ $j(document).ready(function(){
                 return true;
          }); 
      
-	
 
 		$j(document).ready(function(){
 				if ( $j.browser.msie ) {
@@ -282,7 +281,7 @@ $j(document).ready(function(){
                                                <ifMode mode="ENTER" include="true">
 						disableFn();
                                                 </ifMode>
-
+                                               
 					$j(this).children("#trigger").find(":checkbox:first").change(function(){
 						var checked = $j(this).attr("checked");
 						if(checked == true){
@@ -446,12 +445,10 @@ $j(document).ready(function(){
 	<section headerLabel="Contents">
 <ol>
 	<li><a href="#S0"> Encounter Details </a> </li>
-	<li><a href="#S1"> Demographics </a> </li>
 	<li><a href="#S2"> Presenting Complaint </a> </li>
 	<li><a href="#S3"> Review of Systems </a> </li>
 	<li><a href="#S5"> Current Medications </a> </li>
 	<li><a href="#S6"> Vaccinations </a> </li>
-	<li><a href="#S7"> Past Medical History </a> </li>
 	<li><a href="#S8"> Social History </a> </li>
 	<li><a href="#S9"> Physical Exam </a> </li>
 	<li><a href="#TestsRefs"> Tests and Referrals </a></li>
@@ -473,64 +470,6 @@ $j(document).ready(function(){
 		<tr>
 			<td>Provider:</td>
 			<td><encounterProvider default="currentUser"/></td>
-		</tr>
-	</table>
-	</section>
-</span>
-
-	<span id="S1">
-	<section headerLabel="Demographic Information">
-	<table class="baseline-aligned">
-		<tr>
-			<td>Name:</td>
-			<td><lookup class="value" expression="patient.personName"/></td>
-		</tr>
-		<tr>
-			<td>Old Identification Number:</td>
-			<td><lookup class="value" complexExpression="#foreach( $patId in $patientIdentifiers.get('Old Identification Number') ) $patId #end "/></td>
-		</tr>
-		<tr>
-			<td>OpenMRS Identification Number:</td>
-			<td><lookup class="value" complexExpression="#foreach( $patId in $patientIdentifiers.get('OpenMRS Identification Number') ) $patId #end "/></td>
-		</tr>
-		<tr>
-			<td>Gender:</td>
-			<td><lookup class="value" expression="patient.gender"/></td>
-		</tr>
-		<tr>
-			<td>Birthdate:</td>
-			<td>
-				<lookup class="value" complexExpression="#if( \$patient.birthdateEstimated ) ~#end"/> <lookup class="value" expression="patient.birthdate"/>
-				(Age: <lookup class="value" expression="patient.age"/>)
-			</td>
-		</tr>
-		<tr>
-			<td>Birthplace:</td>
-			<td><lookup class="value" expression="personAttributes.get('Birthplace')"/></td>
-		</tr>
-		<tr>
-			<td>Citizenship:</td>
-			<td><lookup class="value" expression="personAttributes.get('Citizenship')"/></td>
-		</tr>
-		<tr>
-			<td>Civil Status:</td>
-			<td><lookup class="value" expression="personAttributes.get('Civil Status').name.name"/></td>
-		</tr>
-		<tr>
-			<td>Health Center:</td>
-			<td><lookup class="value" expression="personAttributes.get('Health Center')"/></td>
-		</tr>
-		<tr>
-			<td>Health District:</td>
-			<td><lookup class="value" expression="personAttributes.get('Health District')"/></td>
-		</tr>
-		<tr>
-			<td>Mother's Name:</td>
-			<td><lookup class="value" expression="personAttributes.get('Mothers Name')"/></td>
-		</tr>
-		<tr>
-			<td>Race:</td>
-			<td><lookup class="value" expression="personAttributes.get('Race')"/></td>
 		</tr>
 	</table>
 	</section>
@@ -1129,267 +1068,17 @@ $j(document).ready(function(){
 		</section>
 	</span>
 
-	<span id="S6">
+<span id="S6">
 	<section headerLabel="Vaccinations">
 		<table><tr>
 <td id="nested-td"> Are the child's vaccines up to date?<obs field="vac_one" conceptId="162008" answerConceptIds="1065,1066,162009" answerLabels="Yes,No,Child Not Vaccinated"/> </td></tr>
 <tr><td id="nested-td">
-Comments: <obs field="vac_comments" conceptId="161011"/>
+Details: <obs field="vac_comments" conceptId="161011"/>
 </td>
 </tr>
 </table>
 	</section>
 </span>
-
-<span id="S7">
-	<section headerLabel="Past Medical History">
-		<table id="two-wide">
-			<tr>
-				<td style="width:50%;">
-					<h4>General:</h4>
-					<table class="inner-table">
-						<tr>
-							<td class="nested-td">
-
-								<obs field="GEN_hiv" conceptId="1169" labelText="HIV status: " defaultValue="1067" answerConceptIds="703,664,1067" answerLabels="Positive,Negative,Unknown"/>
-							</td>
-</tr><tr>
-							<td class="nested-td">
-
-								<obs field="GEN_hivhis" conceptId="1396" labelText="Mother's HIV status: " defaultValue="1067" answerConceptIds="703,664,1067" answerLabels="Positive,Negative,Unknown"/>
-							</td>
-						</tr>
-					</table>
-				</td>
-				<td>
-				<h4>Tuberculosis Status:</h4>
-				<table class="checkboxGroup">
-						<tr>
-							<td id="checkboxAll" class="nested-td">
-								<obs field="TB_none" conceptId="1659" answerConceptId="1660" answerLabel="No signs or symptoms"/>
-							</td>
-							<td id="checkboxRadio" class="nested-td">
-								<obs field="TB_suspected" conceptId="1659" answerConceptId="142177" answerLabel="Disease suspected"/>
-							</td>
-						</tr>
-						<tr>
-							<td class="nested-td" id="checkboxRadio">
-								<div class="enableDisable">
-									<div id="trigger">
-										<obs field="TB_treated" conceptId="1659" answerConceptId="1663" answerLabel="Treatment completed"/>
-									</div>
-									<div id="disabled" class="secondary">
-										<obs field="TB_treatedYear" conceptId="5966" labelText="Year of completion"/>
-									</div>
-								</div>
-							</td>
-							<td class="nested-td" id="checkboxCheckbox">
-								<div class="enableDisable">
-									<div id="trigger">
-										<obs field="TB_diagnosed" conceptId="1659" answerConceptId="1661" answerLabel="Disease diagnosed"/>
-									</div>
-									<div id="disabled" class="secondary">
-										<obs field="TB_treatment" conceptId="1659" answerConceptId="1662" answerLabel="On treatment for disease"/>
-									</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td class="nested-td" id="checkboxCheckbox">
-								<obs field="TB_contact" conceptId="124068" answerConceptId="1065" style="checkbox" answerLabel="Tuberculosis contact in household"/> 
-							</td>
-						</tr>
-						<tr>
-							<td class="nested-td"  id="checkboxCheckbox">
-
-								<div class="enableDisable">
-									<div id="trigger">
-										<obs field="TB_pc" conceptId="1628" answerConceptId="5957" answerLabel="Productive cough" style="checkbox"/> 
-									</div>
-
-									<div id="disabled" class="secondary">
-										<obs field="TB_hemo" conceptId="1628" answerConceptId="138905" answerLabel="Hemoptysis" style="checkbox"/> Hemoptysis
-										<br/>
-										<obs field="TB_sputum" conceptId="1628" answerConceptId="125998" answerLabel="Sputum" style="checkbox"/> Sputum
-									</div> 
-								</div>
-							</td>
-							<td class="nested-td"  id="checkboxCheckbox">
-
-								<obs field="TB_chronic" conceptId="1628" answerConceptId="145455" answerLabel="Chronic cough (longer than 3 weeks)" style="checkbox"/>
-							</td>
-						</tr>
-					</table>
-			</td>
-			</tr>
-			<tr>
-				<td>
-					<h4>Birth History</h4>
-					<table >
-<tr>
-<td class="nested-label">
-Gestational age at birth (in weeks):
-</td>
-<td class="nested-td">
- <obs field="BH_ageweeks" conceptId="1409"/>
-</td>
-</tr>
-						<tr>
-							<td class="nested-label">
-								Delivery method:
-							</td>
-							<td class="nested-td">
-								<obs field="BH_metho" conceptId="5630" answerConceptIds="1170,155884,155321,118159" answerLabels="Spontaneous vaginal delivery,C-section,Breech,Assisted (vacuum/forceps)"/>
-							</td>
-						</tr>
-						<tr>
-							<td class="nested-label">
-								Birth weight: 
-							</td>
-							<td class="nested-td">
-								<obs field="BH_bw" conceptId="5916"/>kgs
-							</td>
-						</tr>
-						<tr>
-							<td class="nested-label">
-								<b>or</b> Earliest weight: 
-							</td>
-							<td class="nested-td">
-								<obsgroup groupingConceptId="160642"><obs field="BH_bw1" conceptId="5089"/>kgs at age <obs field="BH_bw2" conceptId="1532"/> </obsgroup>
-							</td>
-						</tr>
-						<tr>
-							<td class="nested-label">
-								Rupture of membranes &gt; 4h:
-							</td>
-							<td class="nested-td" colspan="2">
-								<obs field="BH_rup" conceptId="5578" style="checkbox"/>
-							</td>	
-						</tr>
-						<tr>
-							<td class="nested-label">
-								APGAR Score: 
-							</td>
-							<td class="nested-td">
-								<obs field="BH_ap1" conceptId="159603" labelText="1 min"/>
-								<obs field="BH_ap5" conceptId="159603" labelText="5 min"/>
-							</td>
-						</tr>
-					</table>
-					<table>
-						<tr class="checkboxGroup">
-							<td class="enableDisable" id="checkboxRadio">Post-natal complications:
-									<span id="trigger">
-										<obs field="BH_ppnc" conceptId="160643" answerConceptId="1065" answerLabel="Yes" style="checkbox"/>
-									</span>
-									<obs field="BH_pncc" conceptId="160643" answerConceptId="1066" answerLabel="No" style="checkbox"/>
-									<br />
-									<span id="disabled"> Describe:
-										<div class="secondary">
-							       				<obs field="BH_pnccoments" conceptId="160644" style="textarea" cols="50" rows="5"/>
-										</div>
-									</span>
-							</td>
-						</tr>
-					</table>
-				</td>
-				<td>
-				<div class="enableDisable">
-					<h4>Hospitalizations:</h4>
-					<div id="trigger">
-						<obs field="HOSPITAL_hospitalized" conceptId="5703" labelText="Patient has been hospitalized in the past year" style="checkbox"/>
-					</div>
-
-					<div id="disabled" class="secondary">
-						<obs field="HOSPITAL_number" conceptId="5704" labelText="Number of hospitalizations in the past year"/>
-
-						<div >
-							Briefly describe reason(s) for hospitalizations:
-
-							<div class="secondary">
-								<obs field="HOSPITAL_reasons" conceptId="161011" answerConceptId="1655" style="textarea" cols="50" rows="5"/>
-							</div>
-						</div>
-					</div>
-				</div>
-			</td>
-			</tr>
-				<tr>
-	<td>
-				<h4> Exposures </h4>
-				<table>
-					<tr>
-						<td class="nested-td">
-							<obs field="EXPOSURE_hiv" conceptId="1628" answerConceptId="822" style="checkbox" answerLabel="HIV"/> 
-						</td>
-						<td class="nested-td">
-							<obs field="EXPOSURE_tb" conceptId="1628" answerConceptId="124068"  style="checkbox" answerLabel="TB"/>
-						</td>
-						<td class="nested-td">
-							<obs field="EXPOSURE_other" conceptId="1628" answerConceptId="151056" style="checkbox" answerLabel="Other sickness"/> 
-						</td>						
-						<td class="nested-td">
-							<obs field="EXPOSURE_animal" conceptId="1628" answerConceptId="121605"  style="checkbox" answerLabel="Animals"/> 
-						</td>
-						<td class="nested-td">
-							<obs field="EXPOSURE_travel" conceptId="1628" answerConceptId="124153" style="checkbox" answerLabel="Travel"/> 
-						</td>
-</tr>
-<tr>
-                                	</tr>
-				</table> 
-                                <obs field="Exposure_water" conceptId="1511" labelText="Water Source:"/>
-				<br/>
-				Details: 
-				<div class="secondary"><obs field="EXPOSURE_details" conceptId="161011" answerConceptId="118713" style="textarea" rows="5" cols="75"/></div>				
-			</td>
-				<td>
-					<h4> Developmental / Diet History </h4>
-					<table>
-						<tr>
-							
-							<td class="nested-td">Months of Exclusive Breastfeeding: <obs field="diet1" conceptId="1398"/></td></tr>
-<tr><td class="nested-td">Infant Feeding Method(for formula please indicate type and water source in comment field): <obs field="diet2" conceptId="1151" showCommentField="true" style="dropdown"/></td></tr>
-<tr><td class="nested-td">         <div class="secondary">Other Comments:<obs field="ddiet3" conceptId="161011" answerConceptId="1398" style="textarea" rows="5" cols="75"/></div>		      </td>
-</tr>
-					</table>
-				</td>
-
-
-		</tr>
-<tr>
-<td colspan="2">
-				<h4> Surgeries: </h4>
-		                <obsgroup groupingConceptId="6042">
-				<repeat>
-				<template>
- 				<table>
-					<tr id="{n}-toggleContainer" style="display:none;">
-					
-							<td class="nested-td">
-							<obs id="{n}-list" field="SURGERIES_{n}" conceptId="1628" answerClasses="Surgeries" showCommentField="true"/>
-							</td>
-							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
-						</tr>
-					</table>
-				</template>
-				<render n="45"/>
-				<render n="46"/>
-				<render n="47"/>
-				<render n="48"/>
-				<render n="49"/>
-				<render n="50"/>
-				<render n="51"/>
-				<render n="52"/>
-				<render n="53"/>
-				<render n="54"/>
-				</repeat>
-		</obsgroup>
-			</td>
-</tr>
-		</table>
-		</section>	
-	</span>
 
 	<span id="S8">
 		<section headerLabel="Social History">
@@ -1464,44 +1153,11 @@ Highest level of education received: <obs field="EDUCATION_highest" conceptId="1
 </td>
 </tr>
 <tr><td class="nested-td">
-  <obs field="educatonspecify" conceptId="161011" answerConceptId="1712" style="textarea" rows="5" cols="35" labelText="Specify :"/>
+  <obs field="educationspecfy" conceptId="161011" answerConceptId="1712" style="textarea" rows="5" cols="35" labelText="Specify :"/>
 </td>
 					</tr>
 				</table>	
 			</td></tr>
-<tr>
-				<td>
-
-<table>
-				<div class="enableDisable">
-
-					<h4> Employment: </h4>
-
-					<div id="trigger">
-						<obs field="EMPLOY_outside" conceptId="1065" answerConceptId="5608" labelText="Patient is employed outside the home" style="checkbox"/>
-					</div>
-					<div id="disabled" style="padding-left:0px">
-<tr>
-								<td class="nested-label" style="padding-left:0px">
-									Occupation:
-								</td>
-								<td class="nested-td">
-									<obs field="EMPLOY_occupation" conceptId="1542" showCommentField="true"/>
-</td></tr>
-<tr class="secondary">
-
-								<td class="nested-td">
-									Relevant Past Employment History:
-									<obs field="EMPLOY_comments" conceptId="161011" answerConceptId="1542"/>
-								</td>
-</tr>
-
-					
-					</div>
-		</div>
-		</table>
-			</td>
-		</tr>
 		</table>
 	</section>
 	</span>
@@ -1526,7 +1182,7 @@ Highest level of education received: <obs field="EDUCATION_highest" conceptId="1
 							BP
 						</td>
 						<td class="nested-td">
-							<obs field="SH_bloodp" conceptId="5085"/> / <obs field="sh_bp2" conceptId="5086"/>
+							<obs field="SH_bloodp" conceptId="5085"/> / <obs field="sh_bloodp2" conceptId="5086"/>
 						</td>
 					</tr>
 					<tr>

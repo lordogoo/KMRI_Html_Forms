@@ -194,7 +194,7 @@ $j(document).ready(function(){
 				     	     var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
 					     $j(contentAddId).toggle(true);
 					     $j('#' + this.id).toggle(false);
-                                             $j('#' + parseFloat(this.id) + '-removeEntry').toggle(true);
+                                             $j('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
 					}
 
                                         return false;
@@ -206,44 +206,33 @@ $j(document).ready(function(){
 					var correctedRemoveButtonId = parseFloat(this.id) - 1;
 
                                         // update the right count - 1 - 44 reportable diagnoses 45 -54 surgery
-                                        var whichBlock = 1;
+
                                            if (correctedRemoveButtonId > 500) {
                                            setValue('addedRadCount.value', Number(getValue('addedRadCount.value')) -1);
-                                           whichBlock = 7;
+
                                         }  else   if (correctedRemoveButtonId > 400) {
                                            setValue('addedDiagCount.value', Number(getValue('addedDiagCount.value')) -1);
-                                           whichBlock = 6;
+
                                         }  else   if (correctedRemoveButtonId > 300) {
                                            setValue('addedUsCount.value', Number(getValue('addedUsCount.value')) -1);
-                                           whichBlock = 4;
+
                                         } else   if (correctedRemoveButtonId > 200) {
                                            setValue('addedLabsCount.value', Number(getValue('addedLabsCount.value')) -1);
-                                           whichBlock = 5;
+
                                         } else  if (correctedRemoveButtonId > 100) {
                                            setValue('addedReferralsCount.value', Number(getValue('addedReferralsCount.value')) -1);
-                                           whichBlock = 3;
+
                                         } else if (correctedRemoveButtonId > 44) {
                                              setValue('addedSurgeryCount.value', Number(getValue('addedSurgeryCount.value')) - 1);
-                                            whichBlock = 2;
+
                                         } else {
                                           setValue('addedDiagnosisCount.value', Number(getValue('addedDiagnosisCount.value')) - 1);
                                         };
 					var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
 					$j(contentAddId).toggle(false);
 					$j( ':input:not(:button)', contentAddId).val([]);
-                                        //
-                                        // only need an addEntry button on the last diagnosis or last surgery 
-                                        //
-                                        if (    ((correctedRemoveButtonId == getValue('addedDiagnosisCount.value')) &amp;&amp; (whichBlock == 1) )
-                                       ||   ((correctedRemoveButtonId == getValue('addedSurgeryCount.value'))   &amp;&amp; (whichBlock == 2)) 
-                                       || ((correctedRemoveButtonId == getValue('addedReferralsCount.value'))   &amp;&amp; (whichBlock == 3))
-                                       || ((correctedRemoveButtonId == getValue('addedLabsCount.value'))   &amp;&amp; (whichBlock == 5))
-                                       || ((correctedRemoveButtonId == getValue('addedUsCount.value'))   &amp;&amp; (whichBlock == 4))
-                                       || ((correctedRemoveButtonId == getValue('addedRadCount.value'))   &amp;&amp; (whichBlock == 7))
-                                       || ((correctedRemoveButtonId == getValue('addedDiagCount.value'))   &amp;&amp; (whichBlock == 6))
-) {
+
 					     $j('#' + correctedRemoveButtonId + '-addEntry').toggle(true); 
-                                        };
                                         $j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
 					return false;
 					});
@@ -262,42 +251,7 @@ $j(document).ready(function(){
                 setValue('addedUsCount.value', removeBlanks(301,10,"-list.value",1,false));
                 return true;
          }); 
-     
-		/***********************************************************
-		  ==== Dylan's duration function ====
-		  ensures that a duration pair has both a quantity and units
-		 ***********************************************************/
-		$j(document).ready(function(){
-				var durationCount = $j(".duration").length;
-				var index = 0;
-				var durationCheck = true;
 
-				$j(".duration").each(function(){
-					index++;
-					var group = $j(this);
-					var id = index;
-					beforeSubmit.push(function() {
-    						var numeric = group.find("input[type$='text']:first").val();
-						var dropdown = group.find("select:first").val();
-						var errorID = group.find(".error:last").attr('id');
-						clearError(errorID);
-
-						if ((dropdown == '' &amp;&amp; numeric != '') || (dropdown != '' &amp;&amp; numeric =='')) {
-						showError(errorID,'<br/>Need quantity and units');
-							if (durationCheck) {
-								group.find("select:first").focus();
-								durationCheck = false;
-							}
-						}
-						if (id == durationCount) {
-							var ret = durationCheck;
-							durationCheck = true;
-							return ret;
-						}
-						return true;
-					});
-				});
-		});
 
 		$j(document).ready(function(){
 				if ( $j.browser.msie ) {
@@ -326,9 +280,7 @@ $j(document).ready(function(){
                                                <ifMode mode="ENTER" include="true">
 						disableFn();
                                                 </ifMode>
-                                                <ifMode mode="VIEW" include="true">
-						disableFn();
-                                                </ifMode>
+                                        
 					$j(this).children("#trigger").find(":checkbox:first").change(function(){
 						var checked = $j(this).attr("checked");
 						if(checked == true){
@@ -1046,10 +998,18 @@ $j(document).ready(function(){
 					</tr>
                                         </table>
 					</includeIf>
+
 				<br/>
 				<br/><table>
+<tr>
+<td class="nested-td"> 
+<obs field="GU_sores" answerLabel="Genital Sores" answerConceptId="864" conceptId="1080" style="checkbox"/>
+</td></tr>
+<tr>
 				<td class="nested-td">Comments: 
-				<div class="secondary"><obs field="GU_comments" conceptId="161011" answerconceptId="161011" style="textarea" rows="5" cols="50"/></div></td></table>
+				<div class="secondary"><obs field="GU_comments" conceptId="161011" answerconceptId="161011" style="textarea" rows="5" cols="50"/></div></td>
+</tr>
+</table>
 			</td>
 		</tr>
 		<tr>
@@ -1225,36 +1185,19 @@ $j(document).ready(function(){
 			<td>
 				<h4>Tuberculosis Status:</h4>
 				<table class="checkboxGroup">
-						<tr>
-							<td id="checkboxAll" class="nested-td">
-								<obs field="TB_none" conceptId="1659" answerConceptId="1660" answerLabel="No signs or symptoms"/>
-							</td>
-							<td id="checkboxRadio" class="nested-td">
-								<obs field="TB_suspected" conceptId="1659" answerConceptId="142177" answerLabel="Disease suspected"/>
-							</td>
-						</tr>
-						<tr>
-							<td class="nested-td" id="checkboxRadio">
-								<div class="enableDisable">
-									<div id="trigger">
-										<obs field="TB_treated" conceptId="1659" answerConceptId="1663" answerLabel="Treatment completed"/>
-									</div>
-									<div id="disabled" class="secondary">
-										<obs field="TB_treatedYear" conceptId="5966" labelText="Year of completion"/>
-									</div>
-								</div>
-							</td>
-							<td class="nested-td" id="checkboxCheckbox">
-								<div class="enableDisable">
-									<div id="trigger">
-										<obs field="TB_diagnosed" conceptId="1659" answerConceptId="1661" answerLabel="Disease diagnosed"/>
-									</div>
-									<div id="disabled" class="secondary">
-										<obs field="TB_treatment" conceptId="1659" answerConceptId="1662" answerLabel="On treatment for disease"/>
-									</div>
-								</div>
-							</td>
-						</tr>
+<tr> 
+<td class="nested-td">
+TB Status:<obs field="TB_suspicion" conceptId="1659" answerConceptIds="1660,142177,1661" answerLabels="No signs or symptoms,Disease suspected,Disease diagnosed" style="dropdown"/>
+</td>
+</tr>
+<tr>
+<td class="nested-td">
+Treatment status: <obs field="TB_status" conceptId="1659" answerConceptIds="1663,1662,1107" answerLabels="Treatment completed,Treatment in progress,No treatment" style="dropdown"/>
+</td>
+<td class="nested-td">
+<obs field="TB_treatmentyear" conceptId="161011" labelText="Details:"/>
+</td>
+</tr>
 						<tr>
 							<td class="nested-td">
 								<obs field="TB_contact" conceptId="124068" answerConceptId="1065" style="checkbox" answerLabel="Tuberculosis contact in household"/> 
@@ -1265,19 +1208,19 @@ $j(document).ready(function(){
 
 								<div class="enableDisable">
 									<div id="trigger">
-										<obs field="TB_pc" conceptId="1628" answerConceptId="5957" answerLabel="Productive cough" style="checkbox"/> Productive Cough
+										<obs field="TB_pc" conceptId="1628" answerConceptId="5957" answerLabel="Productive cough" style="checkbox"/> 
 									</div>
 
 									<div id="disabled" class="secondary">
-										<obs field="TB_hemo" conceptId="1628" answerConceptId="138905" answerLabel="Hemoptysis" style="checkbox"/> Hemoptysis
+										<obs field="TB_hemo" conceptId="1628" answerConceptId="138905" answerLabel="Hemoptysis" style="checkbox"/> 
 										<br/>
-										<obs field="TB_sputum" conceptId="1628" answerConceptId="125998" answerLabel="Sputum" style="checkbox"/> Sputum
+										<obs field="TB_sputum" conceptId="1628" answerConceptId="125998" answerLabel="Sputum" style="checkbox"/> 
 									</div> 
 								</div>
 							</td>
 							<td class="nested-td">
 
-								<obs field="TB_chronic" conceptId="1628" answerConceptId="145455" answerLabel="Chronic cough (longer than 3 weeks)" style="checkbox"/> Chronic cough (longer than 3 weeks)
+								<obs field="TB_chronic" conceptId="1628" answerConceptId="145455" answerLabel="Chronic cough (longer than 3 weeks)" style="checkbox"/>
 							</td>
 						</tr>
 					</table>
@@ -1784,7 +1727,7 @@ $j(document).ready(function(){
 		<table style="width:100%;"><tr><td style="width:50%;">
 					<table id="two-wide">
 						<tr>
-							<td class="nested-label">BP</td><td class="nested-td"><obs field="BP" conceptId="5085" />/<obs conceptId="5086" /></td>
+							<td class="nested-label">BP</td><td class="nested-td"><obs field="BP" conceptId="5085" />/<obs field="bp1-2" conceptId="5086" /></td>
 						</tr>
 						<tr>
 							<td class="nested-label">Pulse</td><td class="nested-td"><obs field="BP2" conceptId="5087" />rate/min </td>
@@ -2026,20 +1969,8 @@ Comments: <div class="secondary"><obs field="LN_comments" conceptId="161011" ans
 					<span id="trigger"><obs field="ABDOMEN_abnormal" answerConceptId="1116" conceptId="1125" style="checkbox" answerLabel="Abnormal"> </obs></span>
 					<span id="disabled">
 						<br />
-						<span id="checkboxCheckbox" class="enableDisable">
-							<span id="trigger"><obs field="ABDOMEN_tender" answerConceptId="5105" conceptId="1125" style="checkbox" answerLabel="Tender to palpation"> </obs></span>
-							<span id="disabled">
-								(<obs field="ABDOMEN_leftup" answerConceptId="160380" conceptId="1125" style="checkbox" answerLabel="Left Upper Quadrant"> </obs>
-								<obs field="ABDOMEN_leftlow" answerConceptId="5104" conceptId="1125" style="checkbox" answerLabel="Left Lower Quadrant"> </obs>
-								<obs field="ABDOMEN_rightup" answerConceptId="5107" conceptId="1125" style="checkbox" answerLabel="Right Upper Quadrant"> </obs>
-								<obs field="ABDOMEN_rightlow" answerConceptId="160381" conceptId="1125" style="checkbox" answerLabel="Right Lower Quadrant"> </obs>
-								<obs field="ABDOMEN_epigas" answerConceptId="5099" conceptId="1125" style="checkbox" answerLabel="Epigastric"> </obs>
-								<obs field="ABDOMEN_suprapub" answerConceptId="575" conceptId="1125" style="checkbox" answerLabel="Suprapubic"> </obs>
-								<obs field="ABDOMEN_leftflank" answerConceptId="140070" conceptId="1125" style="checkbox" answerLabel="Flank Pain"> </obs>
-								<obs field="ABDOMEN_periumbilicial" answerConceptId="124998" conceptId="1125" style="checkbox" answerLabel="Periumbilical"> </obs>
-								)<br />
-							</span>
-						</span>
+Tender to palpation: <obs field="ABDOENTENDER" conceptId="1125" style="dropdown" answerConceptIds="160380,5104,5107,160381,5099,575,140070,124998" answerLabels="Left upper quadrant,Left lower quadrant,Right upper quadrant,Right lower quadrant,Epigastric,Suprapubic,Flank pain,Periumbilical"/><br/>
+
 						<obs field="ABDOMEN_ascites" answerConceptId="148346" conceptId="1125" style="checkbox" answerLabel="Ascites"> </obs>
 						<obs field="ABDOMEN_mass" answerConceptId="5103" conceptId="1125" style="checkbox" answerLabel="Mass"> </obs>
 						<span id="checkboxCheckbox" class="enableDisable">
@@ -2204,7 +2135,7 @@ Comments: <div class="secondary"><obs field="LN_comments" conceptId="161011" ans
 					
 							<td class="nested-td">
 <obs id="{n}-list" field="RADIOLOGY1_{n}" conceptId="1271" answerConceptIds="161251,161272,161273,161294,161295,161296,161297,161298,161299,161300,161301,161302,161303,161304,161305,161306,161307,161308,161263,161264,161265,161266,161267,161268,161269,161270,161271,161317,161318,161319,161320,161321,161322,161323,161324,161325,161326,161327,161328,161329,161330,161331,161332,161333,161334,161335,161336,161337,161338,161339,161340,161341,161342,161343,161344,161345,161346,161347,161348,161349,161350,161351,161352" answerLabels="Chest (2 view PA/LAT),
-Chest (4 view PA/LAT with right and left oblique),Chest (1 view AP),Chest (bilateral oblique),Chest (2 view and apical lordotic),Chest (apical lordotic),Left clavicle (2 view),Right clavicle (2 view),Bilateral clavicles (2 view),Cervical spine (2 or 3 view),Left elbow (2 view),Right elbow (2 view),Bilateral elbows (2 view),Facial bones (3 view),Left femur (2 view),Right femur (2 view),Bilateral femurs (2 view),161263 Abdomen (1 view),Abdomen (2 view AP supine and lateral decubitus),Bilateral acromioclavicular joints,Left ankle (2 view),Right ankle (2 view),Bilateral ankles (2 view),Left calcaneus (2 view),Right calcaneus (2 view),Bilateral calcaneus (2 view),Right wrist (2 view),Left wrist (2 view),Retrograde Pyelogram,Thoracic spine (2 view),Left foot (2 view),Right foot (2 view),Bilateral feet (2 view),Left forearm (2 view),Right forearm (2 view) ,Bilateral forearms (2 view),Right lower leg (2 view),Left hand (2 view),Left lower leg (2 view),Right hand (2 view),Bilateral hands (2 view),Left hip (2 view),Right hip (2 view),Bilateral hips (2 view),Thoracic and lumbar spine (2 view),Spine (1 view),Left upper arm (2 view),Right upper arm (2 view),Skull (4 view),Bilateral upper arms (2 view),Sinuses (3 view),Right shoulder (2 view),Left shoulder (2 view),Right ribs (2 view),Left ribs (2 view),Pelvis (1 view),Mandible Panorex,Lumbar spine (2 or 3 view),Right knee (1 or 2 view) ,Left knee (1 or 2 view),Bilateral ribs (2 view),Bilateral knees (2 view)" showCommentField="true" style="dropdown"/>
+Chest (4 view PA/LAT with right and left oblique),Chest (1 view AP),Chest (bilateral oblique),Chest (2 view and apical lordotic),Chest (apical lordotic),Chest (4 views),Left clavicle (2 view),Right clavicle (2 view),Bilateral clavicles (2 view),Cervical spine (2 or 3 view),Left elbow (2 view),Right elbow (2 view),Bilateral elbows (2 view),Facial bones (3 view),Left femur (2 view),Right femur (2 view),Bilateral femurs (2 view),Abdomen (1 view),Abdomen (2 view AP supine and lateral decubitus),Bilateral acromioclavicular joints,Left ankle (2 view),Right ankle (2 view),Bilateral ankles (2 view),Left calcaneus (2 view),Right calcaneus (2 view),Bilateral calcaneus (2 view),Right wrist (2 view),Left wrist (2 view),Retrograde Pyelogram,Thoracic spine (2 view),Left foot (2 view),Right foot (2 view),Bilateral feet (2 view),Left forearm (2 view),Right forearm (2 view) ,Bilateral forearms (2 view),Right lower leg (2 view),Left hand (2 view),Left lower leg (2 view),Right hand (2 view),Bilateral hands (2 view),Left hip (2 view),Right hip (2 view),Bilateral hips (2 view),Thoracic and lumbar spine (2 view),Spine (1 view),Left upper arm (2 view),Right upper arm (2 view),Skull (4 view),Bilateral upper arms (2 view),Sinuses (3 view),Right shoulder (2 view),Left shoulder (2 view),Right ribs (2 view),Left ribs (2 view),Pelvis (1 view),Mandible Panorex,Lumbar spine (2 or 3 view),Right knee (1 or 2 view) ,Left knee (1 or 2 view),Bilateral ribs (2 view),Bilateral knees (2 view)" showCommentField="true" style="dropdown"/>
 							</td>
 							
 <td class="nested-td"> Results of Radiology: <obs id = "{n}-list" field="RADIOLOGY2_{n}" conceptId="1392" style="textarea" rows="1" cols="25"/></td><td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>

@@ -133,8 +133,18 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
                                 $j('#55-removeEntry').remove();
 
                                 //can't add once hit 10 previous pregnancies
-                                $j('65-removeEntry').remove();
+                                $j('#65-removeEntry').remove();
 				$j('#74-addEntry').remove();
+
+                                $j('#101-removeEntry').remove();
+				$j('#110-addEntry').remove();
+
+                                $j('#201-removeEntry').remove();
+				$j('#210-addEntry').remove();
+
+                                $j('#401-removeEntry').remove();
+				$j('#410-addEntry').remove();
+
                 });
 
 	        $j(document).ready(function(){
@@ -189,25 +199,25 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 					var correctedRemoveButtonId = parseFloat(this.id) - 1;
 					
                                         // update the right count - 1 - 44 reportable diagnoses 45 -54 surgery
-                                        var whichBlock = 1;
+
                                         if (correctedRemoveButtonId > 400) {
                                             setValue('addedDiagCount.value', Number(getValue('addedDiagCount.value')) - 1);
-                                            whichBlock = 7;
+
                                         } else if (correctedRemoveButtonId > 200) {
                                             setValue('addedLabsCount.value', Number(getValue('addedLabsCount.value')) - 1);
-                                            whichBlock = 6;
+
                                         } else if (correctedRemoveButtonId > 100) {
                                             setValue('addedReferralCount.value', Number(getValue('addedReferralCount.value')) - 1);
-                                            whichBlock = 5;
+
                                         } else if (correctedRemoveButtonId > 64) {
                                             setValue('addedPregnancyCount.value', Number(getValue('addedPregnancyCount.value')) - 1);
-                                            whichBlock = 4;
+
                                         } else if (correctedRemoveButtonId > 54) {
                                             setValue('addedUltrasoundCount.value', Number(getValue('addedUltrasoundCount.value')) - 1);
-                                            whichBlock = 3;
+
                                         } else if (correctedRemoveButtonId > 44) {
                                             setValue('addedSurgeryCount.value', Number(getValue('addedSurgeryCount.value')) - 1);
-                                            whichBlock = 2;
+
                                         } else {
                                             setValue('addedDiagnosisCount.value', Number(getValue('addedDiagnosisCount.value')) - 1);
                                         };
@@ -217,15 +227,8 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
                                         //
                                         // only need an addEntry button on the last diagnosis or last surgery 
                                         //
-                                        if ( ((correctedRemoveButtonId == getValue('addedDiagnosisCount.value')) &amp;&amp; (whichBlock == 1) )
-                                       ||   ((correctedRemoveButtonId == getValue('addedSurgeryCount.value'))   &amp;&amp; (whichBlock == 2) ) 
-                                       ||   ((correctedRemoveButtonId == getValue('addedUltrasoundCount.value'))   &amp;&amp; (whichBlock == 3) ) 
-                                       ||   ((correctedRemoveButtonId == getValue('addedPregnancyCount.value'))   &amp;&amp; (whichBlock == 4) )  
-                                       ||   ((correctedRemoveButtonId == getValue('addedReferralCount.value'))   &amp;&amp; (whichBlock == 5) ) 
-                                       ||   ((correctedRemoveButtonId == getValue('addedLabsCount.value'))   &amp;&amp; (whichBlock == 6) )  
-                                       ||   ((correctedRemoveButtonId == getValue('addedDiagCount.value'))   &amp;&amp; (whichBlock == 7) )  ){
+                                 
 					     $j('#' + correctedRemoveButtonId + '-addEntry').toggle(true); 
-                                        };
                                         $j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
 					return false;
 					});
@@ -247,41 +250,6 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
          }); 
 				
 				
-		/***********************************************************
-		  ==== Dylan's duration function ====
-		  ensures that a duration pair has both a quantity and units
-		 ***********************************************************/
-		$j(document).ready(function(){
-				var durationCount = $j(".duration").length;
-				var index = 0;
-				var durationCheck = true;
-
-				$j(".duration").each(function(){
-					index++;
-					var group = $j(this);
-					var id = index;
-					beforeSubmit.push(function() {
-    						var numeric = group.find("input[type$='text']:first").val();
-						var dropdown = group.find("select:first").val();
-						var errorID = group.find(".error:last").attr('id');
-						clearError(errorID);
-
-						if ((dropdown == '' &amp;&amp; numeric != '') || (dropdown != '' &amp;&amp; numeric =='')) {
-						showError(errorID,'<br/>Need quantity and units');
-							if (durationCheck) {
-								group.find("select:first").focus();
-								durationCheck = false;
-							}
-						}
-						if (id == durationCount) {
-							var ret = durationCheck;
-							durationCheck = true;
-							return ret;
-						}
-						return true;
-					});
-				});
-		});
 
 
 		$j(document).ready(function(){
@@ -312,9 +280,7 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
                                                        <ifMode mode="ENTER" include="true">
 						disableFn();
                                                 </ifMode>
-                                                <ifMode mode="VIEW" include="true">
-						disableFn();
-                                                </ifMode>
+
 					$j(this).children("#trigger").find(":checkbox:first").change(function(){
 						var checked = $j(this).attr("checked");
 						if(checked == true){
@@ -624,18 +590,7 @@ window.open(url );
 		
 				</td>
 				</tr>
-                                 <td style="two-wide">
-				<table id="two-wide" class="checkboxGroup">
-                                <td class="nested-td" id="checkboxRadio">            
-                                     <br/>                                              
-                                     <obs field="GENERAL_weightGain" conceptId="159614" answerConceptId="122887" answerLabel="Weight Gain" style="checkbox"/>
-				</td>
-                                <td class="nested-td" id="checkboxRadio">
-                                     <br/>
-                                     <obs field="GENERAL_weightLoss" conceptId="159614" answerConceptId="832" answerLabel="Weight Loss" style="checkbox"/>
-				</td>
-</table>
-</td>
+
 
 
 				</table>
@@ -899,7 +854,7 @@ window.open(url );
 				</td>
 				</tr><tr>
 				<td>
-					<obs field="CO_visionchanges" answerConceptId="118938" conceptId="1576" style="checkbox" answerLabel="Vaginal Bleeding"> </obs>
+					<obs field="CO_visionchanges" answerConceptId="118938" conceptId="1576" style="checkbox" answerLabel="Vision Changes"> </obs>
 				</td>
 				<td>
 					<obs field="CO_fluidleakage" answerConceptId="148968" conceptId="1576" style="checkbox" answerLabel="Fluid leakage"> </obs>
@@ -922,6 +877,17 @@ window.open(url );
 					<obs field="CO_ruqpa" answerConceptId="127368" conceptId="1576" style="checkbox" answerLabel="RUQ Pain"> </obs>
 				</td>
 			</tr>
+<tr>
+<td class="nested-td">            
+                                     <br/>                                              
+                                     <obs field="GENERAL_weightGain" conceptId="159614" answerConceptId="122887" answerLabel="Weight Gain" style="checkbox"/>
+				</td>
+                                <td class="nested-td">
+                                     <br/>
+                                     <obs field="GENERAL_weightLoss" conceptId="159614" answerConceptId="832" answerLabel="Weight Loss" style="checkbox"/>
+				</td>
+</tr>
+
 		</table>
 <br/>
 		Comments: <div class="secondary"><obs field="STI_comments" conceptId="161011" style="textarea" rows="5" cols="100" /></div>
@@ -1584,7 +1550,7 @@ window.open(url );
 							<td class="nested-label">HR</td><td class="nested-td"><obs field="PE_HR" conceptId="5087" />rate/min </td>
 						</tr>
 						<tr>
-							<td class="nested-label">BP</td><td class="nested-td"><obs field="PE_BP" conceptId="5085" />/<obs conceptId="5086" /></td>
+							<td class="nested-label">BP</td><td class="nested-td"><obs field="PE_BP" conceptId="5085" />/<obs field="BE_HP@" conceptId="5086" /></td>
 						</tr>
 						<tr>
 							<td class="nested-label">Wt</td><td class="nested-td"><obs field="PE_Wt" conceptId="5089" />kg</td>
@@ -1746,18 +1712,18 @@ window.open(url );
 					<tr>
 						<td class="nested-td">
 							<table class="checkboxGroup">
-								<tr class="nested-td" id="checkboxRadio">
+								<tr class="nested-td" id="checkboxAll">
                                                                         <td class="nested-td">
 										<obs field="GE_notdone" answerConceptId="1118" answerLabel="Not Done" conceptId="1126"  />
                                                                         </td>
 						                </tr>
-                                                                <tr id="checkboxRadio">
+                                                                <tr id="checkboxAll">
 									<td class="nested-td">
 										<obs field="GE_normal" answerConceptId="1115" answerLabel="Normal" conceptId="1126"/>
 									</td>
                                                                 </tr>
 					
-								<tr id="checkboxRadio">
+								<tr id="checkboxCheckbox">
 									<td class="nested-td">
 										<obs field="GE_ulcer" answerConceptId="864" answerLabel="Ulcer" conceptId="1126"  />
 									</td>
@@ -1782,10 +1748,10 @@ window.open(url );
 					<h4>Uterus:</h4>
 					<table>
 						<tr>
-							<td class="nested-td"><obs conceptId="1439" labelText="Fundal Ht"/>cm</td>
+							<td class="nested-td"><obs field="fundalht" conceptId="1439" labelText="Fundal Ht"/>cm</td>
                                                 </tr>
                                                 <tr>
-							<td class="nested-td"><obs conceptId="1440" labelText="Fetal HR " />bpm</td>
+							<td class="nested-td"><obs field="fetalhr" conceptId="1440" labelText="Fetal HR " />bpm</td>
 						</tr>				
 					</table>
 			</td>
@@ -1795,7 +1761,7 @@ window.open(url );
 					<h4>Fetal Orientation (breech, cephalic, etc):</h4>
 					<table>
 						<tr>
-							<td class="nested-td"><obs conceptId="161011" style="textarea" rows="5" cols="50"/>
+							<td class="nested-td"><obs field="fetalorientation" conceptId="161011" style="textarea" rows="5" cols="50"/>
                           </td>
 						</tr>
 										
@@ -1807,7 +1773,7 @@ window.open(url );
 					<tr>
 						<td class="nested-td">
 						
-						<obs conceptId="1391" style="textarea" rows="5" cols="50" />
+						<obs conceptId="1391" field="commentortientation" style="textarea" rows="5" cols="50" />
 						</td>															
 					</tr>
 				</table>
@@ -1862,8 +1828,8 @@ window.open(url );
 		<h4>Birth Plan</h4>
 		<table id="two-wide">
 			<tr>
-				<td>Do you know when the baby will be born?<br /><obs answerConceptIds="1065,1066" answerLabels="Yes,No" conceptId="159680" /></td>
-				<td>Preferred mode of delivery<br /><obs answerConceptIds="1170,1171" answerLabels="SVD,Elective CS" conceptId="159775" /></td>
+				<td>Do you know when the baby will be born?<br /><obs field="doyouknow" answerConceptIds="1065,1066" answerLabels="Yes,No" conceptId="159680" /></td>
+				<td>Preferred mode of delivery<br /><obs field="modeofdeliverypreferred" answerConceptIds="1170,1171" answerLabels="SVD,Elective CS" conceptId="159775" /></td>
 			</tr>
 			<tr>
 				<td colspan="2">
@@ -1889,19 +1855,19 @@ window.open(url );
 					<td class="nested-td"><obs field="SS_gm" answerConceptId="159772" answerLabel="Grandmother" conceptId="159771" style="checkbox" /></td>
 					<td class="nested-td"><obs field="SS_c" answerConceptId="1528" answerLabel="Children" conceptId="159771" style="checkbox" /></td>
 					</tr><tr>
-					<td class="nested-td" colspan="3"> <obs answerConceptId="5621" answerLabel="Other: " conceptId="159771" commentFieldLabel="Who?"/></td>
+					<td class="nested-td" colspan="3"> <obs field="ss_other" answerConceptId="5621" answerLabel="Other: " conceptId="159771" commentFieldLabel="Who?"/></td>
 					</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
 				<td>Will you deliver at a health facility?<br />
-					<obs answerConceptIds="1065,1066" answerLabels="Yes,No" conceptId="160695"  style="checkbox"/>
+					<!--<obs answerConceptIds="1065,1066" answerLabels="Yes,No" conceptId="160695"  style="dropdown"/>-->
 				</td>
 				<td>
 					If yes, where? <br />
 					<table><tr>
-					<td class="nested-td" style="width:50%"><obs answerClasses="KMRI_Locations" style="dropdown" commentFieldLabel="Other: " conceptId="159757"  /></td>
+					<td class="nested-td" style="width:50%"><obs field="Devlierwhere" answerClasses="KMRI_Locations" style="dropdown" commentFieldLabel="Other: " conceptId="159757"  /></td>
 
 					</tr></table>
 				</td>
@@ -1915,17 +1881,17 @@ window.open(url );
 					</tr><tr>
 					<td class="nested-td" style="width:33%"><obs field="NO_hw" answerConceptId="159743" answerLabel="Health worker's attitude" conceptId="159700"  /></td>
 					<td class="nested-td" style="width:33%"><obs field="NO_cost" answerConceptId="159710" answerLabel="Cost" conceptId="159700"  /></td>
-					<td class="nested-td" style="width:33%"><obs conceptId="159700"  answerConceptId="5622" style="checkbox" answerLabel="Other" labelText=""/></td>
+					<td class="nested-td" style="width:33%"><obs conceptId="159700" field="notatfacilityother" answerConceptId="5622" style="checkbox" answerLabel="Other" labelText=""/></td>
 					
 					</tr></table>
 				</td>
 				</tr>
 				<tr>
 				<td>Do you have an emergency transport plan?<br />
-					<obs answerConceptIds="1065,1066" answerLabels="Yes,No" conceptId="160697" />
+					<obs field="emerg1" answerConceptIds="1065,1066" answerLabels="Yes,No" conceptId="160697" />
 				</td>
 				<td>Do you have insurance or NHIF?<br />
-					<obs answerConceptIds="1065,1066" answerLabels="Yes,No" conceptId="160698" />
+					<obs field="emergt2" answerConceptIds="1065,1066" answerLabels="Yes,No" conceptId="160698" />
 				</td>
 
 			</tr>
@@ -2015,7 +1981,7 @@ window.open(url );
  				<table>
 					<tr id="{n}-toggleContainer" style="display:none;">
 							<td class="nested-td">
-							<obs id="{n}-list" field="REPDIAG_{n}" conceptId="6042" answerClasses="RequiredDiagnosis" showCommentField="true" style="dropdown"/>
+							<obs id="{n}-list" field="REPDIAG_{n}" conceptId="1284" answerClasses="RequiredDiagnosis" showCommentField="true" style="dropdown"/>
 							</td>
 							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 						</tr>
@@ -2074,12 +2040,13 @@ window.open(url );
 <repeat>
 				<template>
  				<table>
-					<tr id="{n}-toggleContainer" style="display:none;">
+                           		 <tr id="{n}-toggleContainer" style="display:none;">
 							<td class="nested-td">
 							<obs id="{n}-list" field="DIAG_{n}" conceptId="1284" answerClasses="Diagnosis" showCommentField="true" style="autocomplete"/>
 							</td>
 							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
 						</tr>
+                           
 					</table>
 				</template>
 				<render n="401"/>
@@ -2107,7 +2074,7 @@ window.open(url );
 
 	<div>
 		Next scheduled Appointment Date?
-		<obs  conceptId="5096" allowFutureDates="true"> </obs>
+		<obs field="apptdate" conceptId="5096" allowFutureDates="true"> </obs>
 	</div>
 	</section>
 
@@ -2115,13 +2082,13 @@ window.open(url );
 
 		<!-- Hidden concepts for add/remove sections -->
 		<span style="display:none;">
-			<obs id="addedDiagnosisCount" conceptId="161649"/>
-			<obs id="addedSurgeryCount" conceptId="161648" />
-			<obs id="addedUltrasoundCount" conceptId="161650" />
-			<obs id="addedPregnancyCount" conceptId="161651" />
-                        <obs id="addedReferralCount" conceptId="161652"/>
-                        <obs id="addedDiagCount" conceptId="161737"/>
-                        <obs id="addedLabsCount" conceptId="161738"/>
+			<obs field="!111" id="addedDiagnosisCount" conceptId="161649"/>
+			<obs field="!117" id="addedSurgeryCount" conceptId="161648" />
+			<obs field="!116" id="addedUltrasoundCount" conceptId="161650" />
+			<obs field="!115" id="addedPregnancyCount" conceptId="161651" />
+                        <obs field="!114" id="addedReferralCount" conceptId="161652"/>
+                        <obs field="!113" id="addedDiagCount" conceptId="161737"/>
+                        <obs field="!112" id="addedLabsCount" conceptId="161738"/>
         	</span>
 
 	<!-- TRAVIS' FUNCTION -->
