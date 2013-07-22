@@ -1,0 +1,241 @@
+<htmlform>
+<macros>
+	paperFormId = (Fill this in)
+	headerColor =#009d8e
+	fontOnHeaderColor = white
+	</macros>
+
+	<style>
+		.section {
+			border: 1px solid $headerColor;
+			padding: 2px;
+			text-align: left;
+			margin-bottom: 1em;
+		}
+		.sectionHeader {
+			background-color: $headerColor;
+			color: $fontOnHeaderColor;
+			display: block;
+			padding: 2px;
+			font-weight: bold;
+		}
+
+		.labelCol {	
+			vertical-align: top;
+			font-weight: bold;	
+		}
+
+		.secondary {
+			padding-left: 10px;
+		}
+		.baseline-aligned td.label {
+			text-align: right;
+		}
+		.right {
+			float: right;
+		}
+		.karnofsky tr{
+			width: 100%;
+		}
+		.karnofsky td{
+			width: 50%;
+		}
+		.inner-table {
+			width: 100%
+		}
+		.checkboxGroup {
+			width: 100%;
+		}
+		#two-wide {
+			width: 100%;
+		}
+		#two-wide tr {
+			width: 100%;
+		}
+		#two-wide td {
+			padding-left: 5px;
+			padding-bottom: 5px;
+			width: 50%;
+			vertical-align: top;
+			border: 1px solid $headerColor;
+		}
+		#two-wide td.enableDisable {
+			border: none;
+			width: auto;
+			padding-right: 2px;
+		}
+		#two-wide td.nested-td {
+			border: none;
+			width: auto;
+			padding-right: 2px;
+		}
+		#two-wide td.nested-label {
+			border: none;
+			width: auto;
+			padding-right: 2px;
+			text-align: right;
+		}
+		#three-wide {
+			width: 100%
+		}
+		#three-wide tr {
+			width: 100%;
+		}
+		#three-wide td {
+			padding-left: 5px;
+			width: 33%;
+			vertical-align: top;
+			border: 1px solid $headerColor;
+		}
+
+	</style>
+
+<div style="float:right">Paper Form ID: $paperFormId</div>
+<h2>KMRI Vitals Form</h2>
+
+	<section headerLabel="1. Encounter Details">
+		<table class="baseline-aligned">
+			<tr>
+				<td>Date:</td>
+				<td><encounterDate default="today"/></td>
+			</tr>
+			<tr>
+				<td>Location:</td>
+				<td><encounterLocation/></td>
+			</tr>
+			<tr>
+				<td>Provider:</td>
+				<td><encounterProvider/></td>
+			</tr>
+		</table>
+	</section>
+
+	<section headerLabel="2. Demographic Information">
+		<table class="baseline-aligned">
+			<tr>
+				<td>Name:</td>
+				<td><lookup class="value" expression="patient.personName"/></td>
+			</tr>
+			<tr>
+				<td>OpenMRS Identification Number:</td>
+				<td><lookup class="value" complexExpression="#foreach( $patId in $patientIdentifiers.get('OpenMRS Identification Number') ) $patId #end "/></td>
+			</tr>
+			<tr>
+				<td>Vostrum Patient Identifier:</td>
+				<td><lookup class="value" complexExpression="#foreach( $patId in $patientIdentifiers.get('Vostrum Patient Identifier') ) $patId #end "/></td>
+			</tr>
+			<tr>
+				<td>Gender:</td>
+				<td><lookup class="value" expression="patient.gender"/></td>
+			</tr>
+			<tr>
+				<td>Birthdate:</td>
+				<td>
+					<lookup class="value" complexExpression="#if( \$patient.birthdateEstimated ) ~#end"/> <lookup class="value" expression="patient.birthdate"/>
+					(Age: <lookup class="value" expression="patient.age"/>)
+				</td>
+			</tr>
+			<tr>
+				<td>Mobile Phone Number:</td>
+				<td><lookup class="value" expression="personAttributes.get('Mobile Phone Number')"/></td>
+			</tr>
+			<tr>
+				<td>Alt Phone Number:</td>
+				<td><lookup class="value" expression="personAttributes.get('Alt Phone Number')"/></td>
+			</tr>
+			<tr>
+				<td>Work Phone Number:</td>
+				<td><lookup class="value" expression="personAttributes.get('Work Phone Number')"/></td>
+			</tr>
+			<tr>
+				<td>Birthplace:</td>
+				<td><lookup class="value" expression="personAttributes.get('Birthplace')"/></td>
+			</tr>
+			<tr>
+				<td>Citizenship:</td>
+				<td><lookup class="value" expression="personAttributes.get('Citizenship')"/></td>
+			</tr>
+			<tr>
+				<td>Civil Status:</td>
+				<td><lookup class="value" expression="personAttributes.get('Civil Status').name.name"/></td>
+			</tr>
+			<tr>
+				<td>Health Center:</td>
+				<td><lookup class="value" expression="personAttributes.get('Health Center')"/></td>
+			</tr>
+			<tr>
+				<td>Health District:</td>
+				<td><lookup class="value" expression="personAttributes.get('Health District')"/></td>
+			</tr>
+			<tr>
+				<td>Mother's Name:</td>
+				<td><lookup class="value" expression="personAttributes.get('Mothers Name')"/></td>
+			</tr>
+			<tr>
+				<td>Race:</td>
+				<td><lookup class="value" expression="personAttributes.get('Race')"/></td>
+			</tr>
+			<tr>
+				<td>Number of Wives:</td>
+				<td><lookup class="value" expression="personAttributes.get('Number of Wives')"/></td>
+			</tr>
+		</table>
+	</section>
+
+	<section headerLabel="3. Vitals">
+		<table class="baseline-aligned" style="width:100%;"><tr><td style="width:50%;">
+					<table id="two-wide">
+						<tr>
+							<td class="nested-label">BP</td><td class="nested-td"><obs conceptId="5085" />/<obs conceptId="5086" /></td>
+						</tr>
+						<tr>
+							<td class="nested-label">Pulse</td><td class="nested-td"><obs conceptId="5087" />rate/min </td>
+						</tr>
+						<tr>
+							<td class="nested-label">Resp Rate</td><td class="nested-td"><obs conceptId="5242" /></td>
+						</tr>
+						<tr>
+							<td class="nested-label">Temp</td><td class="nested-td"><obs conceptId="5088" />[C&#176;]</td>
+						</tr>
+						<tr>
+							<td class="nested-label">Level of consciousness:</td><td class="nested-td"><obs answerConceptIds="1066,1067,1065" answerLabels="Alert,Unknown,Impaired" conceptId="110434" style="checkbox"></obs></td>
+						</tr>
+						<tr><td class="nested-label">Glasgow Coma Scale</td><td class="nested-td"><obs conceptId="160347"> </obs></td>
+
+						</tr>
+						<tr>
+							<td class="nested-label">SpO2</td><td class="nested-td"><obs conceptId="5092" />% </td>
+						</tr>
+						<tr>
+							<td class="nested-label">Wt</td><td class="nested-td"><obs conceptId="5089" />kg</td>
+						</tr>
+						<tr>
+							<td class="nested-label">Height</td><td class="nested-td"><obs conceptId="5090" />cm </td>
+						</tr>
+						<tr>
+							<td class="nested-label">Karnofsky Score</td><td class="nested-td"><obs conceptId="5283" />%</td>
+						</tr>
+					</table>
+				</td><td style="width:50%;">
+
+				<h4 style="text-align:top;">Karnofsky Score:</h4>
+				<table style="width:100%;">
+					<tr><td style="width:50%;"> 100% = Normal health</td><td style="width:50%;">50% = Disabled</td></tr>
+					<tr><td style="width:50%;"> 90% = Minor Symptoms</td><td style="width:50%;">40% = Requires considerable assistance, medical care</td></tr>
+					<tr><td style="width:50%;"> 80% = Normal Activity with some effort</td><td style="width:50%;">30% = Severely disabled, in hospital</td></tr>
+					<tr><td style="width:50%;"> 70% = Unable to carry on normal activity, able to care for oneself</td><td style="width:50%;">20% = Very sick, active support needed</td></tr>
+					<tr><td style="width:50%;"> 60% = Requires help with personal needs</td><td style="width:50%;">10% = Moribund (near death)</td></tr>
+				</table>
+
+
+
+
+
+
+			</td>
+	</tr></table>
+
+</section>
+
+	<submit/>
+</htmlform>

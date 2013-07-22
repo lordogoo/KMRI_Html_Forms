@@ -605,7 +605,7 @@ $j(document).ready(function(){
 
 							<div class="enableDisable">
 								<div id="trigger">
-									<obs field="GENERAL_weightGain" conceptId="5544" answerConceptId="122887" answerLabel="Weight gain" style="checkbox"/> Weight Gain
+									<obs field="GENERAL_weightGain" conceptId="1069" answerConceptId="122887" answerLabel="Weight gain" style="checkbox"/> Weight Gain
 								</div>
 								<div id="disabled" class="secondary">
 
@@ -1319,12 +1319,7 @@ Gestational age at birth (in weeks):
 				<h4> Exposures </h4>
 				<table>
 					<tr>
-						<td class="nested-td">
-							<obs field="EXPOSURE_hiv" conceptId="1628" answerConceptId="822" style="checkbox" answerLabel="HIV"/> 
-						</td>
-						<td class="nested-td">
-							<obs field="EXPOSURE_tb" conceptId="1628" answerConceptId="124068"  style="checkbox" answerLabel="TB"/>
-						</td>
+
 						<td class="nested-td">
 							<obs field="EXPOSURE_other" conceptId="1628" answerConceptId="151056" style="checkbox" answerLabel="Other sickness"/> 
 						</td>						
@@ -1478,7 +1473,7 @@ Highest level of education received: <obs field="EDUCATION_highest" conceptId="1
 					<h4> Employment: </h4>
 
 					<div id="trigger">
-						<obs field="EMPLOY_outside" conceptId="1065" answerConceptId="5608" labelText="Patient is employed outside the home" style="checkbox"/>
+						<obs field="EMPLOY_outside" answerConceptId="1065" conceptId="5608" labelText="Patient is employed outside the home" style="checkbox"/>
 					</div>
 					<div id="disabled" style="padding-left:0px">
 <tr>
@@ -1580,7 +1575,7 @@ Highest level of education received: <obs field="EDUCATION_highest" conceptId="1
 		<tr>
 			<td colspan="2">
 				Growth Faltering / FTT
-				<obs field="SH_gfy" conceptId="156436" answerConceptId="1065"  style="checkbox"/>
+				<obs field="SH_gfy" conceptId="1628"  answerConceptId="156436"  style="checkbox"/>
 				 (If yes, refer to nutritionist)
 			</td>
 		</tr>
@@ -1643,20 +1638,25 @@ Highest level of education received: <obs field="EDUCATION_highest" conceptId="1
 			</td>
 		</tr>
 		<tr>
-			<td class="checkboxGroup" style="width:50%;">
+			<td class="checkboxGroup" style="border-style:none;">
 				<h4>Lymph Nodes</h4>
-				<span id="checkboxAll"><obs field="LN_normal" answerConceptId="1115" conceptId="1121" style="checkbox" answerLabel="Normal"> </obs></span>
+				<span id="checkboxAll"><obs field="LN_normal" answerConceptId="1066" conceptId="160607" style="checkbox" answerLabel="Not Palpable"> </obs></span>
+<span id="checkboxAll"> <obs field="LNUNKW" answerConceptId="1067" conceptId="160607" style="checkbox" answerLabel="Unknown"> </obs></span>
 				<span id="checkboxCheckbox" class="enableDisable">
-					<span id="trigger"><obs field="LN_abnormal" answerConceptId="1116" conceptId="1121" style="checkbox" answerLabel="Abnormal"> </obs></span>
-					<div id="disabled">
+					<span id="trigger"><obs field="LN_abnormal" answerConceptId="1065" conceptId="160607" style="checkbox" answerLabel="Palpable"> </obs></span><br/>
+					<span id="disabled">
 						<obs field="LN_sub" answerConceptId="504" conceptId="1121" style="checkbox" answerLabel="submandibular"> </obs>
-						<obs field="LN_cer" answerConceptId="643" conceptId="1121" style="checkbox" answerLabel="cervical"> </obs>
+						<obs field="LN_cerv" answerConceptId="643" conceptId="1121" style="checkbox" answerLabel="cervical"> </obs>
 						<obs field="LN_ingui" answerConceptId="506" conceptId="1121" style="checkbox" answerLabel="inguinal"> </obs>
 						<obs field="LN_supra" answerConceptId="505" conceptId="1121" style="checkbox" answerLabel="supraclavicular"> </obs>
 						<obs field="LN_axil" answerConceptId="5112" conceptId="1121" style="checkbox" answerLabel="axillary"> </obs>
-						<obs field="LN_epitroc" answerConceptId="160679" conceptId="1121" style="checkbox" answerLabel="epitrochlear"> </obs>
-					</div>
-				</span><br /><br /> 
+						<obs field="LN_epit" answerConceptId="160679" conceptId="1121" style="checkbox" answerLabel="epitrochlear"> </obs>
+<br/>
+Characteristic: <obs field="LYMPH_1" conceptId="160398" answerConceptIds="160405,160399,160400,160401" answerLabels="Soft,Firm,Rubbery,Hard" style="radio"/> 
+<br/>
+Mobility: <obs field="LYMPH_5" conceptId="160378" answerConceptIds="160376,160377" answerLabels="Fixed,Mobile" style="radio"/> 
+					</span>
+				</span><br />
 				Comments: <div class="secondary"><obs field="LN_comments" conceptId="161011" answerConceptId="160527" style="textarea" rows="5" cols="50"></obs></div>
 			</td>
 			<td class="checkboxGroup"  style="width:50%;">
@@ -1718,8 +1718,7 @@ Highest level of education received: <obs field="EDUCATION_highest" conceptId="1
 						<obs field="CHEST_wheezes" answerConceptId="5209" conceptId="1123" style="checkbox" answerLabel="Wheezes"> </obs>
 						<obs field="CHEST_crepitations" answerConceptId="5127" conceptId="1123" style="checkbox" answerLabel="Crepitations"> </obs>
 <br/><b>Lung Finding:</b>
-<obs field="CHEST_LUNGfinding" conceptId="159370"/>
-						<br />
+<obs field="CHEST_LUNGfinding" conceptId="159370" answerConceptIds="5120,5132,639,5119,5134,5141,5139,160406" answerLabels="Right middle lobe,left upper lobe,Right lower lobe,Right upper lobe,Left lower lobe,Right,Left,Bilateral" style="dropdown"/>						<br />
 					</span>
 				</span>
 				<br />

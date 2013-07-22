@@ -540,7 +540,7 @@ window.open(url );
 				<td style="padding-left:5px; padding-top:10px;">
 					<obs field="PC_sympto" conceptId="5219" answerConceptIds="5006,1068" answerLabels="Feeling well,Having symptoms" style="radio"/>
 					<br/>
-		                        CHIEF COMPLAINT: <obs field="PC_cc" conceptId="5219" answerClasses="Chief Complaint" style="autocomplete" />
+		                        CHIEF COMPLAINT: <obs field="PC_cc" conceptId="5219" answerClasses="Chief Complaint" style="dropdown" />
 					<br/>
 					Comments: 
 					<div class="secondary"><obs field="PC_text" conceptId="160531" style="textarea" rows="8" cols="75"/></div>
@@ -786,8 +786,79 @@ window.open(url );
 			
 			<br /><hr /><br />
 			
-			<h4>Past Gyne Hx</h4>
-			Previous gynecological procedures: -- ****************** NEED LIST OF PROCEDURES *********************
+			<h4>Past Gynecological Procedures </h4>
+			<table> 
+<tr> 
+<td>
+<obs field="gynex1" conceptId="160714" answerConceptId="161929" labelText="Episiotomy" style="checkbox"/>
+</td>
+<td>
+<obs field="gynex2" conceptId="160714" answerConceptId="1637" labelText="Dilation and Curettage" style="checkbox"/>
+</td>
+<td>
+<obs field="gynex3" conceptId="160714" answerConceptId="161930" labelText="Tubal Ligation" style="checkbox"/>
+</td>
+</tr>
+<tr> 
+<td>
+<obs field="gynex4" conceptId="160714" answerConceptId="161921" labelText="Salpingectomy" style="checkbox"/>
+</td>
+<td>
+<obs field="gynex5" conceptId="160714" answerConceptId="159837" labelText="Hysterectomy" style="checkbox"/>
+</td>
+<td>
+<obs field="gynex6" conceptId="160714" answerConceptId="162029" labelText="Cervical Cerclage" style="checkbox"/>
+</td>
+</tr>
+<tr> 
+<td>
+<obs field="gynex7" conceptId="160714" answerConceptId="162030" labelText="Loop Electrical Excision Procedure" style="checkbox"/>
+</td>
+<td>
+<obs field="gynex8" conceptId="160714" answerConceptId="161962" labelText="Myomectomy" style="checkbox"/>
+</td>
+<td>
+<obs field="gynex9" conceptId="160714" answerConceptId="162031" labelText="Transcervical Sterilization" style="checkbox"/>
+</td>
+</tr>
+<tr> 
+<td>
+<obs field="gynex10" conceptId="160714" answerConceptId="162032" labelText="Menstrual Aspiration" style="checkbox"/>
+</td>
+<td>
+<obs field="gynex11" conceptId="160714" answerConceptId="162033" labelText="Suction Aspiration" style="checkbox"/>
+</td>
+<td>
+<obs field="gynex12" conceptId="160714" answerConceptId="162034" labelText="Hysterosalpingectomy" style="checkbox"/>
+</td>
+</tr>
+<tr> 
+<td>
+<obs field="gynex13" conceptId="160714" answerConceptId="162035" labelText="Hysterosalpingo-oophorectomy" style="checkbox"/>
+</td>
+<td>
+<obs field="gynex14" conceptId="160714" answerConceptId="162036" labelText="Oophrectomy (Bilateral)" style="checkbox"/>
+</td>
+<td>
+<obs field="gynex15" conceptId="160714" answerConceptId="162037" labelText="Oophrectomy (Unilateral)" style="checkbox"/>
+</td>
+</tr>
+<tr> 
+<td>
+<obs field="gynex16" conceptId="160714" answerConceptId="162038" labelText="Salpingo-oophrectomy (Bilateral)" style="checkbox"/>
+</td>
+<td>
+<obs field="gynex17" conceptId="160714" answerConceptId="162039" labelText="Salpingo-oophrectomy (Unilateral)" style="checkbox"/>
+</td>
+<td>
+<obs field="gynex18" conceptId="160714" answerConceptId="162040" labelText="Endometrial Ablation" style="checkbox"/>
+</td>
+</tr>
+<tr><td>
+<obs field="gynexcomments" conceptId="160716" labelText="Comments: "/></td></tr>
+</table>
+
+
 			<br />
                         <br />
 			<h4>History of STI's? Check any that apply.</h4>
@@ -949,12 +1020,7 @@ window.open(url );
 				<h4> Exposures </h4>
 				<table>
 					<tr>
-						<td class="nested-td" colspan="1">
-							<obs field="EXPOSURE_hiv" conceptId="1628" answerConceptId="822" style="checkbox" answerLabel="HIV"/>
-						   </td>
-						<td class="nested-td">
-							<obs field="EXPOSURE_tb" conceptId="1628" answerConceptId="124068"  style="checkbox" answerLabel="TB"/>
-						</td>
+
 						<td class="nested-td">
 							<obs field="EXPOSURE_other" conceptId="1628" answerConceptId="151056" style="checkbox" answerLabel="Other sickness"/>
 						</td>			
@@ -1386,7 +1452,7 @@ window.open(url );
 								</td>
 								</tr>
 								</table>
-								Other/Comments: <br /><obs field="BAR_other" conceptId="160641" style="textarea" cols="50" rows="5"></obs>
+								Other/Comments: <br /><obs field="BAR_other" conceptId="161011" style="textarea" cols="50" rows="5"></obs>
 
 
 
@@ -1886,15 +1952,51 @@ window.open(url );
 					</tr></table>
 				</td>
 				</tr>
-				<tr>
-				<td>Do you have an emergency transport plan?<br />
-					<obs field="emerg1" answerConceptIds="1065,1066" answerLabels="Yes,No" conceptId="160697" />
-				</td>
-				<td>Do you have insurance or NHIF?<br />
-					<obs field="emergt2" answerConceptIds="1065,1066" answerLabels="Yes,No" conceptId="160698" />
-				</td>
+				
+				<td colspan="2">
+<table>
+<tr>
+<td class="nested-label">
+                                What is the patient's emergency transport plan? 
+</td>
+<td class="nested-td">
+<obs field="emerg1"  conceptId="1617" />
+</td>
+</tr>
 
-			</tr>
+<div class="enableDisable">
+ <tr>
+  <td class="nested-label">Does the patient have insurance?
+  </td>
+  <td class="nested-td">
+   <div id="trigger">
+    <obs field="emergt2" conceptId="1493" style="checkbox" />
+   </div>
+  </td>
+ </tr>
+ <div id="disabled"> 
+  <tr>
+   <td class="nested-label">
+    Type of Insurance:
+   </td>
+   <td class="nested-td">
+    <obs field="emerg3" conceptId="159356" answerConceptIds="1917,5622" style="radio" answerLabels="NHIS Insurance Fund Member,Other Insurance" showCommentField="true"/>
+   </td>
+  </tr>
+  <tr>
+   <td class="nested-label">
+    User Fee Required:
+   </td>
+   <td class="nested-td"> <obs field="emergy4" conceptId="159356" answerConceptId="1918" style="checkbox" answerLabel=""/>
+   </td>
+  </tr>
+ </div>
+</div>
+
+</table>
+				
+                                </td>
+
 		</table>
 		</section>
 	</span>
