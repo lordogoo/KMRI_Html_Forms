@@ -454,7 +454,8 @@ $j(document).ready(function(){
 	<li><a href="#S7"> Past Medical History </a> </li>
 	<li><a href="#S8"> Social History </a> </li>
 	<li><a href="#S9"> Physical Exam </a> </li>
-	<li><a href="#TestsRefs"> Tests and Referrals </a></li>
+	<li><a href="#TestResults"> External Test Results </a></li>
+	<li><a href="#Referrals"> Referrals </a></li>
 	<li><a href="#S11"> Impressions </a> </li>
 </ol>
 </section>
@@ -1427,10 +1428,10 @@ Gestational age at birth (in weeks):
 						</tr>
 						<tr>
 							<td class="nested-label">
-								How many children 5-17 live in household?
+								Total number of people in household?
 							</td>
 							<td class="nested-td">
-								<obs field="SH_child17" conceptId="161011"/>
+								<obs field="SH_child17" conceptId="1474"/>
 							</td>
 						</tr>
 						<tr>
@@ -1892,14 +1893,14 @@ Mobility: <obs field="LYMPH_5" conceptId="160378" answerConceptIds="160376,16037
 	</section>
 </span>
 
-<span id="TestsRefs">
+<span id="TestResults">
 
-<section headerLabel="Tests and Referrals">
+<section headerLabel="External Test Results ">
 	<table>
 		<tr>
 
 <td>
-<h4> Tests Ordered</h4><repeat>
+<h4> External Lab Results</h4><repeat>
 				<template>
  				<table>
 					<tr id="{n}-toggleContainer" style="display:none;">
@@ -1927,7 +1928,7 @@ Mobility: <obs field="LYMPH_5" conceptId="160378" answerConceptIds="160376,16037
 
 <tr>
 <td>
-<h4> Ultrasounds Ordered</h4><repeat>
+<h4> External Ultrasound Results</h4><repeat>
 				<template>
  				<table>
 				    <tr id="{n}-toggleContainer" style="display:none;">
@@ -1957,7 +1958,7 @@ Mobility: <obs field="LYMPH_5" conceptId="160378" answerConceptIds="160376,16037
 
 <tr>
 <td>
-<h4> Radiology Ordered</h4><repeat>
+<h4> External Radiology Results</h4><repeat>
 				<template>
  				<table>
 					<tr id="{n}-toggleContainer" style="display:none;">
@@ -1984,11 +1985,15 @@ Chest (4 view PA/LAT with right and left oblique),Chest (1 view AP),Chest (bilat
 				</repeat></td>
 
 </tr>
+</table>
+</section>
+</span>
 
+<span id="Referrals">
 
+<section headerLabel="Referrals">
 
-
-
+<table>
 <tr>
 <td>
 
@@ -2021,9 +2026,9 @@ Chest (4 view PA/LAT with right and left oblique),Chest (1 view AP),Chest (bilat
 </td>
 			</tr>
 		</table>
-
 		</section>
 </span>
+
 <span id="S11">	
 	<section headerLabel="Impressions">
 

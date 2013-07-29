@@ -451,7 +451,8 @@ window.open(url );
 		<li><a href="#S9"> Medications </a> </li>
 		<li><a href="#S10"> Physical Exam </a> </li>
 		<li><a href="#BirthPlan"> Birth Plan and Education </a></li>
-		<li><a href="#TestsRefs"> Tests and Referrals </a></li>
+	<li><a href="#TestResults"> External Test Results </a></li>
+	<li><a href="#Referrals"> Referrals </a></li>
 		<li><a href="#S11"> Impressions </a> </li>
 	</ol>
 	</section>
@@ -1927,11 +1928,11 @@ window.open(url );
 				</td>
 			</tr>
 			<tr>
-				<td>Will you deliver at a health facility?<br />
-					<!--<obs answerConceptIds="1065,1066" answerLabels="Yes,No" conceptId="160695"  style="dropdown"/>-->
+				<td>Where does the patient intend to deliver?<br />
+					<obs conceptId="159758"  style="dropdown"/>
 				</td>
 				<td>
-					If yes, where? <br />
+					If the patient intends to deliver at a local clinic, where? <br />
 					<table><tr>
 					<td class="nested-td" style="width:50%"><obs field="Devlierwhere" answerClasses="KMRI_Locations" style="dropdown" commentFieldLabel="Other: " conceptId="159757"  /></td>
 
@@ -2000,13 +2001,14 @@ window.open(url );
 		</table>
 		</section>
 	</span>
-<span id="TestsRefs">
+<span id="TestResults">
 
-<section headerLabel="Tests and Referrals">
+<section headerLabel="External Test Results ">
 	<table>
 		<tr>
-<h4> Tests Ordered</h4>
-<td><repeat>
+
+<td>
+<h4> External Lab Results</h4><repeat>
 				<template>
  				<table>
 					<tr id="{n}-toggleContainer" style="display:none;">
@@ -2030,11 +2032,77 @@ window.open(url );
 				<render n="210"/>
 				</repeat></td>
 
+</tr>
+
+<tr>
+<td>
+<h4> External Ultrasound Results</h4><repeat>
+				<template>
+ 				<table>
+				    <tr id="{n}-toggleContainer" style="display:none;">
+							<td class="nested-td">
+<obs id="{n}-list" field="ULTRA1_{n}" conceptId="1271" answerConceptIds="845,161291,852,159618,161283,161282,161278,161285,161274,161276,161275,161277,161288,161289,161290,161279,161284,161286,161287" answerLabels="Abdomen, Abdomen (Limited), Liver, Obstetric, Pelvis, Pelvis (Limited), Pelvis (Transvaginal), Head and Neck, Bilateral Lower Extremity Veins, Left Lower Extremity Veins, Right Lower Extremity Veins, Extremity, Chest, Left Breast, Right Breast, Scrotum and Testicle, Guided Paracentesis, Aspiration and Pericardial Space, Percutaneous Drainage of Cavity" showCommentField="true" style="dropdown"/>
+							</td>
+							
+<td class="nested-td"> Results of Ultrasound: <obs id = "{n}-list" field="ULTRA2_{n}" conceptId="1392" style="textarea" rows="1" cols="25"/></td>
+<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+</tr>
+					</table>
+				</template>
+                                <render n="301"/>
+				<render n="302"/>
+				<render n="303"/>
+				<render n="304"/>
+				<render n="305"/>
+				<render n="306"/>
+				<render n="307"/>
+				<render n="308"/>
+				<render n="309"/>
+				<render n="310"/>
+				</repeat></td>
+
+</tr>
 
 
+<tr>
+<td>
+<h4> External Radiology Results</h4><repeat>
+				<template>
+ 				<table>
+					<tr id="{n}-toggleContainer" style="display:none;">
+					
+							<td class="nested-td">
+<obs id="{n}-list" field="RADIOLOGY1_{n}" conceptId="1271" answerConceptIds="161251,161272,161273,161294,161295,161296,161297,161298,161299,161300,161301,161302,161303,161304,161305,161306,161307,161308,161263,161264,161265,161266,161267,161268,161269,161270,161271,161317,161318,161319,161320,161321,161322,161323,161324,161325,161326,161327,161328,161329,161330,161331,161332,161333,161334,161335,161336,161337,161338,161339,161340,161341,161342,161343,161344,161345,161346,161347,161348,161349,161350,161351,161352" answerLabels="Chest (2 view PA/LAT),
+Chest (4 view PA/LAT with right and left oblique),Chest (1 view AP),Chest (bilateral oblique),Chest (2 view and apical lordotic),Chest (apical lordotic),Chest (4 views),Left clavicle (2 view),Right clavicle (2 view),Bilateral clavicles (2 view),Cervical spine (2 or 3 view),Left elbow (2 view),Right elbow (2 view),Bilateral elbows (2 view),Facial bones (3 view),Left femur (2 view),Right femur (2 view),Bilateral femurs (2 view),Abdomen (1 view),Abdomen (2 view AP supine and lateral decubitus),Bilateral acromioclavicular joints,Left ankle (2 view),Right ankle (2 view),Bilateral ankles (2 view),Left calcaneus (2 view),Right calcaneus (2 view),Bilateral calcaneus (2 view),Right wrist (2 view),Left wrist (2 view),Retrograde Pyelogram,Thoracic spine (2 view),Left foot (2 view),Right foot (2 view),Bilateral feet (2 view),Left forearm (2 view),Right forearm (2 view) ,Bilateral forearms (2 view),Right lower leg (2 view),Left hand (2 view),Left lower leg (2 view),Right hand (2 view),Bilateral hands (2 view),Left hip (2 view),Right hip (2 view),Bilateral hips (2 view),Thoracic and lumbar spine (2 view),Spine (1 view),Left upper arm (2 view),Right upper arm (2 view),Skull (4 view),Bilateral upper arms (2 view),Sinuses (3 view),Right shoulder (2 view),Left shoulder (2 view),Right ribs (2 view),Left ribs (2 view),Pelvis (1 view),Mandible Panorex,Lumbar spine (2 or 3 view),Right knee (1 or 2 view) ,Left knee (1 or 2 view),Bilateral ribs (2 view),Bilateral knees (2 view)" showCommentField="true" style="dropdown"/>
+							</td>
+							
+<td class="nested-td"> Results of Radiology: <obs id = "{n}-list" field="RADIOLOGY2_{n}" conceptId="1392" style="textarea" rows="1" cols="25"/></td><td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+</tr>
+					</table>
+				</template>
+                                <render n="501"/>
+				<render n="502"/>
+				<render n="503"/>
+				<render n="504"/>
+				<render n="505"/>
+				<render n="506"/>
+				<render n="507"/>
+				<render n="508"/>
+				<render n="509"/>
+				<render n="510"/>
+				</repeat></td>
 
-<!--     another for radiology,  n=301-310     -->
-</tr><tr>
+</tr>
+</table>
+</section>
+</span>
+
+<span id="Referrals">
+
+<section headerLabel="Referrals">
+
+<table>
+<tr>
 <td>
 
 					<h4>Referrals Made:</h4>
@@ -2066,7 +2134,6 @@ window.open(url );
 </td>
 			</tr>
 		</table>
-
 		</section>
 </span>
 
