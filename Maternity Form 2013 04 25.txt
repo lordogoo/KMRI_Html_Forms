@@ -1861,32 +1861,32 @@ window.open(url );
 					<obs field="BPE_weightgain" answerConceptId="1380" conceptId="1912" style="checkbox" answerLabel="Weight gain/Nutrition"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_mode" answerConceptId="160685" conceptId="1912" style="checkbox" answerLabel="Mode of delivery"> </obs>
+					<obs field="BPE_mode" answerConceptId="159775" conceptId="1912" style="checkbox" answerLabel="Mode of delivery"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_contra" answerConceptId="160686" conceptId="1912" style="checkbox" answerLabel="Contraception"> </obs>
+					<obs field="BPE_contra" answerConceptId="1382" conceptId="1912" style="checkbox" answerLabel="Contraception"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_lab" answerConceptId="160687" conceptId="1912" style="checkbox" answerLabel="Signs of labour"> </obs>
+					<obs field="BPE_lab" answerConceptId="145" conceptId="1912" style="checkbox" answerLabel="Signs of labour"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_prom" answerConceptId="160688" conceptId="1912" style="checkbox" answerLabel="PROM/APH"> </obs>
+					<obs field="BPE_prom" answerConceptId="129211" conceptId="1912" style="checkbox" answerLabel="PROM/APH"> </obs>
 				</td>
 				</tr><tr>
 				<td>
 					<obs field="BPE_sa" answerConceptId="159612" conceptId="1912" style="checkbox" answerLabel="Sexual activity"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_uom" answerConceptId="160689" conceptId="1912" style="checkbox" answerLabel="Use of medications"> </obs>
+					<obs field="BPE_uom" answerConceptId="159611" conceptId="1912" style="checkbox" answerLabel="Use of medications"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_work" answerConceptId="160690" conceptId="1912" style="checkbox" answerLabel="Work"> </obs>
+					<obs field="BPE_work" answerConceptId="159468" conceptId="1912" style="checkbox" answerLabel="Work"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_fm" answerConceptId="160691" conceptId="1912" style="checkbox" answerLabel="Fetal Movement"> </obs>
+					<obs field="BPE_fm" answerConceptId="113377" conceptId="1912" style="checkbox" answerLabel="Fetal Movement"> </obs>
 				</td>
 				<td>
-					<obs field="BPE_if" answerConceptId="160692" conceptId="1912" style="checkbox" answerLabel="Infant Feeding"> </obs>
+					<obs field="BPE_if" answerConceptId="985" conceptId="1912" style="checkbox" answerLabel="Infant Feeding"> </obs>
 				</td>
 			</tr>
 		</table>
