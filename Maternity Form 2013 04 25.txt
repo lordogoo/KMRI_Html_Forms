@@ -9,6 +9,25 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 
 <script type="text/javascript">
 
+
+
+//Ensure that some fields are mandatory and some combinations are disallowed 
+    beforeSubmit.push(function() {
+
+
+      if (document.getElementById("w409").selectedIndex == 0) {
+          alert ("HIV Status cannot be null. Please enter a value to proceed.");
+          return false;
+      }
+
+      if (document.getElementById("w247").selectedIndex == 0) {
+          alert ("TB Status cannot be null. Please enter a value to proceed.");
+          return false;
+      }
+
+       return true;
+});
+
         function isBlank(listValueString,numListElements,allBlank) {
                 var numCheck = 1;
                 if (allBlank) {numCheck = numListElements};
@@ -972,6 +991,15 @@ window.open(url );
 		<br />
 		<obs field="VAC_tetcomplete" answerConceptIds="1065,1066" conceptId="160682" answerLabels="Yes,No" labelText="Tetanus complete?" />
 		<br />
+<obs field="VAC_tet1" conceptId="161537" labelText="First tetanus in pregnancy?"/>
+<br/>
+<obs field="VAC_tet2" conceptId="161538" labelText="Second tetanus in pregnancy?"/>
+<br/>
+
+
+
+<obs field="VAC_rub" conceptId="160698" style="dropdown" labelText = "Mother's Rubella Status"/>
+<br/>
 		<br />
 		
 				
@@ -988,7 +1016,7 @@ window.open(url );
 					<tr>
 						<td class="nested-td">
 
-							<obs field="GENERAL_hivStatus" conceptId="1169" labelText="HIV status: " defaultValue="1067" answerConceptIds="703,664,1067" answerLabels="Positive,Negative,Unknown"/>
+							<obs field="GENERAL_hivStatus" conceptId="1169" labelText="HIV status: " answerConceptIds="703,664,1067" answerLabels="Positive,Negative,Unknown"/>
 						</td>
 					</tr>
 					<tr>
@@ -1042,39 +1070,42 @@ window.open(url );
 			<td>
 				<h4>Tuberculosis Status:</h4>
 				<table class="checkboxGroup">
+<tr> 
+<td class="nested-td">
+TB Status:<obs field="TB_suspicion" conceptId="1659" answerConceptIds="1660,142177,1661" answerLabels="No signs or symptoms,Disease suspected,Disease diagnosed" style="dropdown"/>
+</td>
+</tr>
+<tr>
+<td class="nested-td">
+Treatment status: <obs field="TB_status" conceptId="1659" answerConceptIds="1663,1662,1107,160332,160330" answerLabels="Treatment completed,Treatment in progress,No treatment, Failed first treatment, Failed second treatment" style="dropdown"/>
+</td>
+<td class="nested-td">
+<obs field="TB_treatmentyear" conceptId="161011" labelText="Details:"/>
+</td>
+</tr>
 						<tr>
-							<td id="checkboxAll" class="nested-td">
-								<obs field="TB_none" conceptId="1659" answerConceptId="1660" answerLabel="No signs or symptoms"/>
-							</td>
-							<td id="checkboxRadio" class="nested-td">
-								<obs field="TB_suspected" conceptId="1659" answerConceptId="142177" answerLabel="Disease suspected"/>
-							</td>
-						</tr>
-						<tr>
-							<td class="nested-td" id="checkboxRadio">
-								<div class="enableDisable">
-									<div id="trigger">
-										<obs field="TB_treated" conceptId="1659" answerConceptId="1663" answerLabel="Treatment completed"/>
-									</div>
-									<div id="disabled" class="secondary">
-										<obs field="TB_treatedYear" conceptId="5966" labelText="Year of completion"/>
-									</div>
-								</div>
-							</td>
-							<td class="nested-td" id="checkboxCheckbox">
-								<div class="enableDisable">
-									<div id="trigger">
-										<obs field="TB_diagnosed" conceptId="1659" answerConceptId="1661" answerLabel="Disease diagnosed"/>
-									</div>
-									<div id="disabled" class="secondary">
-										<obs field="TB_treatment" conceptId="1659" answerConceptId="1662" answerLabel="On treatment for disease"/>
-									</div>
-								</div>
+							<td class="nested-td">
+								<obs field="TB_contact" conceptId="124068" answerConceptId="1065" style="checkbox" answerLabel="Tuberculosis contact in household"/> 
 							</td>
 						</tr>
 						<tr>
 							<td class="nested-td">
-								<obs field="TB_contact" conceptId="124068" answerConceptId="1065" style="checkbox" answerLabel="Tuberculosis contact in household"/> 
+
+								<div class="enableDisable">
+									<div id="trigger">
+										<obs field="TB_pc" conceptId="1628" answerConceptId="5957" answerLabel="Productive cough" style="checkbox"/> 
+									</div>
+
+									<div id="disabled" class="secondary">
+										<obs field="TB_hemo" conceptId="1628" answerConceptId="138905" answerLabel="Hemoptysis" style="checkbox"/> 
+										<br/>
+										<obs field="TB_sputum" conceptId="1628" answerConceptId="125998" answerLabel="Sputum" style="checkbox"/> 
+									</div> 
+								</div>
+							</td>
+							<td class="nested-td">
+
+								<obs field="TB_chronic" conceptId="1628" answerConceptId="145455" answerLabel="Chronic cough (longer than 3 weeks)" style="checkbox"/>
 							</td>
 						</tr>
 					</table>
@@ -1209,7 +1240,7 @@ window.open(url );
 				<table>
 					<tr>
 						<td class="nested-label">
-							How many live in your household?	
+							How many people live in your household?	
 						</td>
 						<td class="nested-td">
 							<obs field="HOUSEHOLD_num" conceptId="5611"/>
@@ -1378,35 +1409,28 @@ window.open(url );
 				</table>		
 			</td>
 			<td>
-
-<table>
-				<div class="enableDisable">
-
 					<h4> Employment: </h4>
-
-					<div id="trigger">
-						<obs field="EMPLOY_outside" answerConceptId="1065" conceptId="5608" labelText="Patient is employed outside the home" style="checkbox" answerLabel=""/>
+                                        <table>
+                                        <div id="trigger">
+                                                <tr>
+						<obs field="EMPLOY_outside" answerConceptId="1065" conceptId="5608" answerLabel="Patient is employed outside the home" labelText="" style="checkbox"/>
+                                                </tr>
 					</div>
-					<div id="disabled" style="padding-left:0px">
-<tr>
-								<!--td class="nested-label" style="padding-left:0px"-->
-									Occupation:
-								<!--/td-->
+                                        <div id="disabled" style="padding-left:0px">
+                                                     <tr>
 								<td class="nested-td">
-									<obs field="EMPLOY_occupation" conceptId="1542" commentLabelField="Details:"/>
-</td></tr>
-<tr class="secondary">
-
+									Occupation: <obs field="EMPLOY_occupation" conceptId="1542" showCommentField="true"/>
+                                                                </td>
+                                                     </tr>
+                                                     <tr class="secondary">
 								<td class="nested-td">
-									Other Relevant Past Employment History:
-									<obs field="EMPLOY_comments" conceptId="1542"/>
+									Relevant Past Employment History:
+									<obs field="EMPLOY_comments" conceptId="1542" showCommentField="true"/>
 								</td>
-</tr>
-
+                                                     </tr>
 					
 					</div>
-		</div>
-</table>
+		</table>
 			</td>
 		</tr>
 			<tr>
@@ -2113,7 +2137,7 @@ Chest (4 view PA/LAT with right and left oblique),Chest (1 view AP),Chest (bilat
 					<tr id="{n}-toggleContainer" style="display:none;">
 					
 							<td class="nested-td">
-							Referral:<obs id="{n}-list" field="REFER_{n}" conceptId="1272" style="dropdown"/>
+							<obs id="{n}-list" field="REFER_{n}" conceptId="1272" style="dropdown"/>
                                                         Location: <obs id="{n}-list" field="REFER_loc{n}" conceptId = "1272" answerClasses="KMRI_Locations" style="dropdown" showCommentField="true" />
 							</td>
 							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
