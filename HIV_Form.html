@@ -411,7 +411,6 @@
                     <td class="label">Other:</td>
                     <td>
                         <obs conceptId="161011" id="methodOfHIVExposureOther" style="textarea" rows="3" cols="40"/>
-                        <span class="question">ConceptID 161011?</span>
                     </td>
                 </tr>
             </table>
@@ -1166,7 +1165,6 @@
                   <td class="label">PCP/PJP Prophylaxis Plan: </td>
                   <td>
                       <obs conceptId="1261" id="pcp_prophylaxis_plan"/>
-                      <span class="question">Cant edit STOP ALL. Comes from concept.</span>
                   </td>
               </tr>
 
@@ -1182,9 +1180,8 @@
               <tr id="reasonProphylaxisStoppedRow">
                   <td class="label">Reason:</td>
                   <td>
-                      <obs conceptId="161011" id="reasonProphylaxisStopped" style="textarea" rows="3" cols="40"
+                      <obs conceptId="159395" id="reasonProphylaxisStopped" style="textarea" rows="3" cols="40"
                            disabled="true"/>
-                      <span class="question">ConceptID 161011?</span>
                   </td>
               </tr>
 
@@ -1192,7 +1189,7 @@
                   <td class="label">PCP/PJP Prophylaxis Started: </td>
                   <td>
                       <obs conceptId="1263"/>
-                      <span class="question">(Does not seem to have any answers in 1263 concept) (To be shown only if
+                      <span class="question">The answers for concept 1263 are "deleted" and hence not showing up. Please check concept. (To be shown only if
                       Start Drugs, Change Regimen or Change Dose selected)</span>
                   </td>
               </tr>
@@ -1237,7 +1234,6 @@
                   <td class="label"> Cryptococcal Meningitis Prophylaxis: </td>
                   <td>
                       <obs conceptId="1683"/>
-                      <span class="question">Is this field OK?</span>
                   </td>
               </tr>
 
@@ -1386,18 +1382,14 @@
               <tr>
                   <td class="label"></td>
                   <td class="spaced-out-td">
-                      <obs conceptId="1628" answerConceptId="125998" answerLabel="Paeds history of fever or illness for more than 2 weeks"
+                      <obs conceptId="1628" answerConceptId="5050" answerLabel="Paeds low weight for age or failure to thrive"
                            style="checkbox" />
-                      <span class="question">Concept?</span>
-                  </td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="1628" answerConceptId="125998" answerLabel="Paeds low weight for age or failure to thrive"
-                           style="checkbox" />
-                      <span class="question">Concept?</span>
                   </td>
                   <td class="spaced-out-td">
                       <obs conceptId="1628" answerConceptId="122496" answerLabel="Dyspnea"
                            style="checkbox" />
+                  </td>
+                  <td class="spaced-out-td">
                   </td>
               </tr>
 
@@ -1427,10 +1419,9 @@
               </tr>
 
               <tr>
-                  <td class="label">Tuberculosis prophylaxis (isoniazid) started: </td>
+                  <td class="label">Patient reported current Tuberculosis Prophylaxis: </td>
                   <td>
-                      <obs conceptId="1264" style="checkbox"/>
-                      <span class="question"> Concept 1264 is coded. Can't put checkbox.</span>
+                      <obs conceptId="1110"/>
                   </td>
               </tr>
 
@@ -1588,9 +1579,7 @@
               <tr>
                   <td class="label">Has PwP counseling been provided?</td>
                   <td>
-                      <obs conceptId="161595"/>
-                      <span class="question"> The concept 161595 is coded. How do i give Yes/No answer?</span>
-
+                      <obs conceptId="161595" answerConceptId="1914" style="checkbox" answerLabel=""/>
                   </td>
               </tr>
 
@@ -1626,13 +1615,6 @@
                   <td class="label">Has the client's partner received on-site HIV testing?</td>
                   <td>
                       <obs conceptId="161557" style="radio"/>
-                  </td>
-              </tr>
-
-              <tr>
-                  <td class="label">Has counseling been provided to couples to prevent HIV Transmission ?</td>
-                  <td>
-                      <obs conceptId="161595" answerConceptId="161593" style="checkbox" answerLabel="Check if Yes"/>
                   </td>
               </tr>
 
