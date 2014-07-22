@@ -1,0 +1,1304 @@
+<htmlform>
+
+<!-- 
+==============================================================
+KMRI Maternity Followup Form
+Javascript helper functions taken from the HTML Form Entry Javascript Reference at 
+https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference 
+==============================================================
+-->
+
+<script type="text/javascript">
+
+function isBlank(listValueString,numListElements,allBlank) {
+	var numCheck = 1;
+	if (allBlank) {numCheck = numListElements};
+	var thisListValueString = listValueString;
+	if (numListElements > 1) {
+		thisListValueString = thisListValueString + "_1";
+	};
+	var i = 1;
+	while (numCheck >= i) {
+		if (getValue(thisListValueString) != '' ) {
+			return false;
+		};
+		i++;
+		thisListValueString = listValueString + "_" + i;
+	};
+	return true;                      
+};
+
+function removeBlanks(startRow,numberRows,listValueString,numListElements,allBlank) {
+				//
+				//function shuffles all non-blank rows from array item start to start+number-1 to the beginning
+				// startRow is the first row in the array 
+				// numberRows is the number of rows in this block
+				// numListElements is the number of elements in each row
+				// if numListElements is more than one allBlank TRUE means to ensure all elements are blank otherwise checks just the first
+				//
+
+				var i = startRow;
+				var nonBlankCount = 0;
+				var lastRow = startRow +numberRows - 1;
+				var baseListValueString = listValueString;
+				if (numListElements > 1) {
+					baseListValueString = baseListValueString + "_1";
+				};
+
+				while (lastRow >= i) {
+
+					  // keep going if nonblank 
+					  if (!isBlank((i+listValueString),numListElements,allBlank)) {
+					  	i++;
+					  	nonBlankCount ++;
+					  } else {
+						  // found blank line, find next non-blank 
+						  var j = i + 1;
+						  while ((lastRow >= j) &amp;&amp; (isBlank((j+listValueString),numListElements,allBlank))) {
+						  	j++;
+						  };
+							 // if we have found a nonblank, move the nonblanks down
+							 var newStart = j;
+							 while (!isBlank((j+listValueString),numListElements,allBlank) &amp;&amp; (lastRow >= j)) {
+								 //move all of the elements in this row
+								 for (k=1; numListElements >=k; k++) {
+								 	var thisListElement = listValueString + "_" + k;
+								 	if ( (k==1) &amp;&amp; (numListElements == 1) ) {
+								 		thisListElement = listValueString;
+								 	};
+								 	var moveValuestring = getValue(j + thisListElement);
+								 	setValue(i + thisListElement, moveValuestring);
+								 	setValue(j + thisListElement,'');
+								 };
+								 nonBlankCount++;
+								 i++;
+								 j++;                               
+								};   
+								if (j > lastRow) {
+									i = j;
+								};                            
+							};                
+						};
+						console.log(startRow,nonBlankCount);
+						return nonBlankCount;
+		};   //end function       
+
+		function displayRows(countConcept,countConceptValue,startRow) {
+				//
+				// find the count of the number of surgeries that exist
+				//		
+				var addedCount = $j(countConcept).html(); 
+				var regex = /(&lt;([^>]+)>)/ig;
+				if (addedCount != null){
+					var addedInt = addedCount.replace(regex, "");
+					addedCount = Number(addedInt);
+				};
+				//set to the first if there are none added so far
+				if (addedCount == null || addedCount == '' || addedCount== 0){
+						// if we are in edit mode need to get count a different way
+						addedCount = getValue(countConceptValue);
+						if (addedCount == 0) {
+							addedCount = 1;
+						};
+					};
+				// make sure all of the ones we have display	
+				for(i=1; addedCount>=i; i++){
+					var rowNumber = startRow + i - 1;
+					var dynString = "#" + rowNumber + "-toggleContainer";
+					$j(dynString).show();
+				};
+
+				//
+				// click for the number of entries that exist so that they show up
+				//
+				for(i=1; addedCount>i; i++){
+					rowNumber = startRow + i - 1;		
+					dynString = "#" + rowNumber + "-addEntry";
+					$j(dynString).click();				
+				};
+			}
+
+			if(jQuery){
+
+				$j(document).ready(function(){
+
+								//can't add once hit 44 diagnoses
+								$j('#44-addEntry').remove();
+								$j('#1-removeEntry').remove();
+
+								//can't add once hit 10 surgeries
+								$j('#54-addEntry').remove();
+								$j('#45-removeEntry').remove();
+
+								//can't add once hit 10 ultrasounds
+								$j('#64-addEntry').remove();
+								$j('#55-removeEntry').remove();
+
+								//can't add once hit 10 previous pregnancies
+								$j('#65-removeEntry').remove();
+								$j('#74-addEntry').remove();
+
+								$j('#101-removeEntry').remove();
+								$j('#110-addEntry').remove();
+
+								$j('#201-removeEntry').remove();
+								$j('#210-addEntry').remove();
+
+								$j('#401-removeEntry').remove();
+								$j('#410-addEntry').remove();
+
+								$j('#501-removeEntry').remove();
+								$j('#510-addEntry').remove();
+
+								$j('#501-toggleContainer').show();
+
+							});
+
+$j(document).ready(function(){
+	$j('button.addEntry').live("click", function(){
+		var rowNumber = parseFloat(this.id);
+										// only diagnoses have only one list element
+										if (rowNumber > 44) {
+											var listValueString = '-list.value_1';
+										} else {
+											var listValueString = '-list.value';
+										};
+										var valuestring = parseFloat(this.id) + listValueString;
+										//the second element of this or fails so if it makes it through the first 
+										//the form crashes - left it here in case there's a case where this is nec
+										if (getValue(valuestring) != '' ){
+											var correctedAddButtonId = parseFloat(this.id) + 1;
+
+											// determine what count we need to change                                     
+											if (correctedAddButtonId > 500) {
+												valuestring = 'addedRadCount.value';
+											} else if (correctedAddButtonId> 400) {
+												valuestring = 'addedDiagCount.value';
+											}  else if (correctedAddButtonId > 200) {
+												valuestring = 'addedLabsCount.value';
+											} else if (correctedAddButtonId > 100) {
+												valuestring = 'addedReferralCount.value';
+											} else if (correctedAddButtonId > 54) {
+												valuestring = 'addedUltrasoundCount.value';
+											}else if (correctedAddButtonId > 44) {
+												valuestring = 'addedSurgeryCount.value';
+											} else {
+												valuestring = 'addedDiagnosisCount.value';
+											};
+
+											//once we have the right count string, get the current count and increment if we have added
+											var currentCount = getValue(valuestring);
+											if (correctedAddButtonId>currentCount){
+												currentCount = correctedAddButtonId;
+												setValue(valuestring, currentCount);
+											};
+
+											 // turn on the next button, toggle off the previous and turn on the remove button on this one 
+											 var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+											 $j(contentAddId).toggle(true);
+											 $j('#' + this.id).toggle(false);
+											 $j('#' + parseFloat(this.id) + '-removeEntry').toggle(true);
+											}
+											return false;
+										});
+});
+
+$j(document).ready(function(){
+	$j('button.removeEntry').live("click", function(){
+		var correctedRemoveButtonId = parseFloat(this.id) - 1;
+
+										// update the right count - 1 - 44 reportable diagnoses 45 -54 surgery
+
+										if (correctedRemoveButtonId > 500) {
+											setValue('addedRadCount.value', Number(getValue('addedRadCount.value')) - 1);
+										} else if (correctedRemoveButtonId > 400) {
+											setValue('addedDiagCount.value', Number(getValue('addedDiagCount.value')) - 1);
+
+										} else if (correctedRemoveButtonId > 200) {
+											setValue('addedLabsCount.value', Number(getValue('addedLabsCount.value')) - 1);
+										}  else if (correctedRemoveButtonId > 100) {
+											setValue('addedReferralCount.value', Number(getValue('addedReferralCount.value')) - 1);
+
+										} else if (correctedRemoveButtonId > 64) {
+											setValue('addedPregnancyCount.value', Number(getValue('addedPregnancyCount.value')) - 1);
+
+										} else if (correctedRemoveButtonId > 54) {
+											setValue('addedUltrasoundCount.value', Number(getValue('addedUltrasoundCount.value')) - 1);
+										}else if (correctedRemoveButtonId > 44) {
+											setValue('addedSurgeryCount.value', Number(getValue('addedSurgeryCount.value')) - 1);
+
+										} else {
+											setValue('addedDiagnosisCount.value', Number(getValue('addedDiagnosisCount.value')) - 1);
+										};
+										var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+										$j(contentAddId).toggle(false);
+										$j( ':input:not(:button)', contentAddId).val([]);
+										//
+										// only need an addEntry button on the last diagnosis or last surgery 
+										//
+
+										$j('#' + correctedRemoveButtonId + '-addEntry').toggle(true); 
+										$j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+										return false;
+									});
+});
+        beforeSubmit.push(function(){
+
+            var dateStr;
+            var now;
+            var then;
+
+            dateStr = getValue("nextappointmentdate.value");
+
+            if (dateStr == null || dateStr == "")
+                return true;
+
+            now = new Date();
+            then = new Date(getValue("nextappointmentdate.value"));
+
+            if (now > then) {
+                alert("The next scheduled appointment cannot be past today.");
+                return false;
+            }
+
+            return true;
+        });
+		 //
+		// the main point of this function is to remove blank lines on submit
+		// it also resets the number of rows to only nonblanks
+		beforeSubmit.push(function() {
+
+			setValue('addedDiagnosisCount.value', removeBlanks(1,44,"-list.value",1,false));
+			setValue('addedSurgeryCount.value', removeBlanks(45,10,"-list.value",2,false));
+			setValue('addedUltrasoundCount.value', removeBlanks(55,10,"-list.value",2,false));
+			setValue('addedRadCount.value', removeBlanks(501,10,"-list.value",2,false));
+			setValue('addedPregnancyCount.value', removeBlanks(65,10,"-list.value",11,true));
+			setValue('addedReferralCount.value', removeBlanks(101,10,"-list.value",3,true));
+			setValue('addedLabsCount.value', removeBlanks(201,10,"-list.value",2,true));
+			setValue('addedDiagCount.value', removeBlanks(401,10,"-list.value",2,true));
+			return true;
+		}); 
+
+
+
+
+		$j(document).ready(function(){
+			if ( $j.browser.msie ) {
+				$j(":checkbox").click(function(){
+					$j(this).change();
+				});
+			}
+			$j(".enableDisable").each(function(){
+				var group = $j(this);
+				function disableFn(){
+					group.children("#disabled").fadeTo(250,0.33);
+					group.children("#disabled").find(":checkbox").attr("checked",false); //uncheck
+					group.children("#disabled").find("input[type$='text']").val("");
+					group.children("#disabled").find("textarea").val("");
+					group.children("#disabled").find("select").val(0);
+					group.children("#disabled").find("input").attr("disabled",true);  //disable
+					group.children("#disabled").find("textarea").attr("disabled",true);
+					group.children("#disabled").find("select").attr("disabled",true);
+				}
+				function enableFn(){
+					group.children("#disabled").fadeTo(250,1);
+					group.children("#disabled").find("input").attr("disabled",false);
+					group.children("#disabled").find("select").attr("disabled",false);
+					group.children("#disabled").find("textarea").attr("disabled",false);
+				}
+
+				<ifMode mode="ENTER" include="true">
+				disableFn();
+				</ifMode>
+
+				$j(this).children("#trigger").find(":checkbox:first").change(function(){
+					var checked = $j(this).attr("checked");
+					if(checked == true){
+						enableFn();
+					}else{
+						disableFn();
+					}
+				});
+			});
+
+
+$j(".checkboxGroup").each(function(){
+	var group = $j(this);
+	var uncheckAll = function(){
+		group.find("input[type$='checkbox']").attr("checked",false);
+		group.find("input[type$='checkbox']").change();
+	}
+	var uncheckRadioAndAll = function(){
+		group.find("#checkboxAll,#checkboxRadio").find("input[type$='checkbox']").attr("checked",false);
+		group.find("#checkboxAll,#checkboxRadio").find("input[type$='checkbox']").change();
+	}
+
+
+
+	group.find("#checkboxAll").find("input").click(
+		function(){
+			var flip;
+			var checked = $j(this).siblings(":checkbox:first").attr("checked");
+			if($j(this).attr("name") == $j(this).parents("#checkboxAll:first").find(":checkbox:first").attr("name")){
+				checked = $j(this).attr("checked");
+				flip = checked;
+			}else{
+				flip = !checked;
+			}
+							if($j(this).attr("type") == "text") if(flip == false) flip = !flip; // this is so the user doesn't go to check the checkbox, then uncheck it when they hit the input.
+							uncheckAll();
+							$j(this).parents("#checkboxAll:first").find(":checkbox").attr("checked",flip);
+							$j(this).parents("#checkboxAll:first").find(":checkbox").change();
+						}
+						);
+
+
+
+	group.find("#checkboxRadio").find("input[type$='checkbox']").click(function(){
+		uncheckAll();
+		$j(this).siblings("input[type$='checkbox']").attr("checked",false);
+		$j(this).attr("checked",true);
+		$j(this).change();
+	});
+
+	group.find("#checkboxCheckbox").click(
+		function(){
+			uncheckRadioAndAll();
+		}
+		);
+});
+});
+}
+
+
+</script>
+
+<!-- TRAVIS' FUNCTION -->
+<script>
+function openImpressions(){
+	var url = "/openmrs/module/impressions/impressionList.list\?nw=1\u0026patientId=" + document.getElementById('patid').innerHTML.trim();
+	window.open(url );
+}
+
+</script>
+
+
+
+
+<macros>
+	paperFormId = (Fill this in)
+	headerColor =#009d8e
+	fontOnHeaderColor = white
+</macros>
+
+<style>
+.section {
+	border: 1px solid $headerColor;
+	padding: 2px;
+	text-align: left;
+	margin-bottom: 1em;
+}
+.sectionHeader {
+	background-color: $headerColor;
+	color: $fontOnHeaderColor;
+	display: block;
+	padding: 2px;
+	font-weight: bold;
+}
+
+.labelCol {	
+	vertical-align: top;
+	font-weight: bold;	
+}
+
+.secondary {
+	padding-left: 10px;
+}
+.baseline-aligned td.label {
+	text-align: right;
+}
+.right {
+	float: right;
+}
+.karnofsky tr{
+	width: 100%;
+}
+.karnofsky td{
+	width: 50%;
+}
+#two-wide {
+	width: 100%;
+}
+#two-wide tr {
+	width: 100%;
+}
+#two-wide td {
+	padding-left: 5px;
+	width: 50%;
+	vertical-align: top;
+	border: 1px solid $headerColor;
+}
+#two-wide td.enableDisable {
+	border: none;
+	width: auto;
+	padding-right: 2px;
+}
+#two-wide td.nested-td {
+	border: none;
+	width: auto;
+	padding-right: 2px;
+}
+#two-wide td.nested-label {
+	border: none;
+	width: auto;
+	padding-right: 2px;
+	text-align: right;
+}
+#three-wide tr {
+	width: 100%;
+}
+#three-wide td {
+	width: 33%;
+	padding-left: 5px;
+	vertical-align: top;
+	border: 1px solid $headerColor;
+}
+
+</style>
+
+<div style="float:right">Paper Form ID: $paperFormId</div>
+<h2>KMRI Maternity Followup Form (v1.0)</h2>
+
+<section headerLabel="Contents">
+	<ol>
+		<li><a href="#S1"> Encounter Details </a> </li>
+		<li><a href="#S2"> Demographics </a> </li>
+		<li><a href="#SZ"> Presenting Complaint</a> </li>
+		<li><a href="#S3"> OBGYN Hx </a></li>
+		<li><a href="#S7"> Past Medical History </a> </li>
+		<li><a href="#S8"> Social History </a> </li>
+		<li><a href="#S9"> Sexual Health </a> </li>
+		<li><a href="#S9"> Medications </a> </li>
+		<li><a href="#S10"> Physical Exam </a> </li>
+		<li><a href="#BirthPlan"> Birth Plan and Education </a></li>
+		<li><a href="#TestResults"> External Test Results </a></li>
+		<li><a href="#Referrals"> Referrals </a></li>
+		<li><a href="#S11"> Impressions </a> </li>
+	</ol>
+</section>
+<span id="S1">
+	<section headerLabel="Encounter Details">
+		<table class="baseline-aligned">
+			<tr>
+				<td class="label">Date:</td>
+				<td><encounterDate default="today"/></td>
+			</tr>
+			<tr>
+				<td class="label">Location:</td>
+				<td><encounterLocation default="UserProperty:defaultLocation"/></td>
+			</tr>
+			<tr>
+				<td class="label">Provider:</td>
+				<td><encounterProvider default="currentUser"/></td>	
+			</tr>
+		</table>
+	</section>
+</span>
+
+<span id="SZ">
+	<section headerLabel="Presenting Complaint">
+		<table>
+			<tr>
+				<td style="padding-left:5px; padding-top:10px;">
+					<obs field="PC_sympto" conceptId="5219" answerConceptIds="5006,1068" answerLabels="Feeling well,Having symptoms" style="radio"/>
+					<br/>
+					CHIEF COMPLAINT: <obs field="PC_cc" conceptId="5219" answerClasses="Chief Complaint" style="dropdown" />
+					<br/>
+					Comments: 
+					<div class="secondary"><obs field="PC_text" conceptId="160531" style="textarea" rows="8" cols="75"/></div>
+				</td>
+			</tr>
+		</table>
+	</section>
+</span>
+
+<span id="S3">
+	<section headerLabel="OBGYN Hx">
+		<table style="width:100%;"><tr><td style="width:50%;">
+			<table id="two-wide">
+				<tr>
+					<td class="nested-label">LMP: </td>
+					<td class="nested-td">  <obs field="OB_LMP" conceptId="1427"/></td>
+
+				</tr>
+				<tr>
+					<td class="nested-label">EDD: </td>
+					<td class="nested-td">  <obs field="OB_EDD" conceptId="5596" allowFutureDates="true"/></td>
+
+
+				</tr>
+				<tr>
+					<td class="nested-label">Estimated Gestational age (in weeks): </td>
+					<td class="nested-td"> <obs field="OB_gest" conceptId="1438"/></td>
+				</tr>
+				<tr>
+					<td class="nested-label">Calculated from: </td>
+					<td class="nested-td"> <obs field="OB_gestcalc" conceptId="160697"/></td>
+				</tr>
+			</table>
+		</td>
+
+		<td style="width:50%;">
+			<table id="two-wide">
+				<tr>
+					<td class="nested-label">Blood Type: </td>
+					<td class="nested-td">  <obs field="Blood_type" conceptId="300"/></td>
+				</tr>
+				<tr>
+					<td class="nested-label">Group B Strep Carrier?:</td>
+					<td class="nested-td">  <obs conceptId="1628" field="group_b" answerConceptId="112698" style="checkbox" answerLabel=""/></td>
+				</tr>
+			</table>
+
+		</td>
+	</tr>
+
+
+
+</table>
+<br />
+<br />
+Had ultrasound this pregnancy? <obs field="US_thispreg" answerConceptIds="1066,1065" answerLabels="No,Yes" conceptId="159617" style="checkbox"/><br />
+If yes, <br />
+<table>
+	<obsgroup groupingConceptId="159617">
+		<tr align="left"><td>
+			<repeat>
+				<template>
+					<div id="{n}-toggleContainer" style="display:none;">
+						<table>
+							<tr>
+								<td>
+									<obs field="US{n}" id="{n}-list" conceptId="160753" labelText="Ultrasound Date:" />
+									<obs field="GA{n}" id="{n}-list" conceptId="1438" labelText="Gestational Age (in weeks):" showCommentField="true" commentFieldLabel="Results:" />
+								</td>
+								<td><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+							</tr>
+						</table>
+					</div>
+				</template>
+				<render n="55"/>
+				<render n="56"/>
+				<render n="57"/>
+				<render n="58"/>
+				<render n="59"/>
+				<render n="60"/>
+				<render n="61"/>
+				<render n="62"/>
+				<render n="63"/>
+				<render n="64"/>				
+			</repeat>
+		</td>
+	</tr>
+</obsgroup>
+</table>
+
+<hr />
+<h4>Past Obsterical Hx:</h4>
+<table>
+	<tr>
+		<td class="nested-label">
+			G (Gravida - Number of Times Pregnant): 
+		</td>
+		<td class="nested-td">
+			<obs field="OBHX_gravida" conceptId="5624"/>
+		</td>
+	</tr>
+	<tr>
+		<td class="nested-label">
+			T (Number of Full Term Pregnancies):
+		</td>
+		<td class="nested-td">
+			<obs field="OBHX_fullterm" conceptId="160080"/>
+		</td>
+	</tr>
+	<tr>
+		<td class="nested-label">
+			P (Parity - Number of Deliveries): 
+		</td>
+		<td class="nested-td">
+			<obs field="OBHX_parity" conceptId="1053"/>
+		</td>
+	</tr>
+	<tr>
+		<td class="nested-label">
+			A (Number of Abortions - Induced or Spontaneous):
+		</td>
+		<td class="nested-td">
+			<obs field="OBHX_abortions" conceptId="1823"/>
+		</td>
+	</tr>
+	<tr>
+		<td class="nested-label">
+			History of Spontaneous Abortion: 
+		</td>
+		<td class="nested-td">
+			<obs field="OBHX_spontaneous" conceptId="1628" answerConceptId="50" answerLabel="" commentFieldLabel="Number:" style="checkbox"/>
+		</td>
+	</tr>
+	<tr>
+		<td class="nested-label">
+			History of Therapeutic Abortion: 
+		</td>
+		<td class="nested-td">
+			<obs field="OBHX_therapeutic" conceptId="1628" answerConceptId="116353"  answerLabel="" commentFieldLabel="Number:" style="checkbox"/>
+		</td>
+	</tr>
+	<tr>
+		<td class="nested-label">
+			History of Other Induced Abortion: 
+		</td>
+		<td class="nested-td">
+			<obs field="OBHX_otherabor" conceptId="1628" answerConceptId="117280"  answerLabel="" commentFieldLabel="Number:" style="checkbox"/>
+		</td>
+	</tr>
+	<tr>
+		<td class="nested-label">
+			L (Living Children): 
+		</td>
+		<td class="nested-td">
+			<obs field="OBHX_livingchild" conceptId="1825"/>
+		</td>
+	</tr>
+</table>
+
+
+
+<h4>Current Obstetrical Hx</h4>
+Check if you have had or have a history of: (complete 'Comments' below if applicable)			
+<table style="width:100%;">
+	<tr>
+		<td>
+			<obs field="CO_Excess" answerConceptId="133473" conceptId="1576" style="checkbox" answerLabel="Excessive Nausea and Vomiting"> </obs>
+		</td>
+		<td>
+			<obs field="CO_fever" answerConceptId="140238" conceptId="1576" style="checkbox" answerLabel="Fever"> </obs>
+		</td>
+		<td>
+			<obs field="CO_abnormal" answerConceptId="123395" conceptId="1576" style="checkbox" answerLabel="Abnormal Vaginal Discharge"> </obs>
+		</td>
+	</tr><tr>
+	<td>
+		<obs field="CO_sevhead" answerConceptId="139081" conceptId="1576" style="checkbox" answerLabel="Severe Headache"> </obs>
+	</td>
+	<td>
+		<obs field="CO_dysuria" answerConceptId="118771" conceptId="1576" style="checkbox" answerLabel="Dysuria"> </obs>
+	</td>
+	<td>
+		<obs field="CO_vagbleed" answerConceptId="150802" conceptId="1576" style="checkbox" answerLabel="Vaginal Bleeding"> </obs>
+	</td>
+</tr><tr>
+<td>
+	<obs field="CO_visionchanges" answerConceptId="118938" conceptId="1576" style="checkbox" answerLabel="Vision Changes"> </obs>
+</td>
+<td>
+	<obs field="CO_fluidleakage" answerConceptId="148968" conceptId="1576" style="checkbox" answerLabel="Fluid leakage"> </obs>
+</td>
+<td>
+	<obs field="CO_gulcer" answerConceptId="153872" conceptId="1576" style="checkbox" answerLabel="Genital Ulcers"> </obs>
+</td>
+</tr><tr>
+<td>
+	<obs field="CO_swellingsev" answerConceptId="156113" conceptId="1576" style="checkbox" answerLabel="Severe swelling of hands/feet"> </obs>
+</td>
+<td>
+	<obs field="CO_decrea" answerConceptId="113377" conceptId="1576" style="checkbox" answerLabel="Decreased Fetal Movements"> </obs>
+</td>
+</tr><tr>
+<td>
+	<obs field="CO_epiga" answerConceptId="141128" conceptId="1576" style="checkbox" answerLabel="Epigastric Pain"> </obs>
+</td>
+<td>
+	<obs field="CO_ruqpa" answerConceptId="127368" conceptId="1576" style="checkbox" answerLabel="RUQ Pain"> </obs>
+</td>
+</tr>
+<tr>
+	<td class="nested-td">            
+		<br/>                                              
+		<obs field="GENERAL_weightGain" conceptId="159614" answerConceptId="122887" answerLabel="Weight Gain" style="checkbox"/>
+	</td>
+	<td class="nested-td">
+		<br/>
+		<obs field="GENERAL_weightLoss" conceptId="159614" answerConceptId="832" answerLabel="Weight Loss" style="checkbox"/>
+	</td>
+</tr>
+
+</table>
+<br/>
+Comments: <div class="secondary"><obs field="STI_comments" conceptId="161011" style="textarea" rows="5" cols="100" /></div>
+
+<br />
+<h4>Vaccination Hx</h4>
+<obs field="VAC_doses" answers="1,2,3,4,5" conceptId="160055" answerLabels="#1,#2,#3,#4,#5" labelText="Tetanus given to date: DOSE" style="radio" />
+<br />
+<obs field="VAC_tettoday" answerConceptIds="1065,1066" conceptId="54" answerLabels="Yes,No" labelText="Tetanus given today?" />
+<br />
+<obs field="VAC_tetcomplete" answerConceptIds="1065,1066" conceptId="160682" answerLabels="Yes,No" labelText="Tetanus complete?" />
+<br />
+<br />
+
+
+</section>
+</span>
+
+<span id="S7">
+	<section headerLabel="HIV Status">
+		<table id="two-wide">
+			<tr>
+				<td>
+					<obs field="GENERAL_hivStatus" conceptId="1169" labelText="HIV status: " defaultValue="1067" answerConceptIds="703,664,1067" answerLabels="Positive,Negative,Unknown"/>
+				</td>
+			</tr>
+
+		</table>
+		
+	</section>
+</span>
+
+
+<span id="S9">
+	<section headerLabel="Medications">
+
+		<h4>Current Medications</h4>
+		<table style="width:100%">
+			<tr>
+				<td colspan="3">
+					<obs field="MED_text" labelText="" style="textarea" cols="150" conceptId="1354" />
+				</td>
+			</tr>
+			<tr>
+				<td class="nested-td" style="width:33%"><obs field="med_vit" answerConceptId="160699" answerLabel="Prenatal vitamins" conceptId="1193"  /></td>
+				<td class="nested-td" style="width:33%"><obs field="med_iron" answerConceptId="5843" answerLabel="Iron Supplements" conceptId="1193"  /></td>
+				<td class="nested-td" style="width:33%"><obs field="med_folate" answerConceptId="76609" answerLabel="Folate Supplements" conceptId="1193"  /></td>
+
+				
+			</tr>
+		</table>
+
+		
+	</section>
+</span>
+
+
+<span id="S10">
+	<section headerLabel="Physical Exam">
+		<table style="width:100%;" id="two-wide">
+			<tr>
+				<td style="width:50%;">
+					<h4>Vitals</h4>
+					<table id="two-wide">
+						<tr>
+							<td class="nested-label">Temp</td><td class="nested-td"><obs field="PE_vitals" conceptId="5088" />[C&#176;]</td>
+						</tr>
+						<tr>
+							<td class="nested-label">HR</td><td class="nested-td"><obs field="PE_HR" conceptId="5087" />rate/min </td>
+						</tr>
+						<tr>
+							<td class="nested-label">BP</td><td class="nested-td"><obs field="PE_BP" conceptId="5085" />/<obs field="BE_HP@" conceptId="5086" /></td>
+						</tr>
+						<tr>
+							<td class="nested-label">Wt</td><td class="nested-td"><obs field="PE_Wt" conceptId="5089" />kg</td>
+						</tr>
+						<tr>
+							<td class="nested-label">Pre-pregnancy Wt</td><td class="nested-td"><obs field="PE_Wt" conceptId="160696" />kg</td>
+						</tr><tr>
+						<td class="nested-label">Height</td><td class="nested-td"><obs field="PE_height" conceptId="5090" />cm </td>
+					</tr>
+				</table>
+			</td>
+			<td style="width:50%;vertical-align: top;">
+				
+				<h4>Uterus:</h4>
+				<table>
+					<tr>
+						<td class="nested-td"><obs field="fundalht" conceptId="1439" labelText="Fundal Ht"/>cm</td>
+					</tr>
+					<tr>
+						<td class="nested-td"><obs field="fetalhr" conceptId="1440" labelText="Fetal HR " />bpm</td>
+					</tr>				
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:50%;vertical-align: top;">
+				<h4>General</h4>
+				<table>
+					<tr>
+						<td class="nested-td">
+
+
+							<table class="checkboxGroup">
+								<tr id="checkboxAll">
+									<td class="nested-td">
+										<obs field="GEN_normal" answerConceptId="1115" answerLabel="Normal" conceptId="1119"/>
+									</td>
+								</tr>
+
+								<tr id="checkboxCheckbox">
+									<td class="nested-td">
+										<obs field="GEN_pallor" answerConceptId="5245" answerLabel="Pallor" conceptId="1119"  />
+									</td>
+									<td class="nested-td">
+										<obs field="GEN_jaundice" answerConceptId="136443" answerLabel="Jaundice" conceptId="1119"  />
+									</td>
+									<td class="nested-td">
+										<obs field="GEN_oedema" answerConceptId="460" answerLabel="Oedema" conceptId="1119"  />
+									</td>
+									<td class="enableDisable">
+										<div id="trigger">
+											<obs field="CO_nightsweats" conceptId="1576" answerConceptId="133027" answerLabel="Night Sweats" style="checkbox"/>
+										</div>
+
+									</td>
+									<td class="nested-td">
+										<obs field="GEN_lympha" answerConceptId="135488" answerLabel="Lymphadenopathy" conceptId="1119"  />															</td>
+									</tr>
+								</table>
+
+							</td>															
+						</tr>
+					</table>
+				</td>
+				<td style="width:50%;vertical-align: top;">
+					<h4>CVS (cardiac)</h4>
+					<table>
+						<tr>
+							<td class="checkboxGroup nested-td">
+
+								<span id="checkboxAll"><obs field="GEN_normal" answerConceptId="1115" answerLabel="Normal" conceptId="1124"/></span>
+								<br />
+								<span id="checkboxCheckbox">
+									<obs answerConceptId="1116" field="GEN_abnormal" answerLabel="Abnormal (see comment)" conceptId="1124"  />
+								</span>
+							</td>															
+						</tr>
+					</table>
+				</td>
+
+
+			</tr>
+			<tr>
+				<td style="width:50%;vertical-align: top;">
+					<h4>Breast exam</h4>
+					<table>
+						<tr>
+							<td class="nested-td">
+
+
+								<table class="checkboxGroup">
+									<tr id="checkboxAll">
+										<td class="nested-td">
+											<obs field="Breast_normal" answerConceptId="1115" answerLabel="Normal" conceptId="159780"/>
+										</td>
+									</tr>
+
+									<tr id="checkboxCheckbox">
+										<td class="nested-td">
+											<obs field="breast_mastitis" answerConceptId="134615" answerLabel="Mastitis" conceptId="159780"  />
+										</td>
+										<td class="nested-td">
+											<obs field="breast_lump" answerConceptId="146931" answerLabel="Lump" conceptId="159780"  />
+										</td>
+										<td class="nested-td">
+											<obs field="breast_cracked" answerConceptId="140103" answerLabel="Cracked nipples" conceptId="159780"  />
+										</td>
+									</tr>
+									<tr>
+										<td class="nested-td" colspan="3">
+											<obs field="breast_text" labelText="Other:" conceptId="161011" answerConceptId="159780" />
+										</td>
+									</tr>
+								</table>
+
+							</td>															
+						</tr>
+					</table>
+				</td>
+				<td style="width:50%;vertical-align: top;">
+					<h4>RS (Respiratory)</h4>
+					<table class="checkboxGroup">
+						<tr id="checkboxAll"><td class="nested-td">				
+							<obs field="RS_normal" answerConceptId="1115" answerLabel="Normal" conceptId="1123"/>
+							<br />
+						</td></tr>
+						<tr id="checkboxCheckbox">
+							<td class="nested-td">
+								<obs field="RS_abnormal" answerConceptId="1116" answerLabel="Abnormal (see comment)" conceptId="1123"/>
+							</td>	
+							<td class="nested-td">
+								<div class="enableDisable">
+									<div id="trigger">
+										<obs field="wha_prod" conceptId="1628" answerConceptId="5957" style="checkbox" answerLabel=""/> Productive Cough
+									</div>
+									<div id="disabled" class="secondary">
+										<obs field="wha_hemop" conceptId="1628" answerConceptId="138905" answerLabel="Hemoptysis" style="checkbox"/>
+										<br/>
+										<obs field="wha_sput" conceptId="1628" answerConceptId="125998"  answerLabel="Sputum" style="checkbox"/>
+									</div>
+								</div>
+							</td>
+							<td class="nested-td">
+								<obs field="TB_chronic" conceptId="1628" answerConceptId="145455" answerLabel="Chronic cough (longer than 3 weeks)" style="checkbox"/>
+							</td>
+						</tr>										
+					</table>
+				</td>
+
+
+			</tr>	
+			<tr>
+				<td style="width:50%;vertical-align: top;">
+					<h4>Genital exam</h4>
+					<table>
+						<tr>
+							<td class="nested-td">
+								<table class="checkboxGroup">
+									<tr class="nested-td" id="checkboxAll">
+										<td class="nested-td">
+											<obs field="GE_notdone" answerConceptId="1118" answerLabel="Not Done" conceptId="1126"  />
+										</td>
+									</tr>
+									<tr id="checkboxAll">
+										<td class="nested-td">
+											<obs field="GE_normal" answerConceptId="1115" answerLabel="Normal" conceptId="1126"/>
+										</td>
+									</tr>
+
+									<tr id="checkboxCheckbox">
+										<td class="nested-td">
+											<obs field="GE_ulcer" answerConceptId="864" answerLabel="Ulcer" conceptId="1126"  />
+										</td>
+
+										<td class="nested-td">
+											<obs field="GE_warts" answerConceptId="139505" answerLabel="Warts" conceptId="1126"  />
+										</td>
+										<td class="nested-td">
+											<obs field="GE_vd" answerConceptId="123396" answerLabel="Vaginal Discharge" conceptId="1126"  />
+										</td>
+										<td class="nested-td">
+											<obs field="GE_fgm" answerConceptId="118935" answerLabel="FGM" conceptId="1126"  />
+										</td>
+									</tr>
+								</table>
+
+							</td>															
+						</tr>
+					</table>
+				</td>
+				<td style="width:50%;">
+					<h4>Head / Neck</h4>
+					<table>
+						<tr>
+							<td class="checkboxGroup nested-td">
+
+								<span id="checkboxAll"><obs field="head_normal" answerConceptId="1115" conceptId="1122"  answerLabel="Normal" style="checkbox"/></span>
+								<br />
+								<span id="checkboxCheckbox">
+									<obs answerConceptId="1116" field="head_abnormal" conceptId="1122"  answerLabel="Abnormal (see comment)" style="checkbox" />
+								</span>
+							</td>															
+						</tr>
+					</table>
+				</td>
+			</tr>	
+			<tr>
+				<td style="width:50%;">
+					<h4>Fetal Orientation (breech, cephalic, etc):</h4>
+					<table>
+						<tr>
+							<td class="nested-td"><obs field="fetalorientation" conceptId="161011" style="textarea" rows="5" cols="50"/>
+							</td>
+						</tr>
+
+					</table>
+				</td>
+				<td style="width:50%;vertical-align: top;">
+					<h4>Comment:</h4>
+					<table>
+						<tr>
+							<td class="nested-td">
+
+								<obs conceptId="1391" field="commentortientation" style="textarea" rows="5" cols="50" />
+							</td>															
+						</tr>
+					</table>
+				</td>
+			</tr>
+
+		</table>
+
+	</section>
+</span>
+<span id="TestResults">
+
+	<section headerLabel="External Test Results ">
+		<table>
+			<tr>
+
+				<td>
+					<h4> External Lab Results</h4><repeat>
+					<template>
+						<table>
+							<tr id="{n}-toggleContainer"  style="display:none;">
+
+								<td class="nested-td">
+									<obs id="{n}-list" field="LAB_{n}" conceptId="1271" answerClasses="KMRI_Labs" showCommentField="true" style="dropdown"/>
+								</td>
+								<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+							</tr>
+						</table>
+					</template>
+					<render n="201"/>
+					<render n="202"/>
+					<render n="203"/>
+					<render n="204"/>
+					<render n="205"/>
+					<render n="206"/>
+					<render n="207"/>
+					<render n="208"/>
+					<render n="209"/>
+					<render n="210"/>
+				</repeat>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h4> External Radiology Results</h4>
+				<repeat>
+					<template>
+						<table>
+							<tr id="{n}-toggleContainer" style="display:none;" >					
+								<td class="nested-td">
+									<obs id="{n}-list" field="LAB2_{n}" conceptId="1271" answerConceptIds="161251,161272,161273,161294,161295,161296,161297,161298,161299,161300,161301,161302,161303,161304,161305,161306,161307,161308,161263,161264,161265,161266,161267,161268,161269,161270,161271,161317,161318,161319,161320,161321,161322,161323,161324,161325,161326,161327,161328,161329,161330,161331,161332,161333,161334,161335,161336,161337,161338,161339,161340,161341,161342,161343,161344,161345,161346,161347,161348,161349,161350,161351,161352" answerLabels="Chest (2 view PA/LAT),
+									Chest (4 view PA/LAT with right and left oblique),Chest (1 view AP),Chest (bilateral oblique),Chest (2 view and apical lordotic),Chest (apical lordotic),Chest (4 views),Left clavicle (2 view),Right clavicle (2 view),Bilateral clavicles (2 view),Cervical spine (2 or 3 view),Left elbow (2 view),Right elbow (2 view),Bilateral elbows (2 view),Facial bones (3 view),Left femur (2 view),Right femur (2 view),Bilateral femurs (2 view),Abdomen (1 view),Abdomen (2 view AP supine and lateral decubitus),Bilateral acromioclavicular joints,Left ankle (2 view),Right ankle (2 view),Bilateral ankles (2 view),Left calcaneus (2 view),Right calcaneus (2 view),Bilateral calcaneus (2 view),Right wrist (2 view),Left wrist (2 view),Retrograde Pyelogram,Thoracic spine (2 view),Left foot (2 view),Right foot (2 view),Bilateral feet (2 view),Left forearm (2 view),Right forearm (2 view) ,Bilateral forearms (2 view),Right lower leg (2 view),Left hand (2 view),Left lower leg (2 view),Right hand (2 view),Bilateral hands (2 view),Left hip (2 view),Right hip (2 view),Bilateral hips (2 view),Thoracic and lumbar spine (2 view),Spine (1 view),Left upper arm (2 view),Right upper arm (2 view),Skull (4 view),Bilateral upper arms (2 view),Sinuses (3 view),Right shoulder (2 view),Left shoulder (2 view),Right ribs (2 view),Left ribs (2 view),Pelvis (1 view),Mandible Panorex,Lumbar spine (2 or 3 view),Right knee (1 or 2 view) ,Left knee (1 or 2 view),Bilateral ribs (2 view),Bilateral knees (2 view)" showCommentField="true" style="dropdown"/>
+								</td>
+								<td class="nested-td">
+									<button id="{n}-addEntry" class="addEntry">Add</button>
+									<button id="{n}-removeEntry" class="removeEntry">Remove</button>
+								</td>
+							</tr>
+						</table>
+					</template>
+					<render n="501"/>
+					<render n="502"/>
+					<render n="503"/>
+					<render n="504"/>
+					<render n="505"/>
+					<render n="506"/>
+					<render n="507"/>
+					<render n="508"/>
+					<render n="509"/>
+					<render n="510"/>
+				</repeat>
+			</td>
+		</tr>
+	</table>
+</section>
+</span>
+<span id="Referrals" />
+<section headerLabel="Referrals">
+	<h4>Referrals Made:</h4>
+	<table class="expanded_table">
+		<repeat>
+			<template>
+				<tr id="{n}-toggleContainer" style="display:none;">
+					<td class="nested-td">
+						<obs id="{n}-list" field="REFER_{n}" conceptId="1272" style="dropdown"/>
+						Location: 
+						<obs id="{n}-list" field="REFER_loc{n}" conceptId = "1272" answerClasses="KMRI_Locations" style="dropdown" showCommentField="true" />
+					</td>
+					<td class="nested-td">
+						<button id="{n}-addEntry" class="addEntry" type="button">Add</button>
+						<button id="{n}-removeEntry" class="removeEntry" type="button">Remove</button>
+					</td>
+				</tr>
+			</template>
+			<render n="101"/>
+			<render n="102"/>
+			<render n="103"/>
+			<render n="104"/>
+			<render n="105"/>
+			<render n="106"/>
+			<render n="107"/>
+			<render n="108"/>
+			<render n="109"/>
+			<render n="110"/>
+		</repeat>
+	</table>
+</section>
+<span id="S11">	
+	<section headerLabel="Impressions">
+
+		<br />
+
+		<b>Reportable Diagnoses:</b>
+
+		<obsgroup groupingConceptId="161602">
+			<repeat>
+				<template>
+					<table>
+						<tr id="{n}-toggleContainer" style="display:none;">
+							<td class="nested-td">
+								<obs id="{n}-list" field="REPDIAG_{n}" conceptId="1284" answerClasses="RequiredDiagnosis" showCommentField="true" style="dropdown"/>
+							</td>
+							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+						</tr>
+					</table>
+				</template>
+				<render n="1"/>
+				<render n="2"/>
+				<render n="3"/>
+				<render n="4"/>
+				<render n="5"/>
+				<render n="6"/>
+				<render n="7"/>
+				<render n="8"/>
+				<render n="9"/>
+				<render n="10"/>
+				<render n="11"/>
+				<render n="12"/>
+				<render n="13"/>
+				<render n="14"/>
+				<render n="15"/>
+				<render n="16"/>
+				<render n="17"/>
+				<render n="18"/>
+				<render n="19"/>
+				<render n="20"/>
+				<render n="21"/>
+				<render n="22"/>
+				<render n="23"/>
+				<render n="24"/>
+				<render n="25"/>
+				<render n="26"/>
+				<render n="27"/>
+				<render n="28"/>
+				<render n="29"/>
+				<render n="30"/>
+				<render n="31"/>
+				<render n="32"/>
+				<render n="33"/>
+				<render n="34"/>
+				<render n="35"/>
+				<render n="36"/>
+				<render n="37"/>
+				<render n="38"/>
+				<render n="39"/>
+				<render n="40"/>
+				<render n="41"/>
+				<render n="42"/>
+				<render n="43"/>
+				<render n="44"/>
+			</repeat>
+		</obsgroup>
+
+		<span id="test"> 
+
+			<b> Diagnoses: </b>
+			<repeat>
+				<template>
+					<table>
+						<tr id="{n}-toggleContainer" style="display:none;">
+							<td class="nested-td">
+								<obs id="{n}-list" field="DIAG_{n}" conceptId="1284" answerClasses="Diagnosis" showCommentField="true" style="autocomplete"/>
+							</td>
+							<td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+						</tr>
+
+					</table>
+				</template>
+				<render n="401"/>
+				<render n="402"/>
+				<render n="403"/>
+				<render n="404"/>
+				<render n="405"/>
+				<render n="406"/>
+				<render n="407"/>
+				<render n="408"/>
+				<render n="409"/>
+				<render n="410"/>
+
+			</repeat>
+
+
+		</span>
+
+
+		<div id="patid" style="display:none;"><lookup expression="patient.id"/></div> 
+		<br />
+		Comments:  <div class="secondary"> <obs field="REPORTABLE_comments" conceptId="161011"  style="textarea" rows="5" cols="50"></obs></div>		
+
+		<br />
+
+		<div>
+			Next scheduled Appointment Date?
+			<obs field="apptdate" id="nextappointmentdate" conceptId="5096" allowFutureDates="true"> </obs>
+		</div>
+	</section>
+
+</span>
+
+<!-- Hidden concepts for add/remove sections -->
+<span style="display:none;">
+	<obs field="!111" id="addedDiagnosisCount" conceptId="161649"/>
+	<obs field="!117" id="addedSurgeryCount" conceptId="161648" />
+	<obs field="!116" id="addedUltrasoundCount" conceptId="161650" />
+	<obs field="!115" id="addedPregnancyCount" conceptId="161651" />
+	<obs field="!114" id="addedReferralCount" conceptId="161652"/>
+	<obs field="!113" id="addedDiagCount" conceptId="161737"/>
+	<obs field="!112" id="addedLabsCount" conceptId="161738"/>
+	<obs field="!118" id="addedRadCount" conceptId="162006"/>
+</span>
+
+<!-- TRAVIS' FUNCTION -->
+<script type="text/javascript">
+function openImpressions(){
+	var url = "/openmrs/module/impressions/impressionList.list\?nw=1\u0026patientId=" + document.getElementById('patid').innerHTML.trim();
+	window.open(url );
+}
+
+if (jQuery){
+	$j(document).ready(function() {
+				//
+				// find the count of the number of reported diagnoses that exist
+				//	NOTE addedDiagnosisCount is Reportable Diagnosis, addedDiagCount is Diagnosis!!
+				//	
+				displayRows(addedDiagnosisCount,"addedDiagnosisCount.value",1);
+				displayRows(addedSurgeryCount,"addedSurgeryCount.value",45);
+				displayRows(addedUltrasoundCount,"addedUltrasoundCount.value", 55);
+				displayRows(addedPregnancyCount,"addedPregnancyCount.value",65);
+				displayRows(addedReferralCount,"addedReferralCount.value",101);
+				displayRows(addedLabsCount,"addedLabsCount.value",201);
+				displayRows(addedDiagCount,"addedDiagCount.value",401);
+				displayRows(addedRadCount,"addedRadCount.value",501);
+
+			});
+}
+</script>
+
+<ifMode mode="VIEW">
+	<script type="text/javascript">
+	if(jQuery){
+
+		$j(document).ready(function(){
+			 // if this is in View, don't want any addEntry or remove Entry buttons 
+			 for (i=1;600>=i;++i) {
+			 	$j('#' + i + '-removeEntry').toggle(false);
+			 	$j('#' + i + '-addEntry').toggle(false);
+			 };
+			});
+	};
+	</script>
+</ifMode>
+<submit/>
+</htmlform>
