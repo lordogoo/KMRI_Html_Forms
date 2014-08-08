@@ -8,7 +8,152 @@ https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
 ==============================================================
 -->
 
+<ifMode mode="EDIT">
 <script type="text/javascript">
+
+$j(document).ready( function() {
+        getField("OB_LMP.value").change(onLMPChange);  
+
+for (var n = 55; 65 > n; n++) {
+        new UltraSoundField(n);
+	//getField(n+"-list.value_1").change(function(){onUsChange("" + n);});
+	//getField(n+"-list.value_2").change(function(){onUsChange("" + n);});
+}
+});
+</script>
+</ifMode>
+
+<ifMode mode="ENTER">
+<script type="text/javascript">
+
+$j(document).ready( function() {
+        getField("OB_LMP.value").change(onLMPChange);  
+
+for (var n = 55; 65 > n; n++) {
+        new UltraSoundField(n);
+	//getField(n+"-list.value_1").change(function(){onUsChange("" + n);});
+	//getField(n+"-list.value_2").change(function(){onUsChange("" + n);});
+}
+});
+</script>
+</ifMode>
+
+<script type="text/javascript">
+
+function ceil(x) {return x > parseInt(x) ? parseInt(x) + 1 : parseInt(x);}
+
+function UltraSoundField (nlist) {
+	var self = this;
+	self.n = nlist;
+	self.dateN = self.n+"-list.value_1";
+	self.weekN = self.n+"-list.value_3";
+	self.deliveryN = self.n+"-list.value_4";
+	self.hiddenN = self.n+"-list.value_5";
+	
+	self.getDate = function () {return getValue(self.dateN);};
+	self.getNWeeks = function() {return getValue(self.weekN);};
+	self.setNWeeks = function (wks) {setValue(self.weekN, wks);};
+	
+	self.clear = function() {
+		if (getValue(self.dateN) != "")
+			setValue(self.dateN, "");
+		
+		if (getValue(self.weekN) != "")
+			setValue(self.weekN, "");
+		
+		if (getValue(self.deliveryN) != "")
+			setValue(self.deliveryN, "");
+		
+		if(getValue(self.hiddenN) != "")
+			setValue(self.hiddenN, "");
+	};
+	
+	self.onUsChange = function() {
+		var usDate = new Date(self.getDate());
+		var nWeeks = self.getNWeeks();
+		var delivery;
+
+		if (usDate == null || usDate == "Invalid Date") {
+			self.clear();
+			return;
+		}
+
+		if (usDate > new Date()) {
+			alert("Ultraound date cannot be in future.");
+			self.clear();
+			return;
+		}
+		
+		if (nWeeks == null || nWeeks == "") {
+			setValue(self.deliveryN, "");
+			setValue(self.hiddenN, "");
+			return;
+		}
+
+		setValue(self.hiddenN, 159618);	
+		delivery = new Date(usDate.getTime() +(40-nWeeks)*(1000*3600*24*7));
+		
+		delivery.setUTCHours(0);
+		delivery.setUTCMinutes(0);
+		delivery.setUTCSeconds(0);
+		delivery.setUTCMilliseconds(0);
+		
+		setValue(self.deliveryN, parseDateFromUTCJsToString("yyyy-mm-dd", delivery));
+	}
+
+	
+	getField(self.dateN).change(function(){self.onUsChange();});
+	getField(self.weekN).change(function(){self.onUsChange();});
+	setValue(self.hiddenN, "");
+}
+
+function onLMPChange () {
+	var lastLMP = new Date(getValue("OB_LMP.value"));
+	var nweeks = 0;
+	var daliveryDate;
+	var now = new Date();
+	
+	if (lastLMP == null || lastLMP == "Invalid Date") {
+		setValue("OB_EDD.value", "");
+		setValue("OB_gest.value", "");
+		setValue("OB_gestcalc.value", "");
+		return;
+	}
+
+	if (lastLMP > now) { 
+		setValue("OB_LMP.value", "");
+                //setValue("OB_LMP.error", "LMP cannot be after current time");
+                //getField("OB_LMP.error").show().focus();
+		//onLMPChange();
+                alert("LMP cannot be in future.");
+                //getField("OB_LMP.value").focus();
+                //getField("OB_LMP.value").triggerHandler( "focus" );
+		return;
+	}
+
+        //setValue("OB_LMP.error", "");
+        //getField("OB_LMP.error").hide();
+
+	now.setUTCHours(0);
+	now.setUTCMinutes(0);
+	now.setUTCSeconds(0);
+	now.setUTCMilliseconds(0);
+		
+	deliveryDate = new Date(lastLMP);
+	deliveryDate.setDate(deliveryDate.getDate()+280);
+	nweeks = parseInt( (now - lastLMP) / (1000*3600*24*7) );
+	
+	setValue("OB_gestcalc.value", 1427);
+	setValue("OB_EDD.value", parseDateFromUTCJsToString("yyyy-mm-dd", deliveryDate));
+	setValue("OB_gest.value", nweeks);
+}
+
+function parseDateFromUTCJsToString(sFormat, jsDate) {
+ 	if(jsDate == null) {
+ 		jsDate = new Date();
+ 	}
+ 	return sFormat.replace(/mm/, tenrule(jsDate.getUTCMonth()+1)).replace(/dd/, tenrule(jsDate.getUTCDate())).replace(/yyyy/, (jsDate.getUTCFullYear() ? jsDate.getUTCFullYear() : 1900+jsDate.getUTCYear()));
+} 
 
 function isBlank(listValueString,numListElements,allBlank) {
 	var numCheck = 1;
@@ -79,7 +224,7 @@ function removeBlanks(startRow,numberRows,listValueString,numListElements,allBla
 								};                            
 							};                
 						};
-						console.log(startRow,nonBlankCount);
+						//console.log(startRow,nonBlankCount);
 						return nonBlankCount;
 		};   //end function       
 
@@ -279,9 +424,6 @@ $j(document).ready(function(){
 			return true;
 		}); 
 
-
-
-
 		$j(document).ready(function(){
 			if ( $j.browser.msie ) {
 				$j(":checkbox").click(function(){
@@ -370,7 +512,6 @@ $j(".checkboxGroup").each(function(){
 });
 }
 
-
 </script>
 
 <macros>
@@ -380,6 +521,7 @@ $j(".checkboxGroup").each(function(){
 </macros>
 
 <style>
+
 .section {
 	border: 1px solid $headerColor;
 	padding: 2px;
@@ -459,7 +601,7 @@ $j(".checkboxGroup").each(function(){
 
 <section headerLabel="Contents">
 	<ol>
-		<li><a href="#S1"> Encounter Details </a> </li>
+		<li><a href="#encounter_details"> Encounter Details </a> </li>
 		<li><a href="#S2"> Demographics </a> </li>
 		<li><a href="#SZ"> Presenting Complaint</a> </li>
 		<li><a href="#S3"> OBGYN Hx </a></li>
@@ -474,25 +616,66 @@ $j(".checkboxGroup").each(function(){
 		<li><a href="#S11"> Impressions </a> </li>
 	</ol>
 </section>
-<span id="S1">
-	<section headerLabel="Encounter Details">
-		<table class="baseline-aligned">
-			<tr>
-				<td class="label">Date:</td>
-				<td><encounterDate default="today"/></td>
-			</tr>
-			<tr>
-				<td class="label">Location:</td>
-				<td><encounterLocation default="UserProperty:defaultLocation"/></td>
-			</tr>
-			<tr>
-				<td class="label">Provider:</td>
-				<td><encounterProvider default="currentUser"/></td>	
-			</tr>
-		</table>
-	</section>
-</span>
 
+<span id="encounter_details" />
+<section headerLabel="Encounter Details">
+        <script type="text/javascript">
+        	$j(document).ready(function(){
+				<ifMode mode="ENTER">
+					$j("#date_div_showed").append($j("#date_div_hidden").find("input").clone().val());
+					$j("#location_div_showed").append($j("#location_div_hidden").find("select option:selected").clone().text());
+					$j("#provider_div_showed").append($j("#provider_div_hidden").find("select option:selected").clone().text());
+				</ifMode>
+				<ifMode mode="EDIT">
+					$j("#date_div_showed").append($j("#date_div_hidden").find("input").clone().val());
+					$j("#location_div_showed").append($j("#location_div_hidden").find("select option:selected").clone().text());
+					$j("#provider_div_showed").append($j("#provider_div_hidden").find("select option:selected").clone().text());
+				</ifMode>
+				<ifMode mode="VIEW">
+					$j("#date_div_showed").append($j("#date_div_hidden").find("span").clone().text());
+					$j("#location_div_showed").append($j("#location_div_hidden").find("span").clone().text());
+					$j("#provider_div_showed").append($j("#provider_div_hidden").find("span").clone().text());
+				</ifMode>
+				$j("#location_div_hidden").hide();
+				$j("#provider_div_hidden").hide();
+				$j("#date_div_hidden").hide();
+				//$j("#table_encounterDetails").find("input").attr("disabled",true);
+				//$j("#table_encounterDetails").find("select").attr("disabled",true);
+			});
+        </script>
+	<table class="baseline-aligned" id="table_encounterDetails" >
+ 		<tr>
+			<td class="label">Date:</td>
+			<td>
+				<div id="date_div_hidden">
+					<encounterDate default="today"/>
+				</div>
+				<div id="date_div_showed">
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="label">Location:</td>
+			<td>
+				<div id="location_div_hidden">
+					<encounterLocation default="UserProperty:defaultLocation" order="UserProperty:defaultLocation"/>
+				</div>
+				<div id="location_div_showed">
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="label">Provider:</td>
+			<td>
+				<div id="provider_div_hidden">
+					<encounterProvider default="currentUser" order="currentUser"/>
+				</div>
+				<div id="provider_div_showed">
+				</div>
+			</td>
+		</tr>
+	</table>
+</section>
 <span id="SZ">
 	<section headerLabel="Presenting Complaint">
 		<table>
@@ -516,26 +699,22 @@ $j(".checkboxGroup").each(function(){
 			<table id="two-wide">
 				<tr>
 					<td class="nested-label">LMP: </td>
-					<td class="nested-td">  <obs field="OB_LMP" conceptId="1427"/></td>
-
+					<td class="nested-td">  <obs id="OB_LMP" field="OB_LMP" conceptId="1427"/></td>
 				</tr>
 				<tr>
-					<td class="nested-label">EDD: </td>
-					<td class="nested-td">  <obs field="OB_EDD" conceptId="5596" allowFutureDates="true"/></td>
-
-
+					<td class="nested-label">EDD (estimated from LMP): </td>
+					<td class="nested-td">  <obs id="OB_EDD" field="OB_EDD" conceptId="5596" allowFutureDates="true"/></td>
 				</tr>
 				<tr>
-					<td class="nested-label">Estimated Gestational age (in weeks): </td>
-					<td class="nested-td"> <obs field="OB_gest" conceptId="1438"/></td>
+					<td class="nested-label">Estimated Gestational age (estimated from LMP): </td>
+					<td class="nested-td"> <obs id="OB_gest" field="OB_gest" conceptId="1438"/> week(s)</td>
 				</tr>
-				<tr>
+				<div style="display:none;"><tr style="display:none;">
 					<td class="nested-label">Calculated from: </td>
-					<td class="nested-td"> <obs field="OB_gestcalc" conceptId="160697"/></td>
-				</tr>
+					<td class="nested-td"> <obs id="OB_gestcalc" field="OB_gestcalc" conceptId="160697" answerConceptIds="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+				</tr></div>
 			</table>
 		</td>
-
 		<td style="width:50%;">
 			<table id="two-wide">
 				<tr>
@@ -547,12 +726,8 @@ $j(".checkboxGroup").each(function(){
 					<td class="nested-td">  <obs conceptId="1628" field="group_b" answerConceptId="112698" style="checkbox" answerLabel=""/></td>
 				</tr>
 			</table>
-
 		</td>
 	</tr>
-
-
-
 </table>
 <br />
 <br />
@@ -567,10 +742,17 @@ If yes, <br />
 						<table>
 							<tr>
 								<td>
-									<obs field="US{n}" id="{n}-list" conceptId="160753" labelText="Ultrasound Date:" />
-									<obs field="GA{n}" id="{n}-list" conceptId="1438" labelText="Gestational Age (in weeks):" showCommentField="true" commentFieldLabel="Results:" />
+									<obs field="US{n}" id="{n}-list" conceptId="160753" showCommentField="true" commentFieldLabel="Results:" labelText="Ultrasound Date:" />
+									<obs field="GA{n}" id="{n}-list" conceptId="1438" labelText="Gestational Age (in weeks):"/>
+									<obs field="OB_gest{n}" id="{n}-list" labelText="Estimated delivery" conceptId="5596" allowFutureDates="true"/>
 								</td>
-								<td><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
+								<td>
+									<button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button>
+								</td>
+							</tr>
+							<tr style="display:none;">
+								<td class="nested-label">Calculated from: </td>
+								<td class="nested-td"> <obs id="{n}-list" field="OB_gestcalc{n}" conceptId="160697" answerConceptIds="159618AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
 							</tr>
 						</table>
 					</div>
