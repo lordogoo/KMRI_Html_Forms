@@ -1,4 +1,14 @@
-<htmlform>
+<htmlform>Form
+
+
+<!--
+KMRI Vitals Form
+==============================================================
+Javascript helper functions taken from the HTML Form Entry Javascript Reference at 
+https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference 
+==============================================================
+-->
+
 <macros>
 	paperFormId = (Fill this in)
 	headerColor =#009d8e
@@ -93,24 +103,67 @@
 <div style="float:right">Paper Form ID: $paperFormId</div>
 <h2>KMRI Vitals Form</h2>
 
-	<section headerLabel="1. Encounter Details">
-		<table class="baseline-aligned">
-			<tr>
-				<td>Date:</td>
-				<td><encounterDate default="today"/></td>
-			</tr>
-			<tr>
-				<td>Location:</td>
-				<td><encounterLocation/></td>
-			</tr>
-			<tr>
-				<td>Provider:</td>
-				<td><encounterProvider/></td>
-			</tr>
-		</table>
-	</section>
+<span id="encounter_details" />
+<section headerLabel="Encounter Details">
+        <script type="text/javascript">
+        	$j(document).ready(function(){
+				<ifMode mode="ENTER">
+					$j("#date_div_showed").append($j("#date_div_hidden").find("input").clone().val());
+					$j("#location_div_showed").append($j("#location_div_hidden").find("select option:selected").clone().text());
+					$j("#provider_div_showed").append($j("#provider_div_hidden").find("select option:selected").clone().text());
+				</ifMode>
+				<ifMode mode="EDIT">
+					$j("#date_div_showed").append($j("#date_div_hidden").find("input").clone().val());
+					$j("#location_div_showed").append($j("#location_div_hidden").find("select option:selected").clone().text());
+					$j("#provider_div_showed").append($j("#provider_div_hidden").find("select option:selected").clone().text());
+				</ifMode>
+				<ifMode mode="VIEW">
+					$j("#date_div_showed").append($j("#date_div_hidden").find("span").clone().text());
+					$j("#location_div_showed").append($j("#location_div_hidden").find("span").clone().text());
+					$j("#provider_div_showed").append($j("#provider_div_hidden").find("span").clone().text());
+				</ifMode>
+				$j("#location_div_hidden").hide();
+				$j("#provider_div_hidden").hide();
+				$j("#date_div_hidden").hide();
+				//$j("#table_encounterDetails").find("input").attr("disabled",true);
+				//$j("#table_encounterDetails").find("select").attr("disabled",true);
+			});
+        </script>
+	<table class="baseline-aligned" id="table_encounterDetails" >
+ 		<tr>
+			<td class="label">Date:</td>
+			<td>
+				<div id="date_div_hidden">
+					<encounterDate default="now" showTime="true"/>
+				</div>
+				<div id="date_div_showed">
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="label">Location:</td>
+			<td>
+				<div id="location_div_hidden">
+					<encounterLocation default="UserProperty:defaultLocation" order="UserProperty:defaultLocation"/>
+				</div>
+				<div id="location_div_showed">
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="label">Provider:</td>
+			<td>
+				<div id="provider_div_hidden">
+					<encounterProvider default="currentUser" order="currentUser"/>
+				</div>
+				<div id="provider_div_showed">
+				</div>
+			</td>
+		</tr>
+	</table>
+</section>
 
-	<section headerLabel="2. Demographic Information">
+	<section headerLabel="Demographic Information">
 		<table class="baseline-aligned">
 			<tr>
 				<td>Name:</td>
@@ -182,7 +235,7 @@
 		</table>
 	</section>
 
-	<section headerLabel="3. Vitals">
+	<section headerLabel="Vitals">
 		<table class="baseline-aligned" style="width:100%;"><tr><td style="width:50%;">
 					<table id="two-wide">
 						<tr>
@@ -226,15 +279,8 @@
 					<tr><td style="width:50%;"> 70% = Unable to carry on normal activity, able to care for oneself</td><td style="width:50%;">20% = Very sick, active support needed</td></tr>
 					<tr><td style="width:50%;"> 60% = Requires help with personal needs</td><td style="width:50%;">10% = Moribund (near death)</td></tr>
 				</table>
-
-
-
-
-
-
 			</td>
 	</tr></table>
-
 </section>
 
 	<submit/>
