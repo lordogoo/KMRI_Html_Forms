@@ -177,6 +177,16 @@ function parseDateFromUTCJsToString(sFormat, jsDate) {
                 alert("The next scheduled appointment cannot be past today.");
                 return false;
             }
+		
+			var value = getValue("addedDiagnosisCount.value");
+			if (value=='' || value==null)
+				value = "0";
+			if (value == "0")
+			{
+				//scrollFieldIntoView('REPDIAG_1');
+				alert ("Reportable Diagnosis cannot be empty. Please enter a value to proceed.");
+				return false;	
+			}
 
             return true;
         });
@@ -740,7 +750,7 @@ $j(this).parents("#checkboxAll:first").find(":checkbox").change();
 							<table>
 								<tr id="{n}-toggleContainer" style="display:none;">
 									<td class="nested-td">
-										<span class="required">*</span><obs id="{n}-list" field="REFER_{n}" conceptId="161257" style="dropdown"/>
+										<obs id="{n}-list" field="REFER_{n}" conceptId="161257" style="dropdown"/>
 										Location:
 										<obs id="{n}-list" field="REFER_loc{n}" conceptId = "161257" answerClasses="KMRI_Locations" style="dropdown" showCommentField="true" />
 									</td>
@@ -2321,7 +2331,7 @@ Comments: <div class="secondary"><obs field="STI_comments" conceptId="161011" st
                                 <tr id="{n}-toggleContainer" style="display:none;">
 
                                    <td class="nested-td">
-                                       <span class="required">*</span><obs id="{n}-list" field="REFER_{n}" conceptId="1272" style="dropdown"/>
+                                       <obs id="{n}-list" field="REFER_{n}" conceptId="1272" style="dropdown"/>
                                        Location: <obs id="{n}-list" field="REFER_loc{n}" conceptId = "1272" answerClasses="KMRI_Locations" style="dropdown" showCommentField="true" />
                                    </td>
                                    <td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
@@ -2419,7 +2429,7 @@ Comments: <div class="secondary"><obs field="STI_comments" conceptId="161011" st
                 <table>
                     <tr id="{n}-toggleContainer" style="display:none;">
                         <td class="nested-td">
-                            <span class="required">*</span><obs id="{n}-list" field="DIAG_{n}" conceptId="1284" answerClasses="Diagnosis" showCommentField="true" style="autocomplete"/>
+                            <obs id="{n}-list" field="DIAG_{n}" conceptId="1284" answerClasses="Diagnosis" showCommentField="true" style="autocomplete"/>
                         </td>
                         <td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
                     </tr>
