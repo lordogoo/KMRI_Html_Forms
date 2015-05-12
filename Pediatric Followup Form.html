@@ -617,12 +617,12 @@ function isEmptyField(id)
                     <table class="inner-table">
                         <tr>
                             <td class="nested-td">
-                                <obs field="GENERAL_hivStatus" id="GENERAL_hivStatus" conceptId="1169" labelText="HIV status: "  answerConceptIds="703,664,1067" answerLabels="Positive,Negative,Unknown"/>
+                                <obs field="GENERAL_hivStatus" id="GENERAL_hivStatus" conceptId="1169" labelText="HIV status: "  answerConceptIds="703,664,1067" answerLabels="Positive,Negative,Unknown" required="true"/>
                             </td>
                         </tr>
                         <tr>
                             <td class="nested-td">
-                                <obs field="GENERAL_hivStatus_mother" id="GENERAL_hivStatus_mother" conceptId="1396" labelText="Mother's HIV status: " answerConceptIds="703,664,1067" answerLabels="Positive,Negative,Unknown"/>
+                                <obs field="GENERAL_hivStatus_mother" id="GENERAL_hivStatus_mother" conceptId="1396" labelText="Mother's HIV status: " answerConceptIds="703,664,1067" answerLabels="Positive,Negative,Unknown" required="true"/>
                             </td>
                         </tr>
                     </table>
@@ -632,7 +632,7 @@ function isEmptyField(id)
                     <table class="checkboxGroup">
                         <tr> 
                             <td class="nested-td">
-                                TB Status:<obs field="TB_suspicion" id="TB_suspicion" conceptId="1659" answerConceptIds="1660,142177,1661" answerLabels="No signs or symptoms,Disease suspected,Disease diagnosed" style="dropdown"/>
+                                TB Status:<obs field="TB_suspicion" id="TB_suspicion" conceptId="1659" answerConceptIds="1660,142177,1661" answerLabels="No signs or symptoms,Disease suspected,Disease diagnosed" style="dropdown" required="true"/>
                             </td>
                         </tr>
                         <tr>
@@ -1253,7 +1253,7 @@ function isEmptyField(id)
     <tr>
         <td class="enableDisable" id="vac_uptodate">
             Is the child's vaccinations up to date?
-            <obs id="vac_button_trigger" field="vac_update" conceptId="5585" answerConceptIds="1065,1066,1067" answerLabels="Yes,No,Unknown" style="radio"/>
+            <obs id="vac_button_trigger" field="vac_update" conceptId="5585" answerConceptIds="1065,1066,1067" answerLabels="Yes,No,Unknown" style="radio" required="true"/>
             <br />
             <span class="secondary" id="vac_evervac"> 
                 Has the child ever been vaccinated?
