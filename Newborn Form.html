@@ -730,7 +730,7 @@ $j(document).ready(function(){
   </tr>
   <tr>
     <td>Length of stay in Hospital</td>
-    <td><obs conceptId="1647" />days<obs conceptId="162155" />hours</td>
+    <td><obs conceptId="1647" />days<obs conceptId="162154" />hours</td>
   </tr>
 </table>
 
@@ -1991,7 +1991,7 @@ $j(document).ready(function() {
 */
 function disableSelect(selector,element){
 $j(selector).find(element).attr('disabled',true);
-$j(selector).fadeTo(250,0.33);
+$j(selector).find(element).fadeTo(250,0.33);
 }
 
 /**
@@ -1999,16 +1999,21 @@ $j(selector).fadeTo(250,0.33);
 */
 function enableSelect(selector,element){
 $j(selector).find(element).attr('disabled',false);
-$j(selector).fadeTo(250,1);
+$j(selector).find(element).fadeTo(250,1);
 }
 
+disableSelect(".hiv_triggered",'select');
+disableSelect(".hiv_triggered",'input');
 
 $j(".hiv_yes_trigger").click(function() {
 if ($j(".hiv_yes_trigger").find("input[type$='radio']:checked").val()=='true') {
   enableSelect(".hiv_triggered",'select');
   enableSelect(".hiv_triggered",'input');
 } else {
+// alert($j(".hiv_triggered").find('select').prop('defaultSelected'));
+ $j(".hiv_triggered").find('select').val(0);
  disableSelect(".hiv_triggered",'select');
+ $j(".hiv_triggered").find('input').attr('checked', false);
  disableSelect(".hiv_triggered",'input');
 }
 });
