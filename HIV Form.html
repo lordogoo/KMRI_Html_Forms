@@ -612,19 +612,20 @@ function displayRows(countConcept,countConceptValue,startRow)
         <li><a href="#S5"> Presenting Complaint </a></li>
         <li><a href="#S6"> HIV Lab Results </a></li>
         <li><a href="#S7"> Vitals </a></li>
-        <li><a href="#S8"> ARV Side-Effects </a></li>
-        <li><a href="#S9"> ARV Adherence </a></li>
-        <li><a href="#S10"> ARV Plan </a></li>
-        <li><a href="#S11"> PCP Prophylaxis </a></li>
-        <li><a href="#S12"> Cryptococcal Prophylaxis</a></li>
-        <li><a href="#S13"> Tuberculosis</a></li>
-        <li><a href="#S14"> TB Screening</a></li>
-        <li><a href="#S15"> TB Prophylaxis</a></li>
-        <li><a href="#S16"> Family Planning</a></li>
-        <li><a href="#S17"> At-Risk Population</a></li>
-        <li><a href="#S18"> PWP Services</a></li>
+        <li><a href="#S8"> WHO</a></li>
+        <li><a href="#S9"> ARV Side-Effects </a></li>
+        <li><a href="#S10"> ARV Adherence </a></li>
+        <li><a href="#S11"> ARV Plan </a></li>
+        <li><a href="#S12"> PCP Prophylaxis </a></li>
+        <li><a href="#S13"> Cryptococcal Prophylaxis</a></li>
+        <li><a href="#S14"> Tuberculosis</a></li>
+        <li><a href="#S15"> TB Screening</a></li>
+        <li><a href="#S16"> TB Prophylaxis</a></li>
+        <li><a href="#S17"> Family Planning</a></li>
+        <li><a href="#S18"> At-Risk Population</a></li>
+        <li><a href="#S19"> PWP Services</a></li>
         <li><a href="#Referrals"> Referrals</a></li>
-        <li><a href="#S19"> Diagnosis</a></li>
+        <li><a href="#S21"> Diagnosis</a></li>
     </ol>
 </section>
 
@@ -652,7 +653,7 @@ function displayRows(countConcept,countConceptValue,startRow)
                 $j("#date_div_hidden").hide();
                 //$j("#table_encounterDetails").find("input").attr("disabled",true);
                 //$j("#table_encounterDetails").find("select").attr("disabled",true);
-				toggleEnablementOfControls(this ,"1260",["#reasonTuberculosisProphylaxisStoppedDropdown_row","#reason_tb_proph_stopped select"]);
+                toggleEnablementOfControls(this ,"1260",["#reasonTuberculosisProphylaxisStoppedDropdown_row","#reason_tb_proph_stopped select"]);
             });
         </script>
             <table class="baseline-aligned">
@@ -1524,8 +1525,104 @@ function displayRows(countConcept,countConceptValue,startRow)
       </section>
     </span>
 
+      <span id="S8">
+        <section headerLabel="8. WHO">
+<h4>    WHO</h4>
+			<table class="baseline-aligned" style="none">
+
+              <tr>
+                  <td class="label">WHO Stage: </td>
+                  <td colspan="4">
+                      <obs conceptId="160553" answerConceptIds="1204,1205,1206,1207"
+                           answerLabels="Stage 1 (Adult),Stage 2 (Adult),Stage 3 (Adult),Stage 4 (Adult)"
+                           style="radio"/>
+                  </td>
+              </tr>
+
+
+              <tr>
+                  <td class="label">Opportunistic Infections: </td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="5334" answerLabel="Candidiasis Oral"/>
+                  </td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="5340" answerLabel="Candidiasis Oral or Oesophageal"/>
+                  </td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="5018" answerLabel="Chronic Diarrhoea"/>
+                  </td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="5035" answerLabel="CMV Disease"/>
+                  </td>
+                  
+                  
+              </tr>
+
+              <tr>
+                  <td class="label"></td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="990" answerLabel="CNS Toxoplasmosis"/>
+                  </td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="5033" answerLabel="Cryptococcal Meningitis"/>
+                  </td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="5345" answerLabel="Encephalopathy"/>
+                  </td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="5042" answerLabel="Extrapulmonary Tuberculosis"/>
+                  </td>
+              </tr>
+
+              <tr>
+                  <td class="label"></td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="5344" answerLabel="Herpes Simplex"/>
+                  </td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="5329" answerLabel="Herpes Zoster"/>
+                  </td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="5041" answerLabel="Lymphoma"/>
+                  </td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="5043" answerLabel="Non-TB Mycobacteria"/>
+                  </td>                  
+              </tr>
+
+              <tr>
+                  <td class="label"></td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="5046" answerLabel="PML"/>
+                  </td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="882" answerLabel="Pneumocystis Carinii Pneumonia (PCP)"/>
+                  </td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="5338" answerLabel="Pulmonary Tuberculosis"/>
+                  </td>
+                  <td class="spaced-out-td">
+                      <obs conceptId="6048" answerConceptId="823" answerLabel="Wasting"/>
+                  </td>
+              </tr>
+              <tr>
+                <td class="label"></td>
+                  <td class="spaced-out-td" colspan="4">
+                      <obs conceptId="6048" answerConceptId="1215" answerLabel="Recurrent Pneumonia"/>
+                  </td>
+              </tr>
+
+              <tr>
+                <td class="label">Comments:</td>
+                <td>
+                    <obs field="OI_1" id="OI_1"  conceptId="161011" style="textarea" rows="3" cols="20" />
+                </td>
+            </tr>
+
+			</table>	
 	
-	
+      </section>
+    </span>
 
 <!-- ARV SECTIONS BEGIN FROM HERE -->
 <section>
@@ -1533,8 +1630,8 @@ function displayRows(countConcept,countConceptValue,startRow)
 </section>
 
 
-    <span id="S8">
-      <section headerLabel="8. ARV Side-Effects">
+    <span id="S9">
+      <section headerLabel="9. ARV Side-Effects">
 
           <table class="baseline-aligned">
               <tr>
@@ -1607,8 +1704,8 @@ function displayRows(countConcept,countConceptValue,startRow)
     </span>
 
 
-    <span id="S9">
-      <section headerLabel="9. ARV Adherence">
+    <span id="S10">
+      <section headerLabel="10. ARV Adherence">
 
           <table class="baseline-aligned">
 
@@ -1640,8 +1737,8 @@ function displayRows(countConcept,countConceptValue,startRow)
     </span>
 
 
-    <span id="S10">
-      <section headerLabel="10. ARV Plan">
+    <span id="S11">
+      <section headerLabel="11. ARV Plan">
 
           <table class="baseline-aligned" >
 
@@ -1726,8 +1823,8 @@ function displayRows(countConcept,countConceptValue,startRow)
 </section>
 
 
-    <span id="S11">
-      <section headerLabel="11. PCP Prophylaxis">
+    <span id="S12">
+      <section headerLabel="12. PCP Prophylaxis">
 
           <table class="baseline-aligned">
 
@@ -1793,8 +1890,8 @@ function displayRows(countConcept,countConceptValue,startRow)
     </span>
 
 
-    <span id="S12">
-      <section headerLabel="12. Cryptococcal Prophylaxis ">
+    <span id="S13">
+      <section headerLabel="13. Cryptococcal Prophylaxis ">
 
           <table class="baseline-aligned">
 
@@ -1825,8 +1922,8 @@ function displayRows(countConcept,countConceptValue,startRow)
     </span>
 
 
-    <span id="S13">
-      <section headerLabel="13. Tuberculosis ">
+    <span id="S14">
+      <section headerLabel="14. Tuberculosis ">
 
           <table class="baseline-aligned">
 
@@ -1859,8 +1956,8 @@ function displayRows(countConcept,countConceptValue,startRow)
       </section>
     </span>
 
-    <span id="S14">
-      <section headerLabel="14. TB Screening">
+    <span id="S15">
+      <section headerLabel="15. TB Screening">
 
           <table class="baseline-aligned">
                 <tr><td><b>TB Screening Results:</b></td></tr>
@@ -1882,8 +1979,8 @@ function displayRows(countConcept,countConceptValue,startRow)
     </span>
 
 
-     <span id="S15">
-      <section headerLabel="15. TB Prophylaxis">
+     <span id="S16">
+      <section headerLabel="16. TB Prophylaxis">
 
           <table class="baseline-aligned">
 
@@ -1925,8 +2022,8 @@ function displayRows(countConcept,countConceptValue,startRow)
 </section>
 
 
-    <span id="S16">
-      <section headerLabel="16. Family Planning">
+    <span id="S17">
+      <section headerLabel="17. Family Planning">
 
         <div class="enableDisable">
             <table id="trigger">
@@ -2029,8 +2126,8 @@ function displayRows(countConcept,countConceptValue,startRow)
 
 
 
-     <span id="S17">
-      <section headerLabel="17. At-Risk Population">
+     <span id="S18">
+      <section headerLabel="18. At-Risk Population">
             <table>
                 <tr>
                     <td class="nested-td">
@@ -2042,8 +2139,8 @@ function displayRows(countConcept,countConceptValue,startRow)
     </span>
 
 
-     <span id="S18">
-      <section headerLabel="18. PWP Services">
+     <span id="S19">
+      <section headerLabel="19. PWP Services">
 
           <table class="baseline-aligned">
 
@@ -2101,7 +2198,7 @@ function displayRows(countConcept,countConceptValue,startRow)
 
 <span id="Referrals">
 
-    <section headerLabel="Referrals">
+    <section headerLabel="20. Referrals">
 
         <table>
             <tr>
@@ -2142,102 +2239,8 @@ function displayRows(countConcept,countConceptValue,startRow)
     <span class="majorSection"><center><h3>Diagnosis</h3></center></span>
 </section>
 
-     <span id="S19">
-      <section headerLabel="19. Diagnosis">
-<h4>    WHO</h4>
-			<table class="baseline-aligned" style="none">
-
-              <tr>
-                  <td class="label">WHO Stage: </td>
-                  <td colspan="4">
-                      <obs conceptId="160553" answerConceptIds="1204,1205,1206,1207"
-                           answerLabels="Stage 1 (Adult),Stage 2 (Adult),Stage 3 (Adult),Stage 4 (Adult)"
-                           style="radio"/>
-                  </td>
-              </tr>
-
-
-              <tr>
-                  <td class="label">Opportunistic Infections: </td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="5334" answerLabel="Candidiasis Oral"/>
-                  </td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="5340" answerLabel="Candidiasis Oral or Oesophageal"/>
-                  </td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="5018" answerLabel="Chronic Diarrhoea"/>
-                  </td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="5035" answerLabel="CMV Disease"/>
-                  </td>
-                  
-                  
-              </tr>
-
-              <tr>
-                  <td class="label"></td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="990" answerLabel="CNS Toxoplasmosis"/>
-                  </td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="5033" answerLabel="Cryptococcal Meningitis"/>
-                  </td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="5345" answerLabel="Encephalopathy"/>
-                  </td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="5042" answerLabel="Extrapulmonary Tuberculosis"/>
-                  </td>
-              </tr>
-
-              <tr>
-                  <td class="label"></td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="5344" answerLabel="Herpes Simplex"/>
-                  </td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="5329" answerLabel="Herpes Zoster"/>
-                  </td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="5041" answerLabel="Lymphoma"/>
-                  </td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="5043" answerLabel="Non-TB Mycobacteria"/>
-                  </td>                  
-              </tr>
-
-              <tr>
-                  <td class="label"></td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="5046" answerLabel="PML"/>
-                  </td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="882" answerLabel="Pneumocystis Carinii Pneumonia (PCP)"/>
-                  </td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="5338" answerLabel="Pulmonary Tuberculosis"/>
-                  </td>
-                  <td class="spaced-out-td">
-                      <obs conceptId="6048" answerConceptId="823" answerLabel="Wasting"/>
-                  </td>
-              </tr>
-              <tr>
-                <td class="label"></td>
-                  <td class="spaced-out-td" colspan="4">
-                      <obs conceptId="6048" answerConceptId="1215" answerLabel="Recurrent Pneumonia"/>
-                  </td>
-              </tr>
-
-              <tr>
-                <td class="label">Comments:</td>
-                <td>
-                    <obs field="OI_1" id="OI_1"  conceptId="161011" style="textarea" rows="3" cols="20" />
-                </td>
-            </tr>
-
-			</table>
-          
+     <span id="S21">
+      <section headerLabel="21. Diagnosis">      
           <br/>
           <b>Reportable Diagnoses:</b>
 
