@@ -337,7 +337,7 @@ function isEmptyField(id)
     });
      
     
-		<!-- this function formats sections of code such that portions can be enabled and disabled via a check box but also formatted nicely -->
+		<!-- this function formats sections of code such that portions can be enabled and disabled via a check box while also formatting nicely -->
         $j(document).ready(function(){
                 if ( $j.browser.msie ) {
                 $j(":checkbox").click(function(){
@@ -425,7 +425,10 @@ function isEmptyField(id)
 		Without this function if the concept in the database is a boolean the label wont display 
 		properly without this code. This is especially jarring when a comments field is added because
 		The label cannot be manually added without using the below code-->
-		$j('span#abnormal').find('label').append("Abnormal");
+		<!-- also note that it was hard to tell if the abnormal label was part of the the comments label.
+		the pre tag was added to separate them -->
+		$j('span#abnormal').find('label').append("Abnormal<pre>     </pre>");
+		$j('span#abnormalspace').find('label').append("<pre>     </pre>");
 		});
     }
 
@@ -543,6 +546,16 @@ function isEmptyField(id)
 		.tab {
 			margin-left: 40px; 
 		}
+		<!-- used to make comment boxes longer. note we cant make them any bigger, just longer -->
+		.obs-field input[type="text"] {
+			width: 300px;
+			height: 40px;
+			word-break: break-word;
+		}
+		<!-- used for formatting. needed to add empty space inline. -->
+		pre{
+			display: inline;
+		}
         #three-wide {
             width: 100%
         }
@@ -571,6 +584,7 @@ function isEmptyField(id)
     <li><a href="#S5"> Current Medications </a> </li>
     <li><a href="#S6"> Vaccinations </a> </li>
     <li><a href="#S8"> Physical Examination </a> </li>
+	<li><a href="#S9"> Counselling </a> </li>
     <li><a href="#Referrals"> Referrals </a></li>
     <li><a href="#S11"> Impressions </a> </li>
 </ol>
@@ -601,7 +615,7 @@ function isEmptyField(id)
             });
         </script>
     <span id="encounter_details" />
-    <table class="baseline-aligned" id="table_encounterDetails" >
+    <table style="width:auto;" id="table_encounterDetails" >
         <tr>
             <td class="label">Date:</td>
             <td>
@@ -718,41 +732,49 @@ function isEmptyField(id)
 <span id="S3">
 <!-- this is a new section added to asses the nutrition and feeding methods of the 6-month baby -->
 <section headerLabel="Nutrition">
-		<table class="baseline-aligned">
+		<table>
 		<col width="40%"/>
 		<col width="60%"/>
                       <tr>
-                               <td>Method of Feeding: <obs conceptId="1151" id="Method of Feeding" answerConceptIds="1173,5254,1150,6046,5526,968,1595" /></td>
+                               <td>Method of Feeding: <obs field="Nutrition_feedingmethod" conceptId="1151" id="Method of Feeding" answerConceptIds="1173,5254,1150,6046,5526,968,1595" /></td>
                       </tr>
                       <tr>
-                               <td>Frequency: <obs conceptId="162060" id="Frequency of Feeding" /></td>
+                               <td colspan="2">Frequency: <obs field="Nutrition_feedingfrequenct" conceptId="162060" id="Frequency of Feeding" /> Number of times per day </td>
                       </tr>
                       <tr>
-                               <td>Length/volume: <obs conceptId="162061" id="Volume of Feeding" /> Aim for 750-1000mL per day</td>
+                               <td colspan="2">Volume: <obs field="Nutrition_feedingvolume" conceptId="162061" id="Volume of Feeding" />ML Per Feed</td>
                       </tr>
                       <tr>
-                               <td>If breastfeeding, Vitamin D supplementation (400-800 IU)? </td><td><obs conceptId="162159" style="yes_no"/></td>
+                               <td colspan="2">Duration: <obs field="Nutrition_feedingduration" conceptId="162062" id="Duration of Feeding" />Min Per Feed</td>
+                      </tr>
+					  <tr>
+								<td colspan="2">(Note: recommended intake is 750-1000mL of milk per day)</td>
+					  </tr>
+					  <tr><td><br/></td></tr>
+					  <tr>
+                               <td>If breastfeeding, Vitamin D supplementation (400-800 IU)? </td><td><obs field="Nutrition_feedingvd" conceptId="162159" style="yes_no"/></td>
                       </tr>
                       <tr>
-                               <td>If formula feeding, iron-fortified formula? </td><td><obs conceptId="162158" style="yes_no"/></td>
+                               <td>If formula feeding, iron-fortified formula? </td><td><obs field="Nutrition_feedingiron" conceptId="162158" style="yes_no"/></td>
                       </tr>
                       <tr>
-                               <td>Introduction of Solids? </td><td><obs conceptId="162157" style="yes_no"/> </td>
+                               <td>Introduction of Solids? </td><td><obs field="Nutrition_feedingsolids" conceptId="162157" style="yes_no"/> </td>
                       </tr>
                       <tr>
-                               <td>Iron-rich Solids? </td><td><obs conceptId="162156" style="yes_no"/> </td>
+                               <td>Iron-rich Solids? </td><td><obs field="Nutrition_feedingironsolids" conceptId="162156" style="yes_no"/> </td>
                       </tr>
+					  <tr><td><br/></td></tr>
                       <tr>
                                <td>Other Maternal Concerns:</td>
                       </tr>
                       <tr>
-                               <td><obs field="FP_comments" id="FP_comments" conceptId="161011" style="textarea" rows="3" cols="20" /></td>
+                               <td><obs field="Nutrition_comments" id="FP_comments" conceptId="161011" style="textarea" rows="3" cols="20" /></td>
                       </tr>
                 </table>
         </section>
 </span>		
 <!-- this section was originally taken from the paediatric followup form but is heavily modified-->
-<span id="S4 tb_ros">
+<span id="S4">
     <section headerLabel="Review of Systems">
     <table id="two-wide">
         <tr>
@@ -787,7 +809,7 @@ function isEmptyField(id)
 				
 				<tr id="checkboxCheckbox">
                     <td class="nested-td">
-                        <obs field="G_irr" conceptId="1069" answerConceptId="142371" answerLabel="Sleeping concerns" style="checkbox"/>
+                        <obs field="G_sleepconcerns" conceptId="1069" answerConceptId="142371" answerLabel="Sleeping concerns" style="checkbox"/>
                     </td>
 				</tr>
 				
@@ -808,26 +830,34 @@ function isEmptyField(id)
                                                 <td class="nested-td">
                             <obs field="HEENT_vd" conceptId="1070" answerConceptId="5953" answerLabel="Vision concerns" style="checkbox"/>
                         </td>
+					</tr>
+                    <tr id="checkboxCheckbox">
                         <td class="nested-td">
                             <obs field="HEENT_hd" conceptId="1070" answerConceptId="861" answerLabel="Hearing concerns" style="checkbox"/>
                         </td>
+					</tr>
+                    <tr id="checkboxCheckbox">
                         <td class="nested-td">
                             <obs field="HEENT_oto" conceptId="1070" answerConceptId="873" answerLabel="Otorrhea" style="checkbox"/>
                         </td>
-                                                </tr>
-                                                <tr id="checkboxCheckbox">
-                                            <td class="nested-td">
+                    </tr>
+                    <tr id="checkboxCheckbox">
+                        <td class="nested-td">
                             <obs field="HEENT_rhino" conceptId="1070" answerConceptId="115403" answerLabel="Rhinorrhea" style="checkbox"/>
                         </td>
+					</tr>
+                    <tr id="checkboxCheckbox">
                         <td class="nested-td">
                             <obs field="HEENT_sd" conceptId="1070" answerConceptId="5954" answerLabel="Swallowing difficulties" style="checkbox"/>
                         </td>
+					</tr>
+                    <tr id="checkboxCheckbox">
                         <td class="nested-td">
                             <obs field="HEENT_os" conceptId="1070" answerConceptId="5244" answerLabel="Oral Sores" style="checkbox"/>
                         </td> 
-                                                </tr>
-                                                <tr id="checkboxCheckbox">
-                                            <td class="nested-td">
+                    </tr>
+                    <tr id="checkboxCheckbox">
+                        <td class="nested-td">
                             <obs field="HEENT_oc" conceptId="1070" answerConceptId="5334" answerLabel="Oral Candidiasis" style="checkbox"/>
                         </td>
                     </tr>
@@ -847,35 +877,35 @@ function isEmptyField(id)
                         </td>
                     </tr>
                     <tr id="checkboxCheckbox">
-                        <obsgroup groupingConceptId="143264">
+                        <!--<obsgroup groupingConceptId="143264">-->
                         <td class="enableDisable">
                             <div id="trigger">
                                 <obs field="CP_cough" conceptId="1071" answerConceptId="143264" answerLabel="Cough" style="checkbox"/>
                             </div>
                             <div id="disabled" class="secondary">
                                 <span class="duration">
-                                    Duration: <obs field="CP_coughDuration" conceptId="1731"/><obs field="CP_coughDuration" conceptId="1732" answerConceptIds="1822,1072,1073,1074,1734" />
+                                    Duration: <obs field="CP_coughDuration" conceptId="1731"/><obs field="CP_coughDurationUnit" conceptId="1732" answerConceptIds="1822,1072,1073,1074,1734" />
                                 </span>
 
                                 <div class="enableDisable">
                                     <div id="trigger">
-                                        <obs field="CP_productiveCough" conceptId="1071" answerConceptId="5957" answerLabel="Productive Cough" style="checkbox"/>
+                                        <obs field="CP_productiveCough" conceptId="162174" answerConceptId="5957" answerLabel="Productive Cough" style="checkbox"/>
                                     </div>
                                     <div id="disabled" class="secondary">
-                                        <obs field="CP_productiveCoughIsWhite" conceptId="5958" labelText="Quality: " answerConceptId="1075" answerLabel="White"/>
-                                        <obs field="CP_productiveCoughIsPurulent" conceptId="5958" answerConceptId="1076" answerLabel="Purulent"/>
-                                        <obs field="CP_productiveCoughIsBlood" conceptId="5958" answerConceptId="1077" answerLabel="Blood"/>
+                                        <obs field="CP_productiveCoughIsWhite" conceptId="5958" labelText="Quality: " answerConceptId="1075" answerLabel="White" style="checkbox"/>
+										<obs field="CP_productiveCoughIsPurulent" conceptId="5958" answerConceptId="1076" answerLabel="Purulent" style="checkbox"/>
+                                        <obs field="CP_productiveCoughIsBlood" conceptId="5958" answerConceptId="1077" answerLabel="Blood" style="checkbox"/>
                                     </div>
                                 </div>
                             </div>
                         </td>
-                        </obsgroup>
+                        <!--</obsgroup>-->
 					</tr>
 					<tr id="checkboxCheckbox">
-							<td class="enableDisable"><obs  conceptId="1071" answerConceptId="121519" answerLabel="Apneic episodes" style="checkbox"/></td>
+							<td class="enableDisable"><obs field="CP_apneicepisodes" conceptId="1071" answerConceptId="121519" answerLabel="Apneic episodes" style="checkbox"/></td>
 					</tr>
 					<tr id="checkboxCheckbox">
-							<td class="enableDisable"><obs field="CP_rb" conceptId="1071" answerConceptId="143050" answerLabel="Cyanosis" style="checkbox"/></td>
+							<td class="enableDisable"><obs field="CP_cyanosis" conceptId="1071" answerConceptId="143050" answerLabel="Cyanosis" style="checkbox"/></td>
 					</tr>
 					<tr>
 						<td class="enableDisable">
@@ -890,14 +920,14 @@ function isEmptyField(id)
 						</td>
 					</tr>
 					<tr id="checkboxCheckbox">
-						<td class="enableDisable"><obs field="CP_rb" conceptId="1071" answerConceptId="136201" answerLabel="Increased work of breathing" style="checkbox"/></td>
+						<td class="enableDisable"><obs field="CP_iwb" conceptId="1071" answerConceptId="136201" answerLabel="Increased work of breathing" style="checkbox"/></td>
 					</tr>
 					<tr id="checkboxCheckbox">	
-						<td class="enableDisable"><obs field="CP_rb" conceptId="1071" answerConceptId="140941" answerLabel="Diaphoresis with feeds" style="checkbox"/></td>
+						<td class="enableDisable"><obs field="CP_diaphoresis" conceptId="1071" answerConceptId="140941" answerLabel="Diaphoresis with feeds" style="checkbox"/></td>
 					</tr>
                 </table>
                 Comments: 
-                <div class="secondary"><obs field="CP_secondaryWhatIsThisField" id="CP_secondaryWhatIsThisField" conceptId="161011" style="textarea" rows="5" cols="50"/></div>
+                <div class="secondary"><obs field="CP_comments" id="CP_secondaryWhatIsThisField" conceptId="161011" style="textarea" rows="5" cols="50"/></div>
             </td>
             <td class="checkboxGroup">
                 <h4>Gastrointestinal: </h4>
@@ -909,7 +939,7 @@ function isEmptyField(id)
                     </tr>
 					<tr id="checkboxAll">
                         <td class="nested-td">
-                            <obs field="GI_noComplaints" conceptId="1078" answerConceptId="147132" answerLabel="Bloating" style="checkbox"/>
+                            <obs field="GI_bloating" conceptId="1078" answerConceptId="147132" answerLabel="Bloating" style="checkbox"/>
                         </td>
                     </tr>
                     <tr id="checkboxCheckbox">
@@ -919,23 +949,23 @@ function isEmptyField(id)
                     </tr>
 
                     <tr id="checkboxCheckbox">
-                        <obsgroup groupingConceptId="122983">
+                        <!--<obsgroup groupingConceptId="122983">-->
                         <td class="enableDisable">
                             <div id="trigger">
                                 <obs field="GI_vomiting" conceptId="1078" answerConceptId="122983" answerLabel="Vomiting" style="checkbox"/>
                             </div>
                             <div id="disabled" class="secondary">
                                 <span class="duration">
-                                    Duration: <obs field="GI_vomitingDuration" conceptId="1731"/><obs field="GI_vomitingDurationUnits" conceptId="5981" /><br></br>
+                                    Duration: <obs field="GI_vomitingDuration" conceptId="1731"/><obs field="GI_vomitingDurationUnits" answerConceptIds="1072,1073,1074" conceptId="5981" /><br></br>
 									<obs field="GI_vomitinghem" conceptId="1078" answerConceptId="139006" answerLabel="Hematemesis" style="checkbox"/><br></br>
 									<obs field="GI_vomitingbil" conceptId="1078" answerConceptId="147326" answerLabel="Bilious Vomiting" style="checkbox"/>
                                 </span>
                             </div>
                         </td>
-                        </obsgroup>
+                        <!--</obsgroup>-->
                     </tr>
                     <tr>
-                        <obsgroup groupingConceptId="142412">
+                        <!--<obsgroup field="GI_diarr" groupingConceptId="142412">-->
                         <td class="enableDisable">
                             <div id="trigger">
                                 <obs id="GI_diarrhea" field="GI_diarrhea" conceptId="1078" answerConceptId="142412" answerLabel="Diarrhea" style="checkbox"/>
@@ -946,35 +976,37 @@ function isEmptyField(id)
                                 </span>
                             </div>
                         </td>
-                        </obsgroup>
-                        <obsgroup groupingConceptId="996">
+                        <!--</obsgroup>-->
+                    </tr>
+                    <tr>						
+                        <!--<obsgroup field="GI_Const" groupingConceptId="996">-->
                         <td class="enableDisable">
                             <div id="trigger">
                                 <obs field="GI_constipation" conceptId="1078" answerConceptId="996" answerLabel="Constipation" style="checkbox"/>
                             </div>
                             <div id="disabled" class="secondary">
                                 <span class="duration">
-                                    Duration: <obs field="GI_constipationDuration" conceptId="1731"/><obs field="GI_constipationDurationUnits" conceptId="1732" answerConceptIds="1072,1073,1074,1734" />
+                                    Duration: <obs field="GI_constipationDuration" conceptId="1731"/><obs field="GI_constipationDurationUnits" conceptId="1732" answerConceptIds="1072,1073,1074" />
                                 </span>
                             </div>
                         </td>
-                        </obsgroup>
+                        <!--</obsgroup>-->
                     </tr>
 					<tr id="checkboxCheckbox">
-                        <obsgroup groupingConceptId="122983">
+                        <!--<obsgroup field="GI_Blood" groupingConceptId="122983">-->
                         <td class="enableDisable">
                             <div id="trigger">
-                                <obs field="GI_vomiting" conceptId="1078" answerConceptId="162161" answerLabel="Blood in stool" style="checkbox"/>
+                                <obs field="GI_BloodInstool" conceptId="1078" answerConceptId="162161" answerLabel="Blood in stool" style="checkbox"/>
                             </div>
                             <div id="disabled" class="secondary">
                                 <span class="duration">
-                                    Duration: <obs field="GI_vomitingDuration" conceptId="1731"/><obs field="GI_vomitingDurationUnits" conceptId="5981" /><br></br>
-									<obs field="GI_vomitinghem" conceptId="1078" answerConceptId="134394" answerLabel="black" style="checkbox"/><br></br>
-									<obs field="GI_vomitingbil" conceptId="1078" answerConceptId="117671" answerLabel="Frank blood" style="checkbox"/>
+                                    Duration: <obs field="GI_BloodInstoolDuration" conceptId="1731"/><obs answerConceptIds="1072,1073,1074" field="GI_BloodInstoolDurationUnits" conceptId="5981" /><br></br>
+									<obs field="GI_BloodInstoolhem" conceptId="1078" answerConceptId="134394" answerLabel="Black" style="checkbox"/><br></br>
+									<obs field="GI_BloodInstoolbil" conceptId="1078" answerConceptId="117671" answerLabel="Frank blood" style="checkbox"/>
                                 </span>
                             </div>
                         </td>
-                        </obsgroup>
+                        <!--</obsgroup>-->
                     </tr>
                 </table>
                 <br/>
@@ -1004,7 +1036,7 @@ function isEmptyField(id)
                     </tr>
                     <tr id="checkboxCheckbox">
                         <includeIf velocityTest="$patient.gender == 'F' ">
-                        <obsgroup groupingConceptId="160620">
+                        <!--<obsgroup field="GU_F" groupingConceptId="160620">-->
                         <td class="nested-td">
                             <div class="enableDisable">
                                 <div id="trigger">
@@ -1015,10 +1047,10 @@ function isEmptyField(id)
                                 </div>
                             </div>
                         </td>
-                        </obsgroup>
+                        <!--</obsgroup>-->
                         </includeIf>
                         <includeIf velocityTest="$patient.gender == 'M' ">
-                        <obsgroup groupingConceptId="160653">
+                        <!--<obsgroup field="GU_M" groupingConceptId="160653">-->
                         <td class="nested-td">
                             <obs field="GU_circumcised" conceptId="1080" answerConceptId="145096" answerLabel="Circumcised" style="checkbox"/><br/>
 
@@ -1033,17 +1065,14 @@ function isEmptyField(id)
                                 </div>
                             </div>
                         </td>
-                        </obsgroup>
+                        <!--</obsgroup>-->
                         </includeIf>
                     </tr>
-
-
-<tr>
-<td class="nested-td"> 
-<obs field="GU_sores" answerLabel="Genital Sores" answerConceptId="864" conceptId="1080" style="checkbox"/>
-</td></tr>
-
-
+					<tr>
+						<td class="nested-td"> 
+						<obs field="GU_sores" answerLabel="Genital Sores" answerConceptId="864" conceptId="1080" style="checkbox"/>
+						</td>
+					</tr>
                 </table>
                 <br/>
                 Comments: 
@@ -1061,6 +1090,8 @@ function isEmptyField(id)
                         <td class="nested-td">
                             <obs field="MS_swelling" conceptId="1081" answerConceptId="5312" answerLabel="Swelling of joints" style="checkbox"/>
                         </td>
+					</tr>
+					<tr>
                         <td class="nested-td">
                             <obs field="MS_edema" conceptId="1081" answerConceptId="590" answerLabel="Edema of legs" style="checkbox"/>
                         </td>
@@ -1084,6 +1115,8 @@ function isEmptyField(id)
                         <td class="nested-td">
                             <obs field="CNS_se" conceptId="1082" answerConceptId="206" answerLabel="Seizures" style="checkbox"/>
                         </td>
+					</tr>
+					<tr>
                         <td class="nested-td">
                             <obs field="CNS_h" conceptId="1082" answerConceptId="116556" answerLabel="Stiffness" style="checkbox"/>
                         </td>
@@ -1103,7 +1136,6 @@ function isEmptyField(id)
                             <obs field="DEV_nc" conceptId="159891" answerConceptId="664" answerLabel="No complaints" style="checkbox"/>
                         </td>
                     </tr>
-					<!-- todo -->
 					<tr id="checkboxCheckbox">
 					    <td class="nested-td">
                             <obs field="DEV_ts" conceptId="1189" answerConceptId="162162" answerLabel="Turns head towards sounds?" style="checkbox"/>
@@ -1111,27 +1143,27 @@ function isEmptyField(id)
 					</tr>
 					<tr id="checkboxCheckbox">
 					    <td class="nested-td">
-						<obs field="DEV_ts" conceptId="1189" answerConceptId="162163" answerLabel="Makes sounds while you talk to him/her?" style="checkbox"/>
+						<obs field="DEV_makessound" conceptId="1189" answerConceptId="162163" answerLabel="Makes sounds while you talk to him/her?" style="checkbox"/>
 					    </td>
 					</tr>	
 					<tr id="checkboxCheckbox">
 					    <td class="nested-td">
-						<obs field="DEV_ts" conceptId="1189" answerConceptId="162164" answerLabel="Vocalizes pleasure or displeasure?" style="checkbox"/>
+						<obs field="DEV_vocalizespleasure" conceptId="1189" answerConceptId="162164" answerLabel="Vocalizes pleasure or displeasure?" style="checkbox"/>
 					    </td>
 					</tr>
 					<tr id="checkboxCheckbox">
 					    <td class="nested-td">
-						<obs field="DEV_ts" conceptId="1189" answerConceptId="162165" answerLabel="Rolls from back to side?" style="checkbox"/>
+						<obs field="DEV_rollsfromback" conceptId="1189" answerConceptId="162165" answerLabel="Rolls from back to side?" style="checkbox"/>
 					    </td>
 					</tr>		
 					<tr id="checkboxCheckbox">
 					    <td class="nested-td">
-						<obs field="DEV_ts" conceptId="1189" answerConceptId="162166" answerLabel="Sits with support?" style="checkbox"/>
+						<obs field="DEV_sits" conceptId="1189" answerConceptId="162166" answerLabel="Sits with support?" style="checkbox"/>
 					    </td>
 					</tr>				
 					<tr id="checkboxCheckbox">
 					    <td class="nested-td">
-						<obs field="DEV_ts" conceptId="1189" answerConceptId="162167" answerLabel="Reaches/grasps objects?" style="checkbox"/>
+						<obs field="DEV_reaches" conceptId="1189" answerConceptId="162167" answerLabel="Reaches/grasps objects?" style="checkbox"/>
 					    </td>
 					</tr>					
                     <tr id="checkboxCheckbox">
@@ -1188,7 +1220,7 @@ function isEmptyField(id)
 </table>
 </section>
 </span> 
-<!-- TODO -->
+
 <!-- this section is taken mostly from the newborn form but is heavily reformatted.
 some of the internal sections are also taken from other forms-->
 <span id="S8">
@@ -1203,17 +1235,17 @@ some of the internal sections are also taken from other forms-->
 		<tr>
 			<!-- Heart Rate -->
 			<td class="nested-td" >HR:</td>
-			<td class="nested-td"><obs conceptId="5087"/></td>
+			<td class="nested-td"><obs field="SH_heartrate" conceptId="5087"/></td>
 		</tr>
 		<tr>
 			<!-- Blood pressure -->
 			<td  class="nested-td">BP:</td>
-			<td  class="nested-td" colspan="2"><obs field="SH_bloodp" conceptId="5085"/> / <obs field="sh_bp2" conceptId="5086"/></td>
+			<td  class="nested-td" colspan="2"><obs field="SH_bloodpressure" conceptId="5085"/> / <obs field="sh_bp2" conceptId="5086"/></td>
 		</tr>
 		<tr>
 			<!-- Respiratory Rate -->
 			<td  class="nested-td">RR:</td>
-			<td  class="nested-td"><obs field="SH_spo2" conceptId="5242"> </obs></td>
+			<td  class="nested-td"><obs field="SH_respitoryrate" conceptId="5242"> </obs></td>
 		</tr>
 		<tr>
 			<!-- BLOOD OXYGEN SATURATION -->
@@ -1222,28 +1254,32 @@ some of the internal sections are also taken from other forms-->
 		</tr>
 		<tr>
 			<td  class="nested-td">Temperature:</td>
-			<td  class="nested-td"><obs field="temp" conceptId="5088"></obs>(C)</td>
+			<td  class="nested-td"><obs field="SH_temp" conceptId="5088"></obs>(C)</td>
 		</tr>
 		<tr>
 			<td  class="nested-td">Weight:</td>
-			<td  class="nested-td"><obs field="demographics_weight" conceptId="5089"/>kg</td>
+			<td  class="nested-td"><obs field="SH_demographics_weight" conceptId="5089"/>kg</td>
 		</tr>
 	  <tr>
 	    <td  class="nested-td">Weight:</td>
-	    <td  class="nested-td"><obs field="demographics_weight_percentile" conceptId="159428"/>(%ile)</td>
+	    <td  class="nested-td"><obs field="SH_demographics_weight_percentile" conceptId="159428"/>(%ile)</td>
 	  </tr>
 	  <tr>
 	    <td  class="nested-td">Length:</td>
-	    <td  class="nested-td"><obs field="demographics_height" conceptId="5090"/>cm</td>
+	    <td  class="nested-td"><obs field="SH_demographics_height" conceptId="5090"/>cm</td>
 	  </tr>
 	
 	  <tr>
 	    <td  class="nested-td">Length:</td>
-	    <td  class="nested-td"><obs field="demographics_height_percentile" conceptId="159429"/>(%ile)</td>
+	    <td  class="nested-td"><obs field="SH_demographics_height_percentile" conceptId="159429"/>(%ile)</td>
 	  </tr>
 	  <tr>
 	    <td  class="nested-td">Head Circumference</td>
 	    <td  class="nested-td"><obs field="SH_hcirc" conceptId="5314"/>cm</td>
+	  </tr>
+	  <tr>
+	    <td  class="nested-td">Head Circumference</td>
+	    <td  class="nested-td"><obs field="SH_hcirc_percentile" conceptId="162171"/>(%ile)</td>
 	  </tr>
 	</table>
 </td>
@@ -1256,7 +1292,7 @@ some of the internal sections are also taken from other forms-->
 	<br />
 	<span id="checkboxCheckbox" class="enableDisable">
 	<!-- abnormal -->
-	<span id="trigger"><obs id="abnormal" field="General_Assessment_abnormal" answerConceptId="1116" conceptId="162099" style="checkbox" answerLabel="Abnormal" showCommentField="true"> </obs></span>
+	<span id="trigger"><obs id="abnormal" class="abnormaltext" field="General_Assessment_abnormal" answerConceptId="1116" conceptId="162099" style="checkbox" answerLabel="Abnormal" showCommentField="true"> </obs></span>
 	<span id="disabled">
 	<br />
 	<obs conceptId="162098" style='checkbox' name='general_assessment_irritable' answerLabel="irritable" field='general_assessment_irritable'/>Irritable
@@ -1264,44 +1300,42 @@ some of the internal sections are also taken from other forms-->
 	<obs conceptId="162100" style='checkbox' name='general_assessment_lethargic' answerLabel="lethargic" field='general_assessment_lethargic'/>Lethargic
 	</span>
 	</span>
-</td>
-<td class="boarder-box checkboxGroup">
 	<h4>Dehydration/Sepsis Assesment:</h4>
-	<span id="checkboxAll"><obs id="normal" field="General_Assessment_normal" answerConceptId="1115" conceptId="162099" style="checkbox" answerLabel="Normal"></obs></span>
+	<span id="checkboxAll"><obs id="normal" field="Dehydration_normal" answerConceptId="1115" conceptId="162099" style="checkbox" answerLabel="Normal"></obs></span>
 	<br />
 	<span id="checkboxCheckbox" class="enableDisable">
-	<span id="trigger"><obs id="abnormal" field="General_Assessment_abnormal" answerConceptId="1116" conceptId="162099" style="checkbox" answerLabel="Abnormal" showCommentField="true"> </obs> </span>
+	<span id="trigger"><obs id="abnormal" class="abnormaltext" field="Dehydration_abnormal" answerConceptId="1116" conceptId="162099" style="checkbox" answerLabel="Abnormal" showCommentField="true"> </obs> </span>
 	<span id="disabled">
 	<br />
-	<obs conceptId="1497" />Signs of dehydration
+	<obs field="Dehydration_signs" conceptId="1497" />Signs of dehydration
 	<br />
-	<obs conceptId="162090" style='checkbox'/>Cold extremities
+	<obs field="Dehydration_cold" conceptId="162090" style='checkbox'/>Cold extremities
 	<br />
-	<obs conceptId="5254" style='checkbox'/>Pallor
+	<obs field="Dehydration_pallor" conceptId="5254" style='checkbox'/>Pallor
 	<br />
-	<obs conceptId="162050" style='checkbox' />Reduced peripheral pulses
+	<obs field="Dehydration_pulses" conceptId="162050" style='checkbox' />Reduced peripheral pulses
 	<br />
-	<obs conceptId="162051" style='checkbox' />Prolonged capillary refill
+	<obs field="Dehydration_refill" conceptId="162051" style='checkbox' />Prolonged capillary refill
+	<br />
 	</span>
 	</span>
+	Other Abnormalities/Details: <div class="secondary"><obs field="General_Assessment_comments" id="Mouth_comments" conceptId="161011" style="textarea" rows="5" cols="50"></obs></div>
 </td>
-</tr>
-<tr>
 <td class="boarder-box checkboxGroup">
 	<h4>Head and Neck:</h4>
-	<span id="checkboxAll"><obs id="normal" conceptId="162104" style='checkbox'/></span>
+	<span id="checkboxAll"><obs field="HeadAndNeck_normal" id="normal" conceptId="162104" style='checkbox'/></span>
 	<br />
 	<span id="checkboxCheckbox" class="enableDisable">
-	<span id="trigger"><obs id="abnormal" conceptId="162114" style='checkbox' showCommentField="true"/></span>
+	<span id="trigger"><obs field="HeadAndNeck_abnormal"  id="abnormal" class="abnormaltext" conceptId="162114" style='checkbox' showCommentField="true"/></span>
 	<span id="disabled">
 	<h4>Fontanelle</h4>
 	<span id="checkboxCheckbox" class="enableDisable">
-	<span id="trigger"><obs id="abnormal" conceptId="162115" style='checkbox' showCommentField="true"/></span>
+	<span id="trigger"><obs field="Fontanelle_abnormal" id="abnormal" class="abnormaltext" conceptId="162115" style='checkbox' showCommentField="true"/></span>
 	<span id="disabled">
 	<br />
-	<Img style = "width:10px;"/><obs conceptId="162052" style='checkbox'/>Sunken
+	<Img style = "width:10px;"/><obs field="Fontanelle_sunken" conceptId="162052" style='checkbox'/>Sunken
 	<br />
-	<Img style = "width:10px;"/><obs  conceptId="162091" style='checkbox'/>Bulging
+	<Img style = "width:10px;"/><obs field="Fontanelle_bulging" conceptId="162091" style='checkbox'/>Bulging
 	<br />
 	<!--Other:
 	<br/>
@@ -1312,28 +1346,30 @@ some of the internal sections are also taken from other forms-->
 	</span>	
 	<h4>Eyes</h4>
 	<span id="checkboxCheckbox" class="enableDisable">
-	<span id="trigger"><obs id="abnormal" conceptId="162114" answerLabel="Abnormal" style='checkbox' showCommentField="true"/></span>
+	<span id="trigger"><obs field="eyes_abnormal" id="abnormal" class="abnormaltext" conceptId="162114" answerLabel="Abnormal" style='checkbox' showCommentField="true"/></span>
 	<span id="disabled">
 	<br />
-	<Img style = "width:10px;"/><obs  conceptId="162168" answerConceptId="135851" style='checkbox' answerLabel=""/>Red reflex (right eye)
+	<Img style = "width:10px;"/><obs field="eyes_red_right" conceptId="162168" answerConceptId="135851" style='checkbox' answerLabel=""/>Abnormal red reflex (right eye)
 	<br />
-	<Img style = "width:10px;"/><obs  conceptId="162169" answerConceptId="135851" style='checkbox' answerLabel=""/>Red reflex (left eye)
+	<Img style = "width:10px;"/><obs field="eyes_red_left" conceptId="162169" answerConceptId="135851" style='checkbox' answerLabel=""/>Abnormal red reflex (left eye)
 	<br />
-	<Img style = "width:10px;"/><obs  conceptId="162066" answerConceptId="135851" style='checkbox' answerLabel=""/>Strabismus 
+	<Img style = "width:10px;"/><obs field="eyes_Strabismus" conceptId="162066" answerConceptId="135851" style='checkbox' answerLabel=""/>Strabismus 
 	<br />
-	<Img style = "width:10px;"/><obs  conceptId="162105" answerConceptId="135851" style='checkbox' answerLabel=""/>Leukocoria
+	<Img style = "width:10px;"/><obs  field="eyes_Leukocoria_right" conceptId="162105" answerConceptId="135851" style='checkbox' answerLabel=""/>Leukocoria (right eye)
+	<br />
+	<Img style = "width:10px;"/><obs  field="eyes_Leukocoria_left" conceptId="162105" answerConceptId="135851" style='checkbox' answerLabel=""/>Leukocoria (left eye)
 	</span>
 	</span>
     <h4>Mouth</h4>
 	<span id="checkboxCheckbox" class="enableDisable">
-	<span id="trigger"><obs id="abnormal" conceptId="162114" answerLabel="Abnormal" style='checkbox' showCommentField="true"/></span>
+	<span id="trigger"><obs field="mouth_abnormal" id="abnormal" class="abnormaltext" conceptId="162114" answerLabel="Abnormal" style='checkbox' showCommentField="true"/></span>
 	<span id="disabled">
 	<br />
-	<Img style = "width:10px;"/><obs  conceptId="162106" answerConceptId='145063' style='checkbox' answerLabel="Cleft palate"/>
+	<Img style = "width:10px;"/><obs field="mouth_palate" conceptId="162106" answerConceptId='145063' style='checkbox' answerLabel="Cleft palate"/>
 	<br />
-	<Img style = "width:10px;"/><obs  conceptId="162106" answerConceptId='120544' style='checkbox' answerLabel="Cleft palate with Cleft Lip"/>
+	<Img style = "width:10px;"/><obs field="mouth_palatelip" conceptId="162106" answerConceptId='120544' style='checkbox' answerLabel="Cleft palate with Cleft Lip"/>
 	<br />
-	<Img style = "width:10px;"/><obs  conceptId="162106" answerConceptId='145066' style='checkbox' answerLabel="Cleft Lip"/>
+	<Img style = "width:10px;"/><obs field="mouth_lip" conceptId="162106" answerConceptId='145066' style='checkbox' answerLabel="Cleft Lip"/>
 	<br />
 	</span>
 	</span>
@@ -1341,13 +1377,15 @@ some of the internal sections are also taken from other forms-->
 	</span>
 	Other Abnormalities/Details: <div class="secondary"><obs field="Mouth_comments" id="Mouth_comments" conceptId="161011" style="textarea" rows="5" cols="50"></obs></div>
 </td>
+</tr>
+<tr>
 <td class="boarder-box checkboxGroup">
 	<!-- Taken from the Pediatric Followup form -->
     <h4>Cardiovascular</h4>
     <span id="checkboxAll"><obs  field="HEART_normal" answerConceptId="1115" conceptId="1124" style="checkbox" answerLabel="Normal" > </obs></span>
     <br />
 	<span id="checkboxCheckbox" class="enableDisable">
-    <span id="trigger"><obs field="HEART_abnormal" answerConceptId="1116" conceptId="1124" style="checkbox" answerLabel="Abnormal" showCommentField="true"> </obs></span>
+    <span id="trigger"><span class="obs-field"><obs id="abnormalspace" class="abnormaltext" field="HEART_abnormal" answerConceptId="1116" conceptId="1124" style="checkbox" answerLabel="Abnormal" showCommentField="true"> </obs></span></span>
     <span id="disabled">
     <br />
     <span id="checkboxCheckbox" class="enableDisable">
@@ -1388,25 +1426,23 @@ some of the internal sections are also taken from other forms-->
     </span>
     </span>
     </span>
-    Comments: 
+    Other Abnormalities/Details: 
 	<div class="secondary">
 		<obs field="HEART_comments" id="HEART_comments" conceptId="161011" style="textarea" rows="5" cols="50"></obs>
 	</div>
 </td>
-</tr>
-<tr>
 <td class="boarder-box checkboxGroup">
 	<b>Respiratory</b>
 	<br />
-    <span id="checkboxAll"><obs conceptId="162108" answerConceptId="1115" answerLabel="Normal" style='checkbox'/></span>
+    <span id="checkboxAll"><obs field="Respiratory_normal" conceptId="162108" answerConceptId="1115" answerLabel="Normal" style='checkbox'/></span>
 	<br />
 	<span id="checkboxCheckbox" class="enableDisable">
-	<span id="trigger"><obs conceptId="162108" answerConceptId="1116" answerLabel="Abnormal" style='checkbox' showCommentField="true"/></span>
+	<span id="trigger"><span class="obs-field"><obs field="Respiratory_abnormal" id="abnormalspace" class="abnormaltext" conceptId="162108" answerConceptId="1116" answerLabel="Abnormal" style='checkbox' showCommentField="true"/></span></span>
 	<span id="disabled">
 	<br />
-    <obs conceptId="162108" answerConceptId="156534" answerLabel="Grunting" style='checkbox'/>
+    <obs field="Respiratory_Grunting" conceptId="162108" answerConceptId="156534" answerLabel="Grunting" style='checkbox'/>
 	<br />
-    <obs conceptId="162108" answerConceptId="162092" answerLabel="Indrawing" style='checkbox'/>
+    <obs field="Respiratory_Indrawing" conceptId="162108" answerConceptId="162092" answerLabel="Indrawing" style='checkbox'/>
 	<br />
 	<h4>Percussion:</h4>
     <obs field="CHEST_dull" answerConceptId="5138" conceptId="1123" style="checkbox" answerLabel="Dullness"> </obs>
@@ -1426,138 +1462,151 @@ some of the internal sections are also taken from other forms-->
 	<obs field="CHEST_crepitations" answerConceptId="5127" conceptId="1123" style="checkbox" answerLabel="Crepitations"> </obs>
 	<br/>
 	Lung Finding:
-<obs field="CHEST_LUNGfinding" conceptId="159370" answerConceptIds="5120,5132,639,5119,5134,5141,5139,160406" answerLabels="Right middle lobe,left upper lobe,Right lower lobe,Right upper lobe,Left lower lobe,Right,Left,Bilateral" style="dropdown"/>                        <br />
+	<obs field="CHEST_LUNGfinding" conceptId="159370" answerConceptIds="5120,5132,639,5119,5134,5141,5139,160406" answerLabels="Right middle lobe,left upper lobe,Right lower lobe,Right upper lobe,Left lower lobe,Right,Left,Bilateral" style="dropdown"/><br />
 	</span>
 	</span>
-	Comments: <div class="secondary"><obs field="CHEST_comments" id="CHEST_comments" conceptId="161011" style="textarea" rows="5" cols="50"></obs></div>
+	Other Abnormalities/Details: <div class="secondary"><obs field="CHEST_comments" id="CHEST_comments" conceptId="161011" style="textarea" rows="5" cols="50"></obs></div>
 </td>
+</tr>
+<tr>
 <td class="boarder-box checkboxGroup">
 	<h4>Abdomen</h4>
 	<span id="checkboxAll"><obs field="ABDOMEN_normal" answerConceptId="1115" conceptId="1125" style="checkbox" answerLabel="Normal"> </obs></span>
 	<br />
 	<span id="checkboxCheckbox" class="enableDisable">
-    <span id="trigger"><obs field="ABDOMEN_abnormal" answerConceptId="1116" conceptId="1125" style="checkbox" answerLabel="Abnormal" showCommentField="true"> </obs></span>
+    <span id="trigger"><span class="obs-field"><obs id="abnormalspace" class="abnormaltext" field="ABDOMEN_abnormal" answerConceptId="1116" conceptId="1125" style="checkbox" answerLabel="Abnormal" showCommentField="true"> </obs></span></span>
     <span id="disabled">
     <br />
-    Tender to palpation: <obs field="ABDOENTENDER" conceptId="1125" style="dropdown" answerConceptIds="160380,5104,5107,160381,5099,575,140070,124998" answerLabels="Left upper quadrant,Left lower quadrant,Right upper quadrant,Right lower quadrant,Epigastric,Suprapubic,Flank pain,Periumbilical"/><br/>
+    Tender to palpation: <obs field="ABDOENTENDER" conceptId="1125" style="dropdown" answerConceptIds="160380,5104,5107,160381,5099,575,140070,124998" answerLabels="Left upper quadrant,Left lower quadrant,Right upper quadrant,Right lower quadrant,Epigastric,Suprapubic,Flank pain,Periumbilical"/>
+	<br/>
     <obs field="ABDOMEN_ascites" answerConceptId="148346" conceptId="1125" style="checkbox" answerLabel="Ascites"> </obs>
-    <obs field="ABDOMEN_mass" answerConceptId="5103" conceptId="1125" style="checkbox" answerLabel="Mass"> </obs>
-    <span id="checkboxCheckbox" class="enableDisable">
+    <br />
+	<obs field="ABDOMEN_mass" answerConceptId="5103" conceptId="1125" style="checkbox" answerLabel="Mass"> </obs>
+    <br />
+	<span id="checkboxCheckbox" class="enableDisable">
     <span id="trigger"><obs field="ABDOMEN_hepatome" answerConceptId="5008" conceptId="1125" style="checkbox" answerLabel="Hepatomegaly"> </obs></span>
     <span id="disabled">
-    <obs field="ABDOMEN_cmbelow" conceptId="159447"> </obs>(cm below costal margin)
+    <obs field="ABDOMEN_cmbelow" conceptId="162173"> </obs>(cm below costal margin)
     <br />
     </span>
     </span>
     <span id="checkboxCheckbox" class="enableDisable">
     <span id="trigger"><obs field="ABDOMEN_splenomegaly" answerConceptId="5009" conceptId="1125" style="checkbox" answerLabel="Splenomegaly"> </obs></span>
     <span id="disabled">
-    <obs field="ABDOMEN_cmbelowsplen" conceptId="159448"> </obs>(cm below costal margin)
+    <obs field="ABDOMEN_cmbelowsplen" conceptId="162172"> </obs>(cm below costal margin)
     <br />
     </span>
     </span>
     </span>
 	</span>
-	Umbilical Stump Examination
-	<br />
-	<span id="checkboxAll"><obs id="normal" conceptId="162054" style='checkbox'/></span>
+	<h4>Umbilical Stump Examination</h4>
+	<span id="checkboxAll"><obs field="Umbilical_normal" id="normal" conceptId="162054" style='checkbox'/></span>
 	<br />
 	<span id="checkboxCheckbox" class="enableDisable">
-    <span id="trigger"><obs id="abnormal" conceptId="162116" style='checkbox' showCommentField="true"/></span>
+    <span id="trigger"><obs field="Umbilical_abnormal" id="abnormal" class="abnormaltext" conceptId="162116" style='checkbox' showCommentField="true"/></span>
 	<span id="disabled">
 	<br />
-	<obs conceptId="162109" style='checkbox' name="imperforate_anus" field="imperforate_anus"/>Imperforate Anus
+	<obs field="Imperforate_Anus" conceptId="162109" style='checkbox' name="imperforate_anus" />Imperforate Anus
 	<br />
 	</span>
 	</span>
-	Comments:
+	Other Abnormalities/Details:
 	<div class="secondary">
 		<obs field="abdomen_comments" id="abdomen_comments" conceptId="161011" style="textarea" rows="5" cols="50"/>
 	</div>
-</td>
-</tr>
-<tr>	
+</td>	
 <td class="boarder-box checkboxGroup">	
 	<h4>Genitourinary</h4>
-	<span id="checkboxAll"><obs id="normal" conceptId="162110" style='checkbox'/></span>
+	<span id="checkboxAll"><obs field="Genitourinary_normal" id="normal" conceptId="162110" style='checkbox'/></span>
 	<br />
 	<span id="checkboxCheckbox" class="enableDisable">
-    <span id="trigger"><obs id="abnormal" conceptId="162117" style='checkbox' showCommentField="true"/></span>
+    <span id="trigger"><obs field="Genitourinary_abnormal" id="abnormal" class="abnormaltext" conceptId="162117" style='checkbox' showCommentField="true"/></span>
 	<span id="disabled">
 	</span>
 	</span>
+	<br />
+	Other Abnormalities/Details:
+	<div class="secondary">
+		<obs field="Genitourinary_comments" id="Genitourinary_comments" conceptId="161011" style="textarea" rows="5" cols="50"/>
+	</div>
 </td>
+</tr>
+<tr>
 <td class="boarder-box checkboxGroup">		
 	<!-- From the Newborn form -->
 	<b>Musculoskeletal:</b>
 	<br />
-    <span id="checkboxAll"><obs conceptId="162111" answerConceptId="1115" answerLabel="Normal" style='checkbox' /></span>
+    <span id="checkboxAll"><span class="obs-field"><obs field="Musculoskeletal_normal" conceptId="162111" answerConceptId="1115" answerLabel="Normal" style='checkbox' /></span></span>
 	<br />
 	<span id="checkboxCheckbox" class="enableDisable">
-	<span id="trigger"><obs field="ABDOMEN_abnormal" answerConceptId="1116" conceptId="1125" style="checkbox" answerLabel="Abnormal" showCommentField="true"> </obs></span>
+	<span id="trigger"><span class="obs-field"><obs field="Musculoskeletal_abnormal" id="abnormalspace" class="abnormaltext" answerConceptId="1116" conceptId="1125" style="checkbox" answerLabel="Abnormal" showCommentField="true"> </obs></span></span>
     <span id="disabled">
 	<br />
-	<obs conceptId="162111" answerConceptId="120050" answerLabel="Spine Abnormal" style='checkbox' />
+	<obs field="Musculoskeletal_spine" conceptId="162111" answerConceptId="120050" answerLabel="Spine Abnormal" style='checkbox' />
     <br />
-	<obs conceptId="162111" answerConceptId="119955" answerLabel="Congenital hip dislocation" style='checkbox' />
+	<obs field="Musculoskeletal_hip" conceptId="162111" answerConceptId="119955" answerLabel="Congenital hip dislocation" style='checkbox' />
     <br />
-	Other Abnormalities/Details:
+	</span>
+	</span>
+		Other Abnormalities/Details:
 	<br />
-    <obs field="musculoskeletal_comments" id="musculoskeletal_comments" conceptId="161011" style="textarea" rows="5" cols="50"/>
-	</span>
-	</span>
-</td>
-</tr>
-<tr>	
-<td class="boarder-box">	
+	<div class="secondary">
+		<obs field="musculoskeletal_comments" id="musculoskeletal_comments" conceptId="161011" style="textarea" rows="5" cols="50"/>
+	</div>
+</td>	
+<td class="boarder-box checkboxGroup">	
     <h4>Neurological</h4>
-    <span id="checkboxAll"><obs conceptId="162112" answerConceptId="1115" answerLabel="Normal" style='checkbox'/></span>
+    <span id="checkboxAll"><span class="obs-field"><obs field="Neurological_normal" conceptId="162112" answerConceptId="1115" answerLabel="Normal" style='checkbox'/></span></span>
 	<br />
 	<span id="checkboxCheckbox" class="enableDisable">
-	<span id="trigger"><obs conceptId="162112" answerConceptId="5264" answerLabel="Abnormal" style='checkbox' showCommentField="true"/></span>
+	<span id="trigger"><span class="obs-field"><obs field="Neurological_abnormal" id="abnormalspace" class="abnormaltext" conceptId="162112" answerConceptId="5264" answerLabel="Abnormal" style='checkbox' showCommentField="true"/></span></span>
     <span id="disabled">
 	<h4>Reflexes</h4>
-	<obs conceptId="162112" answerConceptId="162055" answerLabel="Primitive Reflexes Present" style='checkbox'/>
+	<obs field="Neurological_primitive" conceptId="162112" answerConceptId="162055" answerLabel="Primitive Reflexes Present" style='checkbox'/>
 	<br />
-	<obs conceptId="162112" answerConceptId="1448" answerLabel="Deep tendon reflexes" style="checkbox" />
+	<obs field="Neurological_deeptendon" conceptId="162112" answerConceptId="1448" answerLabel="Deep tendon reflexes" style="checkbox" />
 	<br />
 	<h4>Tone</h4>
-	<span id="checkboxCheckbox" class="enableDisable">
-	<span id="trigger"><obs conceptId="162112" answerConceptId="5264" answerLabel="Abnormal" style='checkbox' showCommentField="true"/></span>
-    <span id="disabled">
+	<obs field="Tone_abnormal" conceptId="5264" answerLabel="Abnormal Tone" style='checkbox'/>
 	<br />
-    <obs conceptId="162112" answerConceptId="140075" answerLabel="Floppy" style='checkbox'/>
+    <obs field="Tone_floppy" conceptId="162112" answerConceptId="140075" answerLabel="Floppy" style='checkbox'/>
 	<br />
-    <obs conceptId="162112" answerConceptId="133629" answerLabel="Stiff" style='checkbox'/>
+    <obs field="Tone_stiff" conceptId="162112" answerConceptId="133629" answerLabel="Stiff" style='checkbox'/>
 	<br />
-    <obs conceptId="162112" answerConceptId="162055" answerLabel="Persistent Primitive Reflexes" style='checkbox'/>
+    <obs field="Tone_persistent" conceptId="162112" answerConceptId="162055" answerLabel="Persistent Primitive Reflexes" style='checkbox'/>
     <br />
-    <obs conceptId="162112" answerConceptId="1448" answerLabel="Deep Tendon Reflexes" style='checkbox'/>	
+    <obs field="Tone_deeptendon" conceptId="162112" answerConceptId="1448" answerLabel="Deep Tendon Reflexes" style='checkbox'/>	
 	<br />
 	</span>
 	</span>
-	</span>
-	</span>
-	Comments: 
+	Other Abnormalities/Details: 
     <div class="secondary">
         <obs field="neurological_comments" id="neurological_comments" conceptId="161011" style="textarea" rows="5" cols="50"></obs>
     </div>
-</td>	
-<td class="boarder-box">
+</td>
+</tr>
+<tr>	
+<td class="boarder-box checkboxGroup">
 	<h4>Dermatologic</h4>
 	<span id="checkboxAll"><obs field="dermatologic_normal" answerConceptId="1115" conceptId="162113" style="checkbox" answerLabel="Normal"> </obs></span>
 	<br />
 	<span id="checkboxCheckbox" class="enableDisable">
-	<span id="trigger"><obs field="dermatologic_abnormal" answerConceptId="1116" conceptId="162113" style="checkbox" answerLabel="Abnormal" showCommentField="true"> </obs></span>
+	<span id="trigger"><span class="obs-field"><obs id="abnormalspace" class="abnormaltext" field="dermatologic_abnormal" answerConceptId="1116" conceptId="162113" style="checkbox" answerLabel="Abnormal" showCommentField="true"> </obs></span></span>
 	<span id="disabled">
 	<br />
 	<obs field="dermatologic_jaundice" answerConceptId="136443" conceptId="1125" style="checkbox" answerLabel="Jaundice"> </obs>
 	<br />
-	<obs field="dermatologic_rashes" answerConceptId="162093" conceptId="1125" style="checkbox" answerLabel="Rashes"> </obs>
+	<span id="checkboxCheckbox" class="enableDisable">
+	<span id="trigger"><obs field="dermatologic_rashes" answerConceptId="162093" conceptId="1125" style="checkbox" answerLabel="Rashes"> </obs></span>
+	<span id="disabled">
 	<br />
+	rash comments:<obs field="dermatologic_rashescomment" conceptId="162170" />
 	</span>
 	</span>
-	Comments: 
+	</span>
+	</span>
+	<br />
+	Other Abnormalities/Details: 
 	<div class="secondary">
 		<obs field="dermatology_comments" id="dermatology_comments" conceptId="161011" style="textarea" rows="5" cols="50"></obs>
 	</div>
@@ -1571,31 +1620,29 @@ some of the internal sections are also taken from other forms-->
 <section headerLabel="Counselling">
 <table>
   <tr>
-    <td>Danger Signs:</td>
-    <td><obs conceptId="161071" /></td>
+    <td style="white-space:pre;" >Counselling on Danger Signs Given: </td>
+    <td valign="top" ><obs field="Counselling_danger" conceptId="161071" /></td>
   </tr>
   <tr>
-    <td colspan="2">
-    	(not feeding well, reduced activity, difficulty in breathing, cord stump redness or discharge, fever, cold to touch, convulsions)
-    	<br/>
-    	<br/>
-    </td>
+	<td colspan="2">(E.g. not feeding well, reduced activity, difficulty in breathing, cord stump redness or discharge, fever, cold to touch, convulsions)</td>
   </tr>
+  <tr><td><br/></td></tr>
   <tr>
     <td>Counseling on Infant Feeding:</td>
-    <td><obs conceptId="162057" style='checkbox'/></td>
+	<!--replaced 162057 with 162175-->
+    <td><obs field="Counselling_feeding" conceptId="162175" answerConceptIds="1066,1067,1065" /></td>
   </tr>
   <tr>
     <td>Feeding Plan</td>
-    <td><obs conceptId="985" showCommentField="true"/></td>
+    <td><obs field="Counselling_feedingplan" conceptId="985" showCommentField="true" /></td>
   </tr>
   <tr>
     <td>If feeding method changed please indicate reason:</td>
-    <td><obs conceptId="986" showCommentField="true"></obs></td>
+    <td><obs field="Counselling_feedingmethod" conceptId="986" showCommentField="true" /></td>
   </tr>
   <tr>
     <td>If mother HIV+ , was infant feeding with HIV counseling done?</td>
-    <td><obs conceptId="162058" /></td>
+    <td><obs field="Counselling_feedinghiv" conceptId="162058" /></td>
   </tr>
 </table>
 
@@ -1605,7 +1652,6 @@ some of the internal sections are also taken from other forms-->
 
 
 <span id="Referrals">
-
 <section headerLabel="Referrals">
 
 <table>
@@ -1620,8 +1666,8 @@ some of the internal sections are also taken from other forms-->
                     <tr id="{n}-toggleContainer" style="display:none;">
                     
                             <td class="nested-td">
-                            <span class="required">*</span>Referral:<obs id="{n}-list" field="REFER_{n}" conceptId="1272" style="dropdown"/>
-                                                        Location: <obs id="{n}-list" field="REFER_loc{n}" conceptId = "1272" answerClasses="KMRI_Locations" style="dropdown" showCommentField="true" />
+                            Referral:<obs id="{n}-list" field="REFER_{n}" conceptId="1272" style="dropdown"/>
+                            Location: <obs id="{n}-list" field="REFER_loc{n}" conceptId = "1272" answerClasses="KMRI_Locations" style="dropdown" showCommentField="true" />
                             </td>
                             <td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
                         </tr>
@@ -1657,7 +1703,7 @@ some of the internal sections are also taken from other forms-->
                 <table>
                     <tr id="{n}-toggleContainer" style="display:none;">
                             <td class="nested-td">
-                            <span class="required">*</span><obs id="{n}-list" field="REPDIAG_{n}" conceptId="1284" answerClasses="RequiredDiagnosis" showCommentField="true" style="dropdown"/>
+                            <obs id="{n}-list" field="REPDIAG_{n}" conceptId="1284" answerClasses="RequiredDiagnosis" showCommentField="true" style="dropdown"/>
                             </td>
                             <td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
                         </tr>
@@ -1718,7 +1764,7 @@ some of the internal sections are also taken from other forms-->
                 <table>
                     <tr id="{n}-toggleContainer" style="display:none;">
                             <td class="nested-td">
-                            <span class="required">*</span><obs id="{n}-list" field="DIAG_{n}" conceptId="1284" answerClasses="Diagnosis" showCommentField="true" style="autocomplete"/>
+                            <obs id="{n}-list" field="DIAG_{n}" conceptId="1284" answerClasses="Diagnosis" showCommentField="true" style="autocomplete"/>
                             </td>
                             <td class="nested-td"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td>
                         </tr>
@@ -1833,11 +1879,11 @@ $j(document).ready(function() {
     var trgBtn = $j("#vac_button_trigger");
     var trgedBtn = $j("#vac_button_triggered");
 
-
-    disableRadio(trgedBtn);
+	<!-- note this code explicitly sets the Vaccinations section to be unset when the form is editing mode -->
+	disableRadio(trgedBtn);
     $j("#vac_evervac").fadeTo(250,0.33);
-    radioSetter(trgedBtn, 0);
-    radioSetter(trgBtn, 0);
+	radioSetter(trgedBtn, 0);
+    //radioSetter(trgBtn, 0);
 
     bindAllonClick(trgBtn, function(i, e){
         if (radioGetter(trgBtn) == 1065)  {
