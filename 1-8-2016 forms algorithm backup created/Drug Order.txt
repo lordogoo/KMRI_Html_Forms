@@ -1,0 +1,164 @@
+<html>
+ <head></head>
+ <body>
+  <htmlform> 
+   <macros>
+     paperFormId = (Fill this in) headerColor =#009d8e fontOnHeaderColor = white 
+   </macros> 
+   <style>
+		.section {
+			border: 1px solid $headerColor;
+			padding: 2px;
+			text-align: left;
+			margin-bottom: 1em;
+		}
+		.sectionHeader {
+			background-color: $headerColor;
+			color: $fontOnHeaderColor;
+			display: block;
+			padding: 2px;
+			font-weight: bold;
+		}
+
+		.labelCol {
+			vertical-align: top;
+			font-weight: bold;
+		}
+
+		.secondary {
+			padding-left: 10px;
+		}
+		.baseline-aligned td.label {
+			text-align: right;
+		}
+		.right {
+			float: right;
+		}
+		.karnofsky tr{
+			width: 100%;
+		}
+		.karnofsky td{
+			width: 50%;
+		}
+		.inner-table {
+			width: 100%
+		}
+		.checkboxGroup {
+			width: 100%;
+		}
+		#two-wide {
+			width: 100%;
+		}
+		#two-wide tr {
+			width: 100%;
+		}
+		#two-wide td {
+			padding-left: 5px;
+			padding-bottom: 5px;
+			width: 50%;
+			vertical-align: top;
+			border: 1px solid $headerColor;
+		}
+		#two-wide td.enableDisable {
+			border: none;
+			width: auto;
+			padding-right: 2px;
+		}
+		#two-wide td.nested-td {
+			border: none;
+			width: auto;
+			padding-right: 2px;
+		}
+		#two-wide td.nested-label {
+			border: none;
+			width: auto;
+			padding-right: 2px;
+			text-align: right;
+		}
+		#three-wide {
+			width: 100%
+		}
+		#three-wide tr {
+			width: 100%;
+		}
+		#three-wide td {
+			padding-left: 5px;
+			width: 33%;
+			vertical-align: top;
+			border: 1px solid $headerColor;
+		}
+
+	</style> 
+   <div style="float:right">
+    Paper Form ID: $paperFormId
+   </div> 
+   <span id="S1"> 
+    <section headerlabel="Encounter Details"> 
+     <script type="text/javascript">
+	        	$j(document).ready(function(){
+					<ifMode mode="ENTER">
+						$j("#date_div_showed").append($j("#date_div_hidden").find("input").clone().val());
+						$j("#location_div_showed").append($j("#location_div_hidden").find("select option:selected").clone().text());
+						$j("#provider_div_showed").append($j("#provider_div_hidden").find("select option:selected").clone().text());
+					</ifMode>
+					<ifMode mode="EDIT">
+						$j("#date_div_showed").append($j("#date_div_hidden").find("input").clone().val());
+						$j("#location_div_showed").append($j("#location_div_hidden").find("select option:selected").clone().text());
+						$j("#provider_div_showed").append($j("#provider_div_hidden").find("select option:selected").clone().text());
+					</ifMode>
+					<ifMode mode="VIEW">
+						$j("#date_div_showed").append($j("#date_div_hidden").find("span").clone().text());
+						$j("#location_div_showed").append($j("#location_div_hidden").find("span").clone().text());
+						$j("#provider_div_showed").append($j("#provider_div_hidden").find("span").clone().text());
+					</ifMode>
+					$j("#location_div_hidden").hide();
+					$j("#provider_div_hidden").hide();
+					$j("#date_div_hidden").hide();
+					//$j("#table_encounterDetails").find("input").attr("disabled",true);
+					//$j("#table_encounterDetails").find("select").attr("disabled",true);
+				});
+	        </script> 
+     <table class="baseline-aligned" id="table_encounterDetails"> 
+      <tbody>
+       <tr> 
+        <td class="label">Date:</td> 
+        <td> 
+         <div id="date_div_hidden"> 
+          <encounterdate default="now" showtime="true" /> 
+         </div> 
+         <div id="date_div_showed"> 
+         </div> </td> 
+       </tr> 
+       <tr> 
+        <td class="label">Location:</td> 
+        <td> 
+         <div id="location_div_hidden"> 
+          <encounterlocation default="UserProperty:defaultLocation" order="UserProperty:defaultLocation" /> 
+         </div> 
+         <div id="location_div_showed"> 
+         </div> </td> 
+       </tr> 
+       <tr> 
+        <td class="label">Provider:</td> 
+        <td> 
+         <div id="provider_div_hidden"> 
+          <encounterprovider default="currentUser" order="currentUser" /> 
+         </div> 
+         <div id="provider_div_showed"> 
+         </div> </td> 
+       </tr> 
+      </tbody>
+     </table> 
+    </section> </span> 
+   <table> 
+    <tbody>
+     <tr> 
+      <td style="padding-left:5px; padding-top:10px;"> 
+       <drugorder drugnames="abacavir (ABC) - oral liquid, abacavir (ABC) - tablet, atazanavir - oral solid, efavirenz (EFV or EFZ) - capsule, efavirenz (EFV or EFZ) - oral liquid, efavirenz (EFV or EFZ) - tablet, efavirenz + emtricitabine + tenofovir - tablet, emtricitabine (FTC) - capsule, emtricitabine (FTC) - oral liquid, emtricitabine + tenofovir - tablet, lamivudine (3TC) - oral liquid, lamivudine (3TC) - tablet, lamivudine + neviparine + stavudine - tablet, lopinavir + ritonavir (LPV/r) - capsule, lopinavir + ritonavir (LPV/r) - oral liquid, lopinavir + ritonavir (LPV/r) - tablet, nevirapine (NVP) - oral liquid, nevirapine (NVP) - tablet, ritonavir - oral liquid, ritonavir - oral solid, ritonavir - tablet, stavudine (d4T) - capsule, stavudine (d4T) - powder for solution, tenofovir disoproxil fumarate (TDF) - tablet, zidovudine (ZDV or AZT) - capsule, zidovudine (ZDV or AZT) - oral liquid, zidovudine (ZDV or AZT) - solution for injection, zidovudine (ZDV or AZT) - tablet, zidovudine + lamivudine - tablet, zidovudine + lamivudine + nevirapine - tablet" showorderduration="true" instructionslabel="Drug Order Instructions" /> <br> </td> 
+     </tr> 
+    </tbody>
+   </table> 
+   <submit /> 
+  </htmlform>
+ </body>
+</html>

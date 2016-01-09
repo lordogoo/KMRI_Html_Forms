@@ -1,0 +1,135 @@
+<!-- Labour and Delivery Form 1 Partograph and Vitals -->
+<htmlform>
+
+	<macros>
+		paperFormId = (Fill this in)
+		headerColor =#009d8e
+		fontOnHeaderColor = white
+	</macros>
+
+	<style>
+		.section {
+			border: 1px solid $headerColor;
+			padding: 2px;
+			text-align: left;
+			margin-bottom: 1em;
+		}
+		.sectionHeader {
+			background-color: $headerColor;
+			color: $fontOnHeaderColor;
+			display: block;
+			padding: 2px;
+			font-weight: bold;
+		}
+		table.baseline-aligned td {
+			vertical-align: baseline;
+		}
+	</style>
+
+	<span style="float:right">Paper Form ID: $paperFormId</span>
+	<h2>Labour and Delivery  Form 1 Partograph and Vitals</h2>
+
+	<section headerLabel="1. Encounter Details">
+<script type="text/javascript">
+        	$j(document).ready(function(){
+				<ifMode mode="ENTER">
+					$j("#date_div_showed").append($j("#date_div_hidden").find("input").clone().val());
+					$j("#location_div_showed").append($j("#location_div_hidden").find("select option:selected").clone().text());
+					$j("#provider_div_showed").append($j("#provider_div_hidden").find("select option:selected").clone().text());
+				</ifMode>
+				<ifMode mode="EDIT">
+					$j("#date_div_showed").append($j("#date_div_hidden").find("input").clone().val());
+					$j("#location_div_showed").append($j("#location_div_hidden").find("select option:selected").clone().text());
+					$j("#provider_div_showed").append($j("#provider_div_hidden").find("select option:selected").clone().text());
+				</ifMode>
+				<ifMode mode="VIEW">
+					$j("#date_div_showed").append($j("#date_div_hidden").find("span").clone().text());
+					$j("#location_div_showed").append($j("#location_div_hidden").find("span").clone().text());
+					$j("#provider_div_showed").append($j("#provider_div_hidden").find("span").clone().text());
+				</ifMode>
+				$j("#location_div_hidden").hide();
+				$j("#provider_div_hidden").hide();
+				$j("#date_div_hidden").hide();
+				//$j("#table_encounterDetails").find("input").attr("disabled",true);
+				//$j("#table_encounterDetails").find("select").attr("disabled",true);
+			});
+        </script>
+<table class="baseline-aligned" id="table_encounterDetails" >
+ 		<tr>
+			<td class="label">Date:</td>
+			<td>
+				<div id="date_div_hidden">
+					<encounterDate default="now" showTime="true"/>
+				</div>
+				<div id="date_div_showed"  showTime="true"> 
+				</div>
+			</td>
+		</tr>
+                <tr>
+                        <td class="label">Time:</td>
+			<td>
+				<obs conceptId="c98d9610-16dd-4007-bf73-7069e97be3f0" required="true"/>:&#32;<obs conceptId="973ec074-9efe-4227-a9ad-e74bb65ede8c" required="true"/> [HH:mm]
+			</td>
+                </tr>
+		<tr>
+			<td class="label">Location:</td>
+			<td>
+				<div id="location_div_hidden">
+					<encounterLocation default="UserProperty:defaultLocation" order="UserProperty:defaultLocation"/>
+				</div>
+				<div id="location_div_showed"> 
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="label">Provider:</td>
+			<td>
+				<div id="provider_div_hidden">
+					<encounterProvider default="currentUser" order="currentUser"/>
+				</div>
+				<div id="provider_div_showed">
+				</div>
+			</td>
+		</tr>
+	</table>
+	</section>
+
+<section headerLabel=" ">
+		<table class="baseline-aligned">
+<tr>
+				<td>Graphs: as per AMREF Partograph form</td>
+						</tr>
+<tr>
+				<td> Fetal heart rate</td><td> <obs conceptId="1440AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  />[bpm] </td>
+			         </tr>
+<tr>
+				<td> Cervical dilation </td><td><obs conceptId="52c25710-7db4-48d0-8b39-975ed95246bd"/> [cm]</td>
+			</tr>
+<tr>
+				<td> Oxytocin given </td><td><obs conceptId="cc750113-96ad-4738-8c2d-073887122e24"/> [mU]</td>
+			</tr>
+<tr>
+				<td> Drugs given </td><td><obs conceptId="6322d00d-04a3-4ef7-ac5a-6390336eb55d"/></td>
+</tr>
+<tr>
+                                 <td> IV fluids given </td><td><obs conceptId="0ff53582-b614-4230-b329-cb94b8619ad1"/>[mL]</td>
+			</tr>
+<tr>
+		<td>BP</td><td><obs conceptId="5085" />/<obs conceptId="5086AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+						</tr>
+						<tr>
+							<td>Pulse </td><td><obs conceptId="5087AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />beats/min </td>
+						</tr>
+						<tr>
+							<td>Resp Rate</td><td><obs conceptId="5242AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />rate/min</td>
+						</tr>
+						<tr>
+							<td>Temp</td><td><obs conceptId="5088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />[C&#176;]</td>
+						</tr>
+</table>
+</section>
+
+	<submit/>
+
+
+</htmlform>

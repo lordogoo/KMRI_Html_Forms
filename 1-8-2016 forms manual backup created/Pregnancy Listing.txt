@@ -1,0 +1,52 @@
+<htmlform>
+	<span id="S1">
+		<section headerLabel="Encounter Details">
+		<table class="baseline-aligned">
+			<tr>
+				<td class="label">Date:</td>
+				<td><encounterDate default="now" showTime="true"/></td>
+			</tr>
+			<tr>
+				<td class="label">Location:</td>
+				<td><encounterLocation default="UserProperty:defaultLocation"/></td>
+			</tr>
+			<tr>
+				<td class="label">Provider:</td>
+                               <td><encounterProvider default="currentUser"/></td>	
+			</tr>
+		</table>
+		</section>
+	</span>
+
+			<table border="1">
+							<tr>
+								<td>
+									<obs conceptId="1596" />
+								</td>
+								<td>
+									<obs conceptId="159782" />
+								</td>
+								<td>
+									<obs conceptId="160650" answerConceptIds="151849,120306,125872" answerLabels="Livebirth,Ectopic,Stillbirth" style="checkbox"/>
+								</td>
+								<td>
+									<obs conceptId="1572" answerConceptIds="1536,1588" answerLabels="Home,Health Facility" />
+								</td>
+								<td>
+									<obs conceptId="159616" />
+								</td>
+								<td>
+									<obs conceptId="5630" answerConceptIds="1170,118159,1171" answerLabels="SVD,VAC,CS"/>
+								</td>
+								<td>
+									<obs conceptId="1587" answerConceptIds="1534,1535" answerLabels="M,F"/>
+								</td>
+								<td>
+									<obs conceptId="5916" />
+								</td>
+							
+					</tr>
+			</table>
+
+		<submit/>
+		</htmlform>

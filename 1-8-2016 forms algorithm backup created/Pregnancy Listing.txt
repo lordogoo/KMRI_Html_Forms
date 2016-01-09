@@ -1,0 +1,52 @@
+<html>
+ <head></head>
+ <body>
+  <htmlform> 
+   <span id="S1"> 
+    <section headerlabel="Encounter Details"> 
+     <table class="baseline-aligned"> 
+      <tbody>
+       <tr> 
+        <td class="label">Date:</td> 
+        <td>
+         <encounterdate default="now" showtime="true" /></td> 
+       </tr> 
+       <tr> 
+        <td class="label">Location:</td> 
+        <td>
+         <encounterlocation default="UserProperty:defaultLocation" /></td> 
+       </tr> 
+       <tr> 
+        <td class="label">Provider:</td> 
+        <td>
+         <encounterprovider default="currentUser" /></td> 
+       </tr> 
+      </tbody>
+     </table> 
+    </section> </span> 
+   <table border="1"> 
+    <tbody>
+     <tr> 
+      <td> 
+       <obs conceptid="1596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /> </td> 
+      <td> 
+       <obs conceptid="159782AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /> </td> 
+      <td> 
+       <obs conceptid="160650AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerconceptids="151849AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120306AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,125872AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerlabels="Livebirth,Ectopic,Stillbirth" style="checkbox" /> </td> 
+      <td> 
+       <obs conceptid="1572AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerconceptids="1536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerlabels="Home,Health Facility" /> </td> 
+      <td> 
+       <obs conceptid="159616AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /> </td> 
+      <td> 
+       <obs conceptid="5630AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerconceptids="1170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,118159AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1171AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerlabels="SVD,VAC,CS" /> </td> 
+      <td> 
+       <obs conceptid="1587AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerconceptids="1534AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1535AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerlabels="M,F" /> </td> 
+      <td> 
+       <obs conceptid="5916AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /> </td> 
+     </tr> 
+    </tbody>
+   </table> 
+   <submit /> 
+  </htmlform>
+ </body>
+</html>

@@ -1,0 +1,343 @@
+<html>
+ <head></head>
+ <body>
+  <htmlform>
+   Form 
+   <!--
+KMRI Vitals Form
+==============================================================
+Javascript helper functions taken from the HTML Form Entry Javascript Reference at
+https://wiki.openmrs.org/display/docs/HTML+Form+Entry+JavaScript+Reference
+==============================================================
+--> 
+   <macros>
+     paperFormId = (Fill this in) headerColor =#009d8e fontOnHeaderColor = white 
+   </macros> 
+   <style>
+		.section {
+			border: 1px solid $headerColor;
+			padding: 2px;
+			text-align: left;
+			margin-bottom: 1em;
+		}
+		.sectionHeader {
+			background-color: $headerColor;
+			color: $fontOnHeaderColor;
+			display: block;
+			padding: 2px;
+			font-weight: bold;
+		}
+
+		.labelCol {
+			vertical-align: top;
+			font-weight: bold;
+		}
+
+		.secondary {
+			padding-left: 10px;
+		}
+		.baseline-aligned td.label {
+			text-align: right;
+		}
+		.right {
+			float: right;
+		}
+		.karnofsky tr{
+			width: 100%;
+		}
+		.karnofsky td{
+			width: 50%;
+		}
+		.inner-table {
+			width: 100%
+		}
+		.checkboxGroup {
+			width: 100%;
+		}
+		#two-wide {
+			width: 100%;
+		}
+		#two-wide tr {
+			width: 100%;
+		}
+		#two-wide td {
+			padding-left: 5px;
+			padding-bottom: 5px;
+			width: 50%;
+			vertical-align: top;
+			border: 1px solid $headerColor;
+		}
+		#two-wide td.enableDisable {
+			border: none;
+			width: auto;
+			padding-right: 2px;
+		}
+		#two-wide td.nested-td {
+			border: none;
+			width: auto;
+			padding-right: 2px;
+		}
+		#two-wide td.nested-label {
+			border: none;
+			width: auto;
+			padding-right: 2px;
+			text-align: right;
+		}
+		#three-wide {
+			width: 100%
+		}
+		#three-wide tr {
+			width: 100%;
+		}
+		#three-wide td {
+			padding-left: 5px;
+			width: 33%;
+			vertical-align: top;
+			border: 1px solid $headerColor;
+		}
+
+	</style> 
+   <div style="float:right">
+    Paper Form ID: $paperFormId
+   </div> 
+   <h2>KMRI Vitals Form</h2> 
+   <span id="encounter_details"></span> 
+   <section headerlabel="Encounter Details"> 
+    <script type="text/javascript">
+        	$j(document).ready(function(){
+				<ifMode mode="ENTER">
+					$j("#date_div_showed").append($j("#date_div_hidden").find("input").clone().val());
+					$j("#location_div_showed").append($j("#location_div_hidden").find("select option:selected").clone().text());
+					$j("#provider_div_showed").append($j("#provider_div_hidden").find("select option:selected").clone().text());
+				</ifMode>
+				<ifMode mode="EDIT">
+					$j("#date_div_showed").append($j("#date_div_hidden").find("input").clone().val());
+					$j("#location_div_showed").append($j("#location_div_hidden").find("select option:selected").clone().text());
+					$j("#provider_div_showed").append($j("#provider_div_hidden").find("select option:selected").clone().text());
+				</ifMode>
+				<ifMode mode="VIEW">
+					$j("#date_div_showed").append($j("#date_div_hidden").find("span").clone().text());
+					$j("#location_div_showed").append($j("#location_div_hidden").find("span").clone().text());
+					$j("#provider_div_showed").append($j("#provider_div_hidden").find("span").clone().text());
+				</ifMode>
+				$j("#location_div_hidden").hide();
+				$j("#provider_div_hidden").hide();
+				$j("#date_div_hidden").hide();
+				//$j("#table_encounterDetails").find("input").attr("disabled",true);
+				//$j("#table_encounterDetails").find("select").attr("disabled",true);
+			});
+        </script> 
+    <table class="baseline-aligned" id="table_encounterDetails"> 
+     <tbody>
+      <tr> 
+       <td class="label">Date:</td> 
+       <td> 
+        <div id="date_div_hidden"> 
+         <encounterdate default="now" showtime="true" /> 
+        </div> 
+        <div id="date_div_showed"> 
+        </div> </td> 
+      </tr> 
+      <tr> 
+       <td class="label">Location:</td> 
+       <td> 
+        <div id="location_div_hidden"> 
+         <encounterlocation default="UserProperty:defaultLocation" order="UserProperty:defaultLocation" /> 
+        </div> 
+        <div id="location_div_showed"> 
+        </div> </td> 
+      </tr> 
+      <tr> 
+       <td class="label">Provider:</td> 
+       <td> 
+        <div id="provider_div_hidden"> 
+         <encounterprovider default="currentUser" order="currentUser" /> 
+        </div> 
+        <div id="provider_div_showed"> 
+        </div> </td> 
+      </tr> 
+     </tbody>
+    </table> 
+   </section> 
+   <section headerlabel="Demographic Information"> 
+    <table class="baseline-aligned"> 
+     <tbody>
+      <tr> 
+       <td>Name:</td> 
+       <td>
+        <lookup class="value" expression="patient.personName" /></td> 
+      </tr> 
+      <tr> 
+       <td>OpenMRS Identification Number:</td> 
+       <td>
+        <lookup class="value" complexexpression="#foreach( $patId in $patientIdentifiers.get('OpenMRS Identification Number') ) $patId #end " /></td> 
+      </tr> 
+      <tr> 
+       <td>Vostrum Patient Identifier:</td> 
+       <td>
+        <lookup class="value" complexexpression="#foreach( $patId in $patientIdentifiers.get('Vostrum Patient Identifier') ) $patId #end " /></td> 
+      </tr> 
+      <tr> 
+       <td>Gender:</td> 
+       <td>
+        <lookup class="value" expression="patient.gender" /></td> 
+      </tr> 
+      <tr> 
+       <td>Birthdate:</td> 
+       <td> 
+        <lookup class="value" complexexpression="#if( \$patient.birthdateEstimated ) ~#end" /> 
+        <lookup class="value" expression="patient.birthdate" /> (Age: 
+        <lookup class="value" expression="patient.age" />) </td> 
+      </tr> 
+      <tr> 
+       <td>Mobile Phone Number:</td> 
+       <td>
+        <lookup class="value" expression="personAttributes.get('Mobile Phone Number')" /></td> 
+      </tr> 
+      <tr> 
+       <td>Alt Phone Number:</td> 
+       <td>
+        <lookup class="value" expression="personAttributes.get('Alt Phone Number')" /></td> 
+      </tr> 
+      <tr> 
+       <td>Work Phone Number:</td> 
+       <td>
+        <lookup class="value" expression="personAttributes.get('Work Phone Number')" /></td> 
+      </tr> 
+      <tr> 
+       <td>Birthplace:</td> 
+       <td>
+        <lookup class="value" expression="personAttributes.get('Birthplace')" /></td> 
+      </tr> 
+      <tr> 
+       <td>Citizenship:</td> 
+       <td>
+        <lookup class="value" expression="personAttributes.get('Citizenship')" /></td> 
+      </tr> 
+      <tr> 
+       <td>Civil Status:</td> 
+       <td>
+        <lookup class="value" expression="personAttributes.get('Civil Status').name.name" /></td> 
+      </tr> 
+      <tr> 
+       <td>Health Center:</td> 
+       <td>
+        <lookup class="value" expression="personAttributes.get('Health Center')" /></td> 
+      </tr> 
+      <tr> 
+       <td>Health District:</td> 
+       <td>
+        <lookup class="value" expression="personAttributes.get('Health District')" /></td> 
+      </tr> 
+      <tr> 
+       <td>Mother's Name:</td> 
+       <td>
+        <lookup class="value" expression="personAttributes.get('Mothers Name')" /></td> 
+      </tr> 
+      <tr> 
+       <td>Race:</td> 
+       <td>
+        <lookup class="value" expression="personAttributes.get('Race')" /></td> 
+      </tr> 
+      <tr> 
+       <td>Number of Wives:</td> 
+       <td>
+        <lookup class="value" expression="personAttributes.get('Number of Wives')" /></td> 
+      </tr> 
+     </tbody>
+    </table> 
+   </section> 
+   <section headerlabel="Vitals"> 
+    <table class="baseline-aligned" style="width:100%;">
+     <tbody>
+      <tr>
+       <td style="width:50%;"> 
+        <table id="two-wide"> 
+         <tbody>
+          <tr> 
+           <td class="nested-label">BP</td>
+           <td class="nested-td">
+            <obs conceptid="5085AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />/
+            <obs conceptid="5086AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td> 
+          </tr> 
+          <tr> 
+           <td class="nested-label">Pulse</td>
+           <td class="nested-td">
+            <obs conceptid="5087AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />rate/min </td> 
+          </tr> 
+          <tr> 
+           <td class="nested-label">Resp Rate</td>
+           <td class="nested-td">
+            <obs conceptid="5242AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td> 
+          </tr> 
+          <tr> 
+           <td class="nested-label">Temp</td>
+           <td class="nested-td">
+            <obs conceptid="5088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />[C°]</td> 
+          </tr> 
+          <tr> 
+           <td class="nested-label">Level of consciousness:</td>
+           <td class="nested-td">
+            <obs answerconceptids="1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerlabels="Alert,Unknown,Impaired" conceptid="110434AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox"></obs></td> 
+          </tr> 
+          <tr>
+           <td class="nested-label">Glasgow Coma Scale</td>
+           <td class="nested-td">
+            <obs conceptid="160347AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"> 
+            </obs></td> 
+          </tr> 
+          <tr> 
+           <td class="nested-label">SpO2</td>
+           <td class="nested-td">
+            <obs conceptid="5092AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />% </td> 
+          </tr> 
+          <tr> 
+           <td class="nested-label">Wt</td>
+           <td class="nested-td">
+            <obs conceptid="5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />kg</td> 
+          </tr> 
+          <tr> 
+           <td class="nested-label">Height</td>
+           <td class="nested-td">
+            <obs conceptid="5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />cm </td> 
+          </tr> 
+          <tr> 
+           <td class="nested-label">Karnofsky Score</td>
+           <td class="nested-td">
+            <obs conceptid="5283AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />%</td> 
+          </tr> 
+         </tbody>
+        </table> </td>
+       <td style="width:50%;"> <h4 style="text-align:top;">Karnofsky Score:</h4> 
+        <table style="width:100%;"> 
+         <tbody>
+          <tr>
+           <td style="width:50%;"> 100% = Normal health</td>
+           <td style="width:50%;">50% = Disabled</td>
+          </tr> 
+          <tr>
+           <td style="width:50%;"> 90% = Minor Symptoms</td>
+           <td style="width:50%;">40% = Requires considerable assistance, medical care</td>
+          </tr> 
+          <tr>
+           <td style="width:50%;"> 80% = Normal Activity with some effort</td>
+           <td style="width:50%;">30% = Severely disabled, in hospital</td>
+          </tr> 
+          <tr>
+           <td style="width:50%;"> 70% = Unable to carry on normal activity, able to care for oneself</td>
+           <td style="width:50%;">20% = Very sick, active support needed</td>
+          </tr> 
+          <tr>
+           <td style="width:50%;"> 60% = Requires help with personal needs</td>
+           <td style="width:50%;">10% = Moribund (near death)</td>
+          </tr> 
+         </tbody>
+        </table> </td> 
+      </tr>
+     </tbody>
+    </table> 
+   </section> 
+   <submit /> 
+  </htmlform>
+ </body>
+</html>
